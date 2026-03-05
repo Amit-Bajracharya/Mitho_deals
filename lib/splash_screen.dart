@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mitho_deals/feature/introduction_screen/introduction_page.dart';
+import 'package:go_router/go_router.dart';
+import 'package:mitho_deals/core/constants/route_constants.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -18,9 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
   _navigateToHome() async {
     await Future.delayed(const Duration(seconds: 3), () {});
     if (mounted) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const IntroductionPage()),
-      );
+      context.pushReplacement(RouteConstants.intro);
     }
   }
 

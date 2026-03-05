@@ -12,3 +12,7 @@ class PageChangedEvent extends IntroductionEvent {
   final int page;
   PageChangedEvent(this.page);
 }
+
+class LoadIntroductionPagesEvent extends IntroductionEvent {}
+
+class CompleteIntroductionEvent extends IntroductionEvent {}
