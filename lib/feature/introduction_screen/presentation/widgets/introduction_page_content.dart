@@ -27,7 +27,7 @@ class IntroductionPageContent extends StatelessWidget {
           // Image Container
           _buildImageContainer(),
           
-          SizedBox(height: 58.h),
+          SizedBox(height: 20.h),
           
           // Title
           _buildTitle(context),
@@ -39,7 +39,7 @@ class IntroductionPageContent extends StatelessWidget {
             page.description,
             textAlign: TextAlign.center,
             style: GoogleFonts.poppins(
-              fontSize: 16.sp,
+              fontSize: 14.sp,
               fontWeight: FontWeight.normal,
               color: AppTheme.textSecondary,
               height: 1.5,
@@ -80,7 +80,7 @@ class IntroductionPageContent extends StatelessWidget {
   Widget _buildImageContainer() {
     return Container(
       width: double.infinity,
-      height: 220.h,
+      height: 320.h,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16.r),
         color: Colors.grey[300],
@@ -164,7 +164,7 @@ class IntroductionPageContent extends StatelessWidget {
           TextSpan(
             text: page.title,
             style: GoogleFonts.poppins(
-              fontSize: 26.sp,
+              fontSize: 24.sp,
               fontWeight: FontWeight.bold,
               color: AppTheme.textPrimary,
               height: 1.3,
@@ -174,7 +174,7 @@ class IntroductionPageContent extends StatelessWidget {
             TextSpan(
               text: '\n${page.highlight}',
               style: GoogleFonts.poppins(
-                fontSize: 26.sp,
+                fontSize: 24.sp,
                 fontWeight: FontWeight.bold,
                 color: AppTheme.primaryOrange,
                 height: 1.3,

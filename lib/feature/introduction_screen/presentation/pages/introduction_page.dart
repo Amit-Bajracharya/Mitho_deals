@@ -104,8 +104,7 @@ class _IntroductionViewState extends State<IntroductionView> {
   }
 
   Widget _buildHeader(IntroductionState state) {
-    final currentPage = state.currentPage;
-    final pages = state.pages;
+  
     final isFirstPage = state.isFirstPage;
     final isLastPage = state.isLastPage;
     
