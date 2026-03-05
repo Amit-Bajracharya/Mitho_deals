@@ -1,0 +1,119 @@
+lib/
+├── main.dart
+├── app/
+│   ├── app.dart
+│   ├── router.dart               # GoRouter
+│   └── theme/
+│       ├── app_theme.dart
+│       ├── colors.dart
+│       └── text_styles.dart
+│
+├── core/
+│   ├── constants/
+│   │   ├── app_constants.dart
+│   │   └── firebase_constants.dart
+│   ├── errors/
+│   │   ├── exceptions.dart
+│   │   └── failures.dart
+│   ├── usecases/
+│   │   └── usecase.dart          # base abstract usecase
+│   ├── utils/
+│   │   ├── validators.dart
+│   │   └── helpers.dart
+│   └── extensions/
+│       ├── string_ext.dart
+│       └── context_ext.dart
+│
+├── features/
+│   │
+│   ├── auth/
+│   │   ├── data/
+│   │   │   ├── datasources/
+│   │   │   │   └── auth_remote_datasource.dart
+│   │   │   ├── models/
+│   │   │   │   └── user_model.dart
+│   │   │   └── repositories/
+│   │   │       └── auth_repository_impl.dart
+│   │   ├── domain/
+│   │   │   ├── entities/
+│   │   │   │   └── user_entity.dart
+│   │   │   ├── repositories/
+│   │   │   │   └── auth_repository.dart
+│   │   │   └── usecases/
+│   │   │       ├── login_usecase.dart
+│   │   │       ├── register_usecase.dart
+│   │   │       └── logout_usecase.dart
+│   │   └── presentation/
+│   │       ├── bloc/
+│   │       │   ├── auth_bloc.dart
+│   │       │   ├── auth_event.dart
+│   │       │   └── auth_state.dart
+│   │       ├── screens/
+│   │       │   ├── login_screen.dart
+│   │       │   └── register_screen.dart
+│   │       └── widgets/
+│   │           └── auth_form.dart
+│   │
+│   ├── deals/
+│   │   ├── data/
+│   │   │   ├── datasources/
+│   │   │   │   └── deals_remote_datasource.dart
+│   │   │   ├── models/
+│   │   │   │   └── deal_model.dart
+│   │   │   └── repositories/
+│   │   │       └── deals_repository_impl.dart
+│   │   ├── domain/
+│   │   │   ├── entities/
+│   │   │   │   └── deal_entity.dart
+│   │   │   ├── repositories/
+│   │   │   │   └── deals_repository.dart
+│   │   │   └── usecases/
+│   │   │       ├── get_nearby_deals.dart
+│   │   │       └── get_deal_detail.dart
+│   │   └── presentation/
+│   │       ├── bloc/
+│   │       │   ├── deals_bloc.dart
+│   │       │   ├── deals_event.dart
+│   │       │   └── deals_state.dart
+│   │       ├── screens/
+│   │       │   ├── deals_map_screen.dart
+│   │       │   ├── deals_list_screen.dart
+│   │       │   └── deal_detail_screen.dart
+│   │       └── widgets/
+│   │           ├── deal_card.dart
+│   │           └── deal_map_marker.dart
+│   │
+│   ├── orders/
+│   │   └── presentation/bloc/
+│   │       ├── orders_bloc.dart
+│   │       ├── orders_event.dart
+│   │       └── orders_state.dart
+│   │
+│   ├── vendor/
+│   │   └── presentation/bloc/
+│   │       ├── vendor_bloc.dart
+│   │       ├── vendor_event.dart
+│   │       └── vendor_state.dart
+│   │
+│   ├── cart/
+│   │   └── presentation/bloc/
+│   │       ├── cart_bloc.dart
+│   │       ├── cart_event.dart
+│   │       └── cart_state.dart
+│   │
+│   └── profile/
+│       └── presentation/bloc/
+│           ├── profile_bloc.dart
+│           ├── profile_event.dart
+│           └── profile_state.dart
+│
+└── shared/
+    ├── widgets/
+    │   ├── custom_button.dart
+    │   ├── custom_textfield.dart
+    │   ├── loading_widget.dart
+    │   └── error_widget.dart
+    └── services/
+        ├── firebase_service.dart
+        ├── location_service.dart
+        └── notification_service.dart
