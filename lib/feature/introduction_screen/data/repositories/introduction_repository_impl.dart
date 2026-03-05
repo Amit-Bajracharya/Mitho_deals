@@ -15,7 +15,7 @@ class IntroductionRepositoryImpl implements IntroductionRepository {
       IntroductionPageModel(
         title: "Save Food,",
         highlight: "Save Money",
-        description: "Authentic Nepali flavors at up to 70% off. Join the movement to end food waste.",
+        description: "Authentic Nepali flavors at up to decent Discounts.\n Follow your Favourite Places to stay updated",
         imagePath: "assets/images/momo.webp",
         badge: "NEPAL'S #1 FOOD RESCUE",
         showLogo: true,

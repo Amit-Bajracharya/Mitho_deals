@@ -27,7 +27,7 @@ class IntroductionPageContent extends StatelessWidget {
           // Image Container
           _buildImageContainer(),
           
-          SizedBox(height: 24.h),
+          SizedBox(height: 58.h),
           
           // Title
           _buildTitle(context),
