@@ -14,6 +14,6 @@ abstract class AuthRepository {
   //Session managment
   Future<void> logout();
   Future<UserEntity?> getCurrentUser();
-  Future<UserEntity?> authStateChanges();
+  Stream<UserEntity?> authStateChanges();
 
 }
