@@ -1,37 +1,46 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/widgets.dart';
+
 import 'package:mitho_deals/feature/auth/data/models/user_model.dart';
 
-class FirebaseAuthDataSource{
+class FirebaseAuthDataSource {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<UserModel> registerWithEmail(String email , String password, String name) async{
-    try{
-      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(email: email, password: password);
-
+  Future<UserModel> registerWithEmail(
+    String email,
+    String password,
+    String name,
+  ) async {
+    try {
+      UserCredential userCredential = await _auth
+          .createUserWithEmailAndPassword(email: email, password: password);
 
       await userCredential.user?.updateDisplayName(name);
 
       return UserModel.fromFirebaseUser(userCredential.user!);
-    }catch(e){
+    } catch (e) {
       throw Exception(_getErrorMessage(e));
     }
   }
 
-  Future<UserModel> siginInWithEmail(String email, String password) async{
-    try{
-        UserCredential userCredential = await _auth.signInWithEmailAndPassword(email: email, password: password);
+  Future<UserModel> siginInWithEmail(String email, String password) async {
+    try {
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
 
-        return UserModel.fromFirebaseUser(userCredential.user!);
-    }catch(e){
+      return UserModel.fromFirebaseUser(userCredential.user!);
+    } catch (e) {
       throw Exception(_getErrorMessage(e));
     }
-    
   }
-   Future<void> verifyPhoneNumber(String phoneNumber, 
-      Function(String) onCodeSent,
-      Function(PhoneAuthCredential) onVerificationCompleted,
-      Function(String) onVerificationFailed) async {
+
+  Future<void> verifyPhoneNumber(
+    String phoneNumber,
+    Function(String) onCodeSent,
+    Function(PhoneAuthCredential) onVerificationCompleted,
+    Function(String) onVerificationFailed,
+  ) async {
     await _auth.verifyPhoneNumber(
       phoneNumber: phoneNumber,
       verificationCompleted: onVerificationCompleted,
@@ -46,44 +55,53 @@ class FirebaseAuthDataSource{
       },
     );
   }
-  Future<UserModel> verifyPhoneCode(String verificationId, String smsCode) async {
+
+  Future<UserModel> verifyPhoneCode(
+    String verificationId,
+    String smsCode,
+  ) async {
     try {
       PhoneAuthCredential credential = PhoneAuthProvider.credential(
         verificationId: verificationId,
         smsCode: smsCode,
       );
-      
-      UserCredential userCredential = await _auth.signInWithCredential(credential);
+
+      UserCredential userCredential = await _auth.signInWithCredential(
+        credential,
+      );
       return UserModel.fromFirebaseUser(userCredential.user!);
     } catch (e) {
       throw Exception(_getErrorMessage(e));
     }
   }
-  
-  UserModel? getCurrentUser(){
+
+  UserModel? getCurrentUser() {
     User? user = _auth.currentUser;
     return user != null ? UserModel.fromFirebaseUser(user) : null;
   }
 
-  Stream<UserModel?> authStateChange(){
-    return _auth.authStateChanges().map((user)=> 
-      user != null ? UserModel.fromFirebaseUser(user) : null);
-    
+  Stream<UserModel?> authStateChange() {
+    return _auth.authStateChanges().map(
+      (user) => user != null ? UserModel.fromFirebaseUser(user) : null,
+    );
   }
-  Future<UserModel> signInWithCredential(PhoneAuthCredential credential) async {
-  try {
-    UserCredential userCredential = await _auth.signInWithCredential(credential);
-    return UserModel.fromFirebaseUser(userCredential.user!);
-  } catch (e) {
-    throw Exception(_getErrorMessage(e));
-  }
-}
 
-  Future<void> logout() async{
+  Future<UserModel> signInWithCredential(PhoneAuthCredential credential) async {
+    try {
+      UserCredential userCredential = await _auth.signInWithCredential(
+        credential,
+      );
+      return UserModel.fromFirebaseUser(userCredential.user!);
+    } catch (e) {
+      throw Exception(_getErrorMessage(e));
+    }
+  }
+
+  Future<void> logout() async {
     await _auth.signOut();
   }
 
-   String _getErrorMessage(dynamic error) {
+  String _getErrorMessage(dynamic error) {
     if (error is FirebaseAuthException) {
       switch (error.code) {
         case 'weak-password':
