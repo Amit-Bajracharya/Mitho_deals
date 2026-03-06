@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "753659295753",
+    "project_id": "mithodeals-b6e91",
+    "storage_bucket": "mithodeals-b6e91.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:753659295753:android:f707259856b31169fb20d8",
+        "android_client_info": {
+          "package_name": "com.example.mitho_deals"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClWnTf16eYHfS7Vn1ywZbpZ3ZzRpeCxs4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

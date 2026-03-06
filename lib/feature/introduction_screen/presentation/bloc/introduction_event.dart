@@ -1,18 +1,13 @@
-part of 'introduction_bloc.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-sealed class IntroductionEvent {}
+part 'introduction_event.freezed.dart';
 
-class NextPageEvent extends IntroductionEvent {}
-
-class PreviousPageEvent extends IntroductionEvent {}
-
-class SkipIntroductionEvent extends IntroductionEvent {}
-
-class PageChangedEvent extends IntroductionEvent {
-  final int page;
-  PageChangedEvent(this.page);
+@freezed
+class IntroductionEvent with _$IntroductionEvent {
+  const factory IntroductionEvent.loadPages() = LoadIntroductionPagesEvent;
+  const factory IntroductionEvent.nextPage() = NextPageEvent;
+  const factory IntroductionEvent.previousPage() = PreviousPageEvent;
+  const factory IntroductionEvent.pageChanged(int page) = PageChangedEvent;
+  const factory IntroductionEvent.skip() = SkipIntroductionEvent;
+  const factory IntroductionEvent.complete() = CompleteIntroductionEvent;
 }
-
-class LoadIntroductionPagesEvent extends IntroductionEvent {}
-
-class CompleteIntroductionEvent extends IntroductionEvent {}

@@ -1,37 +1,30 @@
-part of 'introduction_bloc.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import '../../domain/entities/introduction_page_entity.dart';
 
-class IntroductionState {
-  final int currentPage;
-  final bool isLastPage;
-  final bool isFirstPage;
-  final bool isLoading;
-  final List<dynamic> pages;
-  final bool isIntroductionCompleted;
+part 'introduction_state.freezed.dart';
 
-  const IntroductionState({
-    this.currentPage = 0,
-    this.isLastPage = false,
-    this.isFirstPage = true,
-    this.isLoading = false,
-    this.pages = const [],
-    this.isIntroductionCompleted = false,
-  });
+@freezed
+class IntroductionState with _$IntroductionState {
+  const factory IntroductionState.initial({
+    @Default(0) int currentPage,
+    @Default(false) bool isLastPage,
+    @Default(true) bool isFirstPage,
+    @Default([]) List<IntroductionPageEntity> pages,
+  }) = IntroductionStateInitial;
 
-  IntroductionState copyWith({
-    int? currentPage,
-    bool? isLastPage,
-    bool? isFirstPage,
-    bool? isLoading,
-    List<dynamic>? pages,
-    bool? isIntroductionCompleted,
-  }) {
-    return IntroductionState(
-      currentPage: currentPage ?? this.currentPage,
-      isLastPage: isLastPage ?? this.isLastPage,
-      isFirstPage: isFirstPage ?? this.isFirstPage,
-      isLoading: isLoading ?? this.isLoading,
-      pages: pages ?? this.pages,
-      isIntroductionCompleted: isIntroductionCompleted ?? this.isIntroductionCompleted,
-    );
-  }
+  const factory IntroductionState.loading({
+    @Default(0) int currentPage,
+    @Default(false) bool isLastPage,
+    @Default(true) bool isFirstPage,
+    @Default([]) List<IntroductionPageEntity> pages,
+  }) = IntroductionStateLoading;
+
+  const factory IntroductionState.loaded({
+    required List<IntroductionPageEntity> pages,
+    @Default(0) int currentPage,
+    @Default(false) bool isLastPage,
+    @Default(true) bool isFirstPage,
+  }) = IntroductionStateLoaded;
+
+  const factory IntroductionState.completed() = IntroductionStateCompleted;
 }

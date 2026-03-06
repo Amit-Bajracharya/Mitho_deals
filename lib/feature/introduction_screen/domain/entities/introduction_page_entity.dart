@@ -1,21 +1,17 @@
-class IntroductionPageEntity {
-  final String title;
-  final String highlight;
-  final String description;
-  final String imagePath;
-  final String badge;
-  final bool showLogo;
-  final String? stepIndicator;
-  final String? stepIndicatorTop;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  const IntroductionPageEntity({
-    required this.title,
-    required this.highlight,
-    required this.description,
-    required this.imagePath,
-    required this.badge,
-    this.showLogo = false,
-    this.stepIndicator,
-    this.stepIndicatorTop,
-  });
+part 'introduction_page_entity.freezed.dart';
+
+@freezed
+abstract class IntroductionPageEntity with _$IntroductionPageEntity {
+  const factory IntroductionPageEntity({
+    required String title,
+    required String highlight,
+    required String description,
+    required String imagePath,
+    required String badge,
+    @Default(false) bool showLogo,
+    String? stepIndicator,
+    String? stepIndicatorTop,
+  }) = _IntroductionPageEntity;
 }

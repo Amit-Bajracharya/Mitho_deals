@@ -5,8 +5,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../shared/theme/app_theme.dart';
 import '../../data/repositories/introduction_repository_impl.dart';
-import '../../domain/entities/introduction_page_entity.dart';
 import '../bloc/introduction_bloc.dart';
+import '../bloc/introduction_event.dart';
+import '../bloc/introduction_state.dart';
 import '../widgets/introduction_page_content.dart';
 
 class IntroductionPage extends StatelessWidget {
@@ -27,7 +28,7 @@ class IntroductionPage extends StatelessWidget {
         
         return BlocProvider(
           create: (context) => IntroductionBloc(repository)
-            ..add(LoadIntroductionPagesEvent()),
+            ..add(const IntroductionEvent.loadPages()),
           child: const IntroductionView(),
         );
       },
@@ -55,46 +56,28 @@ class _IntroductionViewState extends State<IntroductionView> {
   Widget build(BuildContext context) {
     return BlocListener<IntroductionBloc, IntroductionState>(
       listener: (context, state) {
-        if (state.currentPage != _pageController.page?.round()) {
-          _pageController.animateToPage(
-            state.currentPage,
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.easeInOut,
-          );
-        }
+        state.mapOrNull(
+          loaded: (s) {
+            if (s.currentPage != _pageController.page?.round()) {
+              _pageController.animateToPage(
+                s.currentPage,
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeInOut,
+              );
+            }
+          },
+        );
       },
       child: Scaffold(
         backgroundColor: const Color(0xFFF8F8F8),
         body: SafeArea(
           child: BlocBuilder<IntroductionBloc, IntroductionState>(
             builder: (context, state) {
-              if (state.isLoading || state.pages.isEmpty) {
-                return const Center(child: CircularProgressIndicator());
-              }
-              
-              return Column(
-                children: [
-                  _buildHeader(state),
-                  
-                  Expanded(
-                    child: PageView.builder(
-                      controller: _pageController,
-                      onPageChanged: (index) {
-                        context.read<IntroductionBloc>().add(PageChangedEvent(index));
-                      },
-                      itemCount: state.pages.length,
-                      itemBuilder: (context, index) {
-                        final page = state.pages[index] as IntroductionPageEntity;
-                        return IntroductionPageContent(
-                          page: page,
-                          isCurrentPage: index == state.currentPage,
-                        );
-                      },
-                    ),
-                  ),
-                  
-                  const SizedBox(height: 20),
-                ],
+              return state.map(
+                initial: (_) => const Center(child: CircularProgressIndicator()),
+                loading: (_) => const Center(child: CircularProgressIndicator()),
+                loaded: (s) => _buildContent(context, s),
+                completed: (_) => const Center(child: CircularProgressIndicator()),
               );
             },
           ),
@@ -103,8 +86,34 @@ class _IntroductionViewState extends State<IntroductionView> {
     );
   }
 
-  Widget _buildHeader(IntroductionState state) {
-  
+  Widget _buildContent(BuildContext context, IntroductionStateLoaded state) {
+    return Column(
+      children: [
+        _buildHeader(state),
+        
+        Expanded(
+          child: PageView.builder(
+            controller: _pageController,
+            onPageChanged: (index) {
+              context.read<IntroductionBloc>().add(IntroductionEvent.pageChanged(index));
+            },
+            itemCount: state.pages.length,
+            itemBuilder: (context, index) {
+              final page = state.pages[index];
+              return IntroductionPageContent(
+                page: page,
+                isCurrentPage: index == state.currentPage,
+              );
+            },
+          ),
+        ),
+        
+        const SizedBox(height: 20),
+      ],
+    );
+  }
+
+  Widget _buildHeader(IntroductionStateLoaded state) {
     final isFirstPage = state.isFirstPage;
     final isLastPage = state.isLastPage;
     
@@ -154,7 +163,7 @@ class _IntroductionViewState extends State<IntroductionView> {
           else
             IconButton(
               onPressed: () {
-                context.read<IntroductionBloc>().add(PreviousPageEvent());
+                context.read<IntroductionBloc>().add(const IntroductionEvent.previousPage());
               },
               icon: const Icon(Icons.arrow_back_ios, color: Color(0xFFF07C1F)),
             ),
@@ -163,7 +172,7 @@ class _IntroductionViewState extends State<IntroductionView> {
           if (!isLastPage)
             TextButton(
               onPressed: () {
-                context.read<IntroductionBloc>().add(SkipIntroductionEvent());
+                context.read<IntroductionBloc>().add(const IntroductionEvent.skip());
               },
               child: Text(
                 'Skip',

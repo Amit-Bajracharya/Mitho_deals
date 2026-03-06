@@ -1,71 +1,92 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mitho_deals/feature/introduction_screen/domain/entities/introduction_page_entity.dart';
 import '../../domain/repositories/introduction_repository.dart';
-
-part 'introduction_event.dart';
-part 'introduction_state.dart';
+import 'introduction_event.dart';
+import 'introduction_state.dart';
 
 class IntroductionBloc extends Bloc<IntroductionEvent, IntroductionState> {
   final IntroductionRepository _repository;
 
-  IntroductionBloc(this._repository) : super(const IntroductionState()) {
-    on<LoadIntroductionPagesEvent>(_onLoadPages);
-    on<NextPageEvent>(_onNextPage);
-    on<PreviousPageEvent>(_onPreviousPage);
-    on<PageChangedEvent>(_onPageChanged);
-    on<SkipIntroductionEvent>(_onSkipIntroduction);
-    on<CompleteIntroductionEvent>(_onCompleteIntroduction);
+  IntroductionBloc(this._repository) : super(const IntroductionState.initial()) {
+    on<IntroductionEvent>(_onEvent);
   }
 
-  void _onLoadPages(LoadIntroductionPagesEvent event, Emitter<IntroductionState> emit) {
+  void _onEvent(IntroductionEvent event, Emitter<IntroductionState> emit) {
+    event.map(
+      loadPages: (_) => _onLoadPages(emit),
+      nextPage: (_) => _onNextPage(emit),
+      previousPage: (_) => _onPreviousPage(emit),
+      pageChanged: (e) => _onPageChanged(e.page, emit),
+      skip: (_) => _onSkipIntroduction(emit),
+      complete: (_) => _onCompleteIntroduction(emit),
+    );
+  }
+
+  void _onLoadPages(Emitter<IntroductionState> emit) {
     final pages = _repository.getIntroductionPages();
-    emit(state.copyWith(
+    emit(IntroductionState.loaded(
       pages: pages,
-      isLoading: false,
+      currentPage: 0,
       isLastPage: pages.length == 1,
+      isFirstPage: true,
     ));
   }
 
-  void _onNextPage(NextPageEvent event, Emitter<IntroductionState> emit) {
-    final nextPage = state.currentPage + 1;
-    if (nextPage < state.pages.length) {
-      emit(state.copyWith(
-        currentPage: nextPage,
-        isLastPage: nextPage == state.pages.length - 1,
-        isFirstPage: nextPage == 0,
+  void _onNextPage(Emitter<IntroductionState> emit) {
+    state.mapOrNull(
+      initial: (s) => _emitPageChange(s.currentPage + 1, s.pages, emit),
+      loading: (s) => _emitPageChange(s.currentPage + 1, s.pages, emit),
+      loaded: (s) => _emitPageChange(s.currentPage + 1, s.pages, emit),
+    );
+  }
+
+  void _onPreviousPage(Emitter<IntroductionState> emit) {
+    state.mapOrNull(
+      initial: (s) => _emitPageChange(s.currentPage - 1, s.pages, emit),
+      loading: (s) => _emitPageChange(s.currentPage - 1, s.pages, emit),
+      loaded: (s) => _emitPageChange(s.currentPage - 1, s.pages, emit),
+    );
+  }
+
+  void _onPageChanged(int page, Emitter<IntroductionState> emit) {
+    state.mapOrNull(
+      initial: (s) => _emitPageChange(page, s.pages, emit),
+      loading: (s) => _emitPageChange(page, s.pages, emit),
+      loaded: (s) => _emitPageChange(page, s.pages, emit),
+    );
+  }
+
+  void _emitPageChange(int newPage, List<IntroductionPageEntity> pages, Emitter<IntroductionState> emit) {
+    if (newPage >= 0 && newPage < pages.length) {
+      emit(IntroductionState.loaded(
+        pages: pages,
+        currentPage: newPage,
+        isLastPage: newPage == pages.length - 1,
+        isFirstPage: newPage == 0,
       ));
     }
   }
 
-  void _onPreviousPage(PreviousPageEvent event, Emitter<IntroductionState> emit) {
-    final prevPage = state.currentPage - 1;
-    if (prevPage >= 0) {
-      emit(state.copyWith(
-        currentPage: prevPage,
-        isLastPage: prevPage == state.pages.length - 1,
-        isFirstPage: prevPage == 0,
-      ));
-    }
+  void _onSkipIntroduction(Emitter<IntroductionState> emit) {
+    state.mapOrNull(
+      initial: (s) => _emitLastPage(s.pages, emit),
+      loading: (s) => _emitLastPage(s.pages, emit),
+      loaded: (s) => _emitLastPage(s.pages, emit),
+    );
   }
 
-  void _onPageChanged(PageChangedEvent event, Emitter<IntroductionState> emit) {
-    emit(state.copyWith(
-      currentPage: event.page,
-      isLastPage: event.page == state.pages.length - 1,
-      isFirstPage: event.page == 0,
-    ));
-  }
-
-  void _onSkipIntroduction(SkipIntroductionEvent event, Emitter<IntroductionState> emit) {
-    final lastPage = state.pages.length - 1;
-    emit(state.copyWith(
+  void _emitLastPage(List<IntroductionPageEntity> pages, Emitter<IntroductionState> emit) {
+    final lastPage = pages.length - 1;
+    emit(IntroductionState.loaded(
+      pages: pages,
       currentPage: lastPage,
       isLastPage: true,
       isFirstPage: false,
     ));
   }
 
-  Future<void> _onCompleteIntroduction(CompleteIntroductionEvent event, Emitter<IntroductionState> emit) async {
+  Future<void> _onCompleteIntroduction(Emitter<IntroductionState> emit) async {
     await _repository.setIntroductionCompleted();
-    emit(state.copyWith(isIntroductionCompleted: true));
+    emit(const IntroductionState.completed());
   }
 }
