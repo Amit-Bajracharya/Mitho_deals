@@ -1,10 +1,10 @@
 import 'package:mitho_deals/feature/auth/domain/entities/auth_result_entity.dart';
 import 'package:mitho_deals/feature/auth/domain/repositories/auth_repository.dart';
 
-class LoginUsecase {
+class LoginUseCase {
   final AuthRepository _authRepository;
 
-  LoginUsecase(this._authRepository);
+  LoginUseCase(this._authRepository);
 
   Future<AuthResultEntity> call(String email, String password) async{
     if(email.isEmpty || password.isEmpty){

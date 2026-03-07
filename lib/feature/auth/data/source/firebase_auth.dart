@@ -22,7 +22,7 @@ class FirebaseAuthDataSource {
     }
   }
 
-  Future<UserModel> siginInWithEmail(String email, String password) async {
+  Future<UserModel> signInWithEmail(String email, String password) async {
     try {
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
         email: email,
@@ -80,7 +80,7 @@ class FirebaseAuthDataSource {
     return user != null ? UserModel.fromFirebaseUser(user) : null;
   }
 
-  Stream<UserModel?> authStateChange() {
+  Stream<UserModel?> authStateChanges() {
     return _auth.authStateChanges().map(
       (user) => user != null ? UserModel.fromFirebaseUser(user) : null,
     );

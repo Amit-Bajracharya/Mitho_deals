@@ -1,10 +1,10 @@
 import 'package:mitho_deals/feature/auth/domain/entities/auth_result_entity.dart';
 import 'package:mitho_deals/feature/auth/domain/repositories/auth_repository.dart';
 
-class RegisterUsecase {
+class RegisterUseCase {
   final AuthRepository _authRepository;
 
-  RegisterUsecase(this._authRepository);
+  RegisterUseCase(this._authRepository);
 
   Future<AuthResultEntity> call(
     String name,

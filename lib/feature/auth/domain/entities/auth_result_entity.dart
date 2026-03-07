@@ -6,7 +6,7 @@ import 'user_entity.dart';
 part 'auth_result_entity.freezed.dart';
 
 @freezed
-class AuthResultEntity with _$AuthResultEntity{
+abstract class AuthResultEntity with _$AuthResultEntity{
   const factory AuthResultEntity.success(UserEntity user) = AuthSuccess;
   const factory AuthResultEntity.failure(String message) = AuthFailure;
 }

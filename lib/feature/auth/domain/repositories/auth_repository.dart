@@ -8,7 +8,7 @@ abstract class AuthRepository {
 
   //Phone Auth
   Future<void> verifyPhoneNumber(String phoneNumber);
-  Future<AuthResultEntity> verifyPhoneCode(String verificationCode, String smsCode);
+  Future<AuthResultEntity> verifyPhoneCode(String verificationId, String smsCode);
 
 
   //Session managment

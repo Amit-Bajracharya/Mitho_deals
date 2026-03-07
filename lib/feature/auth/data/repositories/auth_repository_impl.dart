@@ -9,19 +9,19 @@ class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl(this._dataSource);
   @override
   Stream<UserEntity?> authStateChanges() {
-    return _dataSource.authStateChange().map((model) => model?.toEntity());
+    return _dataSource.authStateChanges().map((model) => model?.toEntity());
   }
 
   @override
   Future<UserEntity?> getCurrentUser() async {
-    final userModel = await _dataSource.getCurrentUser();
+    final userModel = _dataSource.getCurrentUser();
     return userModel?.toEntity();
   }
 
   @override
   Future<AuthResultEntity> login(String email, String password) async {
     try {
-      final userModel = await _dataSource.siginInWithEmail(email, password);
+      final userModel = await _dataSource.signInWithEmail(email, password);
       return AuthResultEntity.success(userModel.toEntity());
     } catch (e) {
       return AuthResultEntity.failure(e.toString());
