@@ -2,12 +2,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mitho_deals/app/router.dart';
+import 'package:mitho_deals/core/dependency_injection/auth_dependencies.dart';
 import 'package:mitho_deals/firebase_options.dart';
 import 'package:mitho_deals/shared/theme/app_theme.dart';
 
 void main()  async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  setupAuthDependencies();
   runApp(const MyApp());
 }
 
