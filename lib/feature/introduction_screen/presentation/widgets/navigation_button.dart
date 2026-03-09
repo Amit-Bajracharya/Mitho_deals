@@ -33,7 +33,7 @@ class NavigationButton extends StatelessWidget {
         onPressed: () {
           if (state.isLastPage) {
             context.read<IntroductionBloc>().add(const IntroductionEvent.complete());
-            context.pushReplacement(RouteConstants.home);
+            context.pushReplacement(RouteConstants.login);
           } else {
             context.read<IntroductionBloc>().add(const IntroductionEvent.nextPage());
           }
