@@ -41,67 +41,67 @@ class AppTheme {
     return TextTheme(
       // Display Large
       displayLarge: GoogleFonts.poppins(
-        fontSize: 57.sp,
+        fontSize: 48.sp,
         fontWeight: FontWeight.bold,
         color: textPrimary,
         letterSpacing: -0.25.sp,
       ),
       // Display Medium
       displayMedium: GoogleFonts.poppins(
-        fontSize: 45.sp,
+        fontSize: 36.sp,
         fontWeight: FontWeight.bold,
         color: textPrimary,
         letterSpacing: -0.25.sp,
       ),
       // Display Small
       displaySmall: GoogleFonts.poppins(
-        fontSize: 36.sp,
+        fontSize: 30.sp,
         fontWeight: FontWeight.w600,
         color: textPrimary,
       ),
       // Headline Large
       headlineLarge: GoogleFonts.poppins(
-        fontSize: 32.sp,
+        fontSize: 28.sp,
         fontWeight: FontWeight.bold,
         color: textPrimary,
         height: 1.2,
       ),
       // Headline Medium
       headlineMedium: GoogleFonts.poppins(
-        fontSize: 28.sp,
+        fontSize: 24.sp,
         fontWeight: FontWeight.w600,
         color: textPrimary,
         height: 1.3,
       ),
       // Headline Small
       headlineSmall: GoogleFonts.poppins(
-        fontSize: 24.sp,
+        fontSize: 20.sp,
         fontWeight: FontWeight.w600,
         color: textPrimary,
       ),
       // Title Large
       titleLarge: GoogleFonts.poppins(
-        fontSize: 22.sp,
+        fontSize: 18.sp,
         fontWeight: FontWeight.w600,
         color: textPrimary,
       ),
       // Title Medium
       titleMedium: GoogleFonts.poppins(
-        fontSize: 16.sp,
+        fontSize: 14.sp,
         fontWeight: FontWeight.w600,
         color: textPrimary,
         letterSpacing: 0.15.sp,
       ),
       // Title Small
       titleSmall: GoogleFonts.poppins(
-        fontSize: 14.sp,
+        fontSize: 12.sp,
         fontWeight: FontWeight.w500,
         color: textSecondary,
         letterSpacing: 0.1.sp,
       ),
       // Body Large
       bodyLarge: GoogleFonts.poppins(
-        fontSize: 16.sp,
+        fontSize: 14.sp,
         fontWeight: FontWeight.normal,
         color: textSecondary,
         height: 1.5,
@@ -109,7 +109,7 @@ class AppTheme {
       ),
       // Body Medium
       bodyMedium: GoogleFonts.poppins(
-        fontSize: 14.sp,
+        fontSize: 12.sp,
         fontWeight: FontWeight.normal,
         color: textSecondary,
         height: 1.5,
@@ -117,7 +117,7 @@ class AppTheme {
       ),
       // Body Small - 12.sp as requested
       bodySmall: GoogleFonts.poppins(
-        fontSize: 12.sp,
+        fontSize: 10.sp,
         fontWeight: FontWeight.normal,
         color: textSecondary,
         height: 1.5,
@@ -125,21 +125,21 @@ class AppTheme {
       ),
       // Label Large
       labelLarge: GoogleFonts.poppins(
-        fontSize: 14.sp,
+        fontSize: 12.sp,
         fontWeight: FontWeight.w600,
         color: textPrimary,
         letterSpacing: 0.1.sp,
       ),
       // Label Medium - 12.sp as requested
       labelMedium: GoogleFonts.poppins(
-        fontSize: 12.sp,
+        fontSize: 10.sp,
         fontWeight: FontWeight.w500,
         color: textSecondary,
         letterSpacing: 0.5.sp,
       ),
       // Label Small - 12.sp as requested (minimum size)
       labelSmall: GoogleFonts.poppins(
-        fontSize: 12.sp,
+        fontSize: 10.sp,
         fontWeight: FontWeight.w500,
         color: textSecondary,
         letterSpacing: 0.5.sp,
@@ -181,7 +181,7 @@ class AppTheme {
         backgroundColor: background,
         foregroundColor: textPrimary,
         titleTextStyle: GoogleFonts.poppins(
-          fontSize: 20.sp,
+          fontSize: 16.sp,
           fontWeight: FontWeight.w600,
           color: textPrimary,
         ),
@@ -194,9 +194,9 @@ class AppTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16.r),
           ),
-          padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
           textStyle: GoogleFonts.poppins(
-            fontSize: 16.sp,
+            fontSize: 14.sp,
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -208,9 +208,9 @@ class AppTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16.r),
           ),
-          padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
           textStyle: GoogleFonts.poppins(
-            fontSize: 16.sp,
+            fontSize: 14.sp,
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -219,7 +219,7 @@ class AppTheme {
         style: TextButton.styleFrom(
           foregroundColor: primaryOrange,
           textStyle: GoogleFonts.poppins(
-            fontSize: 14.sp,
+            fontSize: 12.sp,
             fontWeight: FontWeight.w500,
           ),
         ),
@@ -227,7 +227,7 @@ class AppTheme {
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: background,
-        contentPadding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
+        contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12.r),
           borderSide: const BorderSide(color: border),
@@ -245,11 +245,11 @@ class AppTheme {
           borderSide: const BorderSide(color: accentError),
         ),
         labelStyle: GoogleFonts.poppins(
-          fontSize: 14.sp,
+          fontSize: 12.sp,
           color: textSecondary,
         ),
         hintStyle: GoogleFonts.poppins(
-          fontSize: 14.sp,
+          fontSize: 12.sp,
           color: textSecondary.withOpacity(0.6),
         ),
       ),
@@ -261,11 +261,11 @@ class AppTheme {
         type: BottomNavigationBarType.fixed,
         elevation: 0,
         selectedLabelStyle: GoogleFonts.poppins(
-          fontSize: 12.sp,
+          fontSize: 10.sp,
           fontWeight: FontWeight.w500,
         ),
         unselectedLabelStyle: GoogleFonts.poppins(
-          fontSize: 12.sp,
+          fontSize: 10.sp,
           fontWeight: FontWeight.w500,
         ),
       ),

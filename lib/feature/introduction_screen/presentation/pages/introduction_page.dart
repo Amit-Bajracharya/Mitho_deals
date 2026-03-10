@@ -127,13 +127,13 @@ class _IntroductionViewState extends State<IntroductionView> {
             Row(
               children: [
                 Container(
-                  width: 32.w,
-                  height: 32.h,
+                  width: 24.w,
+                  height: 24.h,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8.r),
+                    borderRadius: BorderRadius.circular(6.r),
                   ),
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8.r),
+                    borderRadius: BorderRadius.circular(6.r),
                     child: Image.asset(
                       'assets/images/app_icon.png',
                       fit: BoxFit.contain,
@@ -153,7 +153,7 @@ class _IntroductionViewState extends State<IntroductionView> {
                 Text(
                   'Mitho Deals',
                   style: GoogleFonts.poppins(
-                    fontSize: 20.sp,
+                    fontSize: 16.sp,
                     fontWeight: FontWeight.bold,
                     color: AppTheme.textPrimary,
                   ),
@@ -178,7 +178,7 @@ class _IntroductionViewState extends State<IntroductionView> {
                 'Skip',
                 style: TextStyle(
                   color:  const Color(0xFFF07C1F),
-                  fontSize: 16,
+                  fontSize: 14,
                   fontWeight: isFirstPage ? FontWeight.normal : FontWeight.w500,
                 ),
               ),

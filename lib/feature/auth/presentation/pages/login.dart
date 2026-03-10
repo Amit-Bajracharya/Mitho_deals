@@ -150,7 +150,7 @@ class LoginPage extends StatelessWidget {
         Text(
           'Mitho Deals',
           style: GoogleFonts.poppins(
-            fontSize: 32.sp,
+            fontSize: 26.sp,
             fontWeight: FontWeight.bold,
             color: const Color(0xFF2D3436),
           ),
@@ -162,7 +162,7 @@ class LoginPage extends StatelessWidget {
         Text(
           'Find the best food deals in town',
           style: GoogleFonts.poppins(
-            fontSize: 16.sp,
+            fontSize: 13.sp,
             color: const Color(0xFF636E72),
             fontWeight: FontWeight.w400,
           ),
@@ -173,10 +173,10 @@ class LoginPage extends StatelessWidget {
 
   Widget _buildFormFields(bool isLoading) {
     return Container(
-      padding: EdgeInsets.all(24.w),
+      padding: EdgeInsets.all(12.w),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16.r),
+        borderRadius: BorderRadius.circular(25.r),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
@@ -194,21 +194,22 @@ class LoginPage extends StatelessWidget {
             decoration: InputDecoration(
               labelText: 'Email',
               hintText: 'Enter your email',
-              prefixIcon: const Icon(Icons.email_outlined),
+              prefixIcon:  Icon(Icons.email_outlined, size: 22.sp),
+               contentPadding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w), // Reduce vertical padding
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12.r),
+                borderRadius: BorderRadius.circular(25.r),
                 borderSide: const BorderSide(color: Color(0xFFE0E0E0)),
               ),
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12.r),
+                borderRadius: BorderRadius.circular(25.r),
                 borderSide: const BorderSide(color: Color(0xFFE0E0E0)),
               ),
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12.r),
+                borderRadius: BorderRadius.circular(25.r),
                 borderSide: const BorderSide(color: Color(0xFFFF6B35), width: 2),
               ),
-              labelStyle: GoogleFonts.poppins(color: const Color(0xFF636E72)),
-              hintStyle: GoogleFonts.poppins(color: const Color(0xFFB2BEC3)),
+              labelStyle: GoogleFonts.poppins(fontSize:  13.sp,color: const Color(0xFF636E72)),
+              hintStyle: GoogleFonts.poppins(fontSize: 13.sp,color: const Color(0xFFB2BEC3)),
             ),
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -230,21 +231,22 @@ class LoginPage extends StatelessWidget {
             decoration: InputDecoration(
               labelText: 'Password',
               hintText: 'Enter your password',
-              prefixIcon: const Icon(Icons.lock_outline),
+              prefixIcon:  Icon(Icons.lock_outline, size: 22.sp),
+               contentPadding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12.r),
+                borderRadius: BorderRadius.circular(25.r),
                 borderSide: const BorderSide(color: Color(0xFFE0E0E0)),
               ),
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12.r),
+                borderRadius: BorderRadius.circular(25.r),
                 borderSide: const BorderSide(color: Color(0xFFE0E0E0)),
               ),
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12.r),
+                borderRadius: BorderRadius.circular(25.r),
                 borderSide: const BorderSide(color: Color(0xFFFF6B35), width: 2),
               ),
-              labelStyle: GoogleFonts.poppins(color: const Color(0xFF636E72)),
-              hintStyle: GoogleFonts.poppins(color: const Color(0xFFB2BEC3)),
+              labelStyle: GoogleFonts.poppins(fontSize: 13.sp,color: const Color(0xFF636E72)),
+              hintStyle: GoogleFonts.poppins(fontSize: 13.sp,color: const Color(0xFFB2BEC3)),
             ),
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -270,18 +272,18 @@ class LoginPage extends StatelessWidget {
                 'Forgot Password?',
                 style: GoogleFonts.poppins(
                   color: const Color(0xFFFF6B35),
-                  fontSize: 14.sp,
+                  fontSize: 12.sp,
                 ),
               ),
             ),
           ),
           
-          SizedBox(height: 24.h),
+          SizedBox(height: 8.h),
           
           // Login Button
           SizedBox(
             width: double.infinity,
-            height: 56.h,
+            height: 50.h,
             child: ElevatedButton(
               onPressed: isLoading ? null : _onLoginPressed,
               style: ElevatedButton.styleFrom(
@@ -311,7 +313,7 @@ class LoginPage extends StatelessWidget {
                   : Text(
                       'Login',
                       style: GoogleFonts.poppins(
-                        fontSize: 16.sp,
+                        fontSize: 13.sp,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -325,7 +327,7 @@ class LoginPage extends StatelessWidget {
   Widget _buildBottomLinks(BuildContext context) {
     return Column(
       children: [
-        SizedBox(height: 30.h),
+       
         
         // Phone Auth Option
         Row(
@@ -350,7 +352,7 @@ class LoginPage extends StatelessWidget {
         // Phone Login Button
         SizedBox(
           width: double.infinity,
-          height: 56.h,
+          height: 50.h,
           child: OutlinedButton.icon(
             onPressed: () {
               // TODO: Navigate to phone auth
@@ -360,7 +362,7 @@ class LoginPage extends StatelessWidget {
               'Login with Phone',
               style: GoogleFonts.poppins(
                 color: const Color(0xFFFF6B35),
-                fontSize: 16.sp,
+                fontSize: 13.sp,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -373,7 +375,7 @@ class LoginPage extends StatelessWidget {
           ),
         ),
         
-        SizedBox(height: 30.h),
+        SizedBox(height: 15.h),
         
         // Register Link
         Row(
@@ -383,7 +385,7 @@ class LoginPage extends StatelessWidget {
               "Don't have an account? ",
               style: GoogleFonts.poppins(
                 color: const Color(0xFF636E72),
-                fontSize: 14.sp,
+                fontSize: 13.sp,
               ),
             ),
             GestureDetector(
@@ -395,7 +397,7 @@ class LoginPage extends StatelessWidget {
                 'Register',
                 style: GoogleFonts.poppins(
                   color: const Color(0xFFFF6B35),
-                  fontSize: 14.sp,
+                  fontSize: 13.sp,
                   fontWeight: FontWeight.w600,
                 ),
               ),

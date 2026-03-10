@@ -19,7 +19,7 @@ class IntroductionPageContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20.w),
+      padding: EdgeInsets.symmetric(horizontal: 16.w),
       child: Column(
         children: [
           SizedBox(height: 12.h),
@@ -27,7 +27,7 @@ class IntroductionPageContent extends StatelessWidget {
           // Image Container
           _buildImageContainer(),
           
-          SizedBox(height: 20.h),
+          SizedBox(height: 16.h),
           
           // Title
           _buildTitle(context),
@@ -39,7 +39,7 @@ class IntroductionPageContent extends StatelessWidget {
             page.description,
             textAlign: TextAlign.center,
             style: GoogleFonts.poppins(
-              fontSize: 14.sp,
+              fontSize: 12.sp,
               fontWeight: FontWeight.normal,
               color: AppTheme.textSecondary,
               height: 1.5,
@@ -51,7 +51,7 @@ class IntroductionPageContent extends StatelessWidget {
           // Page Indicators
           const PageIndicators(),
           
-          SizedBox(height: 16.h),
+          SizedBox(height: 12.h),
           
           // Navigation Button
           const NavigationButton(),
@@ -80,7 +80,7 @@ class IntroductionPageContent extends StatelessWidget {
   Widget _buildImageContainer() {
     return Container(
       width: double.infinity,
-      height: 320.h,
+      height: 240.h,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16.r),
         color: Colors.grey[300],
@@ -101,7 +101,7 @@ class IntroductionPageContent extends StatelessWidget {
                   child: Center(
                     child: Icon(
                       _getIconData(),
-                      size: 60.sp,
+                      size: 48.sp,
                       color: Colors.white.withOpacity(0.5),
                     ),
                   ),
@@ -124,7 +124,7 @@ class IntroductionPageContent extends StatelessWidget {
                     page.badge,
                     style: GoogleFonts.poppins(
                       color: Colors.white,
-                      fontSize: 14.sp,
+                      fontSize: 12.sp,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -164,7 +164,7 @@ class IntroductionPageContent extends StatelessWidget {
           TextSpan(
             text: page.title,
             style: GoogleFonts.poppins(
-              fontSize: 24.sp,
+              fontSize: 20.sp,
               fontWeight: FontWeight.bold,
               color: AppTheme.textPrimary,
               height: 1.3,
@@ -174,7 +174,7 @@ class IntroductionPageContent extends StatelessWidget {
             TextSpan(
               text: '\n${page.highlight}',
               style: GoogleFonts.poppins(
-                fontSize: 24.sp,
+                fontSize: 20.sp,
                 fontWeight: FontWeight.bold,
                 color: AppTheme.primaryOrange,
                 height: 1.3,
