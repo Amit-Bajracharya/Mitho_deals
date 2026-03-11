@@ -58,7 +58,7 @@ class _IntroductionViewState extends State<IntroductionView> {
       listener: (context, state) {
         state.mapOrNull(
           loaded: (s) {
-            if (s.currentPage != _pageController.page?.round()) {
+            if (_pageController.hasClients && s.currentPage != _pageController.page?.round()) {
               _pageController.animateToPage(
                 s.currentPage,
                 duration: const Duration(milliseconds: 300),

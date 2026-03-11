@@ -18,7 +18,7 @@ class IntroductionBloc extends Bloc<IntroductionEvent, IntroductionState> {
       previousPage: (_) => _onPreviousPage(emit),
       pageChanged: (e) => _onPageChanged(e.page, emit),
       skip: (_) => _onSkipIntroduction(emit),
-      complete: (_) => _onCompleteIntroduction(emit),
+      complete: (_) async => _onCompleteIntroduction(emit),
     );
   }
 
