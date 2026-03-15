@@ -4,6 +4,7 @@ import 'package:mitho_deals/core/constants/route_constants.dart';
 import 'package:mitho_deals/core/guards/auth_guard.dart';
 import 'package:mitho_deals/feature/auth/presentation/pages/login.dart';
 import 'package:mitho_deals/feature/auth/presentation/pages/phone_auth_pages.dart';
+import 'package:mitho_deals/feature/auth/presentation/pages/otp_verification_page.dart';
 import 'package:mitho_deals/feature/auth/presentation/pages/register_page.dart';
 import 'package:mitho_deals/feature/home/presentation/pages/home_page.dart';
 import 'package:mitho_deals/feature/introduction_screen/presentation/pages/introduction_page.dart';
@@ -39,7 +40,16 @@ class MyAppRouter {
       pageBuilder: (context, state) => MaterialPage(child: PhoneAuthPage())
       ),
       GoRoute(path: RouteConstants.otp_verification, 
-      //pageBuilder: (context, state) => MaterialPage(child: )
+      pageBuilder: (context, state) {
+        final verificationId = state.uri.queryParameters['verificationId'] ?? '';
+        final phoneNumber = state.uri.queryParameters['phoneNumber'] ?? '';
+        return MaterialPage(
+          child: OtpVerificationPage(
+            verificationId: verificationId,
+            phoneNumber: phoneNumber,
+          )
+        );
+      }
       )
     ],
   );

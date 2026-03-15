@@ -76,11 +76,24 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(const AuthState.phoneVerificationLoading());
     
     try {
-      _phoneAuthUseCase.verifyPhoneNumber(phoneNumber);
-      if (!emit.isDone) emit(AuthState.phoneCodeSent(
-        verificationId: '', // This would be handled by a callback or stream
-        phoneNumber: phoneNumber,
-      ));
+      await _phoneAuthUseCase.verifyPhoneNumber(
+        phoneNumber,
+        onCodeSent: (verificationId) {
+          if (!emit.isDone) emit(AuthState.phoneCodeSent(
+            verificationId: verificationId,
+            phoneNumber: phoneNumber,
+          ));
+        },
+        onVerificationFailed: (error) {
+          if (!emit.isDone) emit(AuthState.error(error));
+        },
+        onAutoRetrievalTimeout: (verificationId) {
+          if (!emit.isDone) emit(AuthState.phoneCodeSent(
+            verificationId: verificationId,
+            phoneNumber: phoneNumber,
+          ));
+        },
+      );
     } catch (e) {
       if (!emit.isDone) emit(AuthState.error(e.toString()));
     }

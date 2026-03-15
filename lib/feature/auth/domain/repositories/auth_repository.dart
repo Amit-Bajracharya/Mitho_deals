@@ -7,7 +7,12 @@ abstract class AuthRepository {
   Future<AuthResultEntity> register(String email, String password, String name);
 
   //Phone Auth
-  Future<void> verifyPhoneNumber(String phoneNumber);
+  Future<void> verifyPhoneNumber(
+    String phoneNumber, {
+    required Function(String) onCodeSent,
+    required Function(String) onVerificationFailed,
+    required Function(String) onAutoRetrievalTimeout,
+  });
   Future<AuthResultEntity> verifyPhoneCode(String verificationId, String smsCode);
 
 

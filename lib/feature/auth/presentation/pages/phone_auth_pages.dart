@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mitho_deals/core/constants/route_constants.dart';
 import 'package:mitho_deals/core/dependency_injection/service_locator.dart';
 import 'package:mitho_deals/feature/auth/presentation/bloc/auth_bloc.dart';
 import 'package:mitho_deals/feature/auth/presentation/bloc/auth_event.dart';
@@ -40,14 +42,9 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
               phoneCodeSent: (verificationId, phoneNumber) {
                 setState(() => _isLoading = false);
                 
-                // Navigate to OTP page with data
-                Navigator.pushReplacementNamed(
-                  context,
-                  '/otp_verification',
-                  arguments: {
-                    'verificationId': verificationId,
-                    'phoneNumber': phoneNumber,
-                  },
+                // Navigate to OTP page with data using GoRouter
+                context.go(
+                  '${RouteConstants.otp_verification}?verificationId=$verificationId&phoneNumber=$phoneNumber',
                 );
                 
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -57,13 +54,29 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
                   ),
                 );
               },
+              phoneVerificationLoading: () {
+                setState(() => _isLoading = true);
+              },
               error: (message) {
+                setState(() => _isLoading = false);
                 // Show error message
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text(message)),
                 );
-              }, initial: () {  }, loading: () {  }, authenticated: ( user) {  }, unauthenticated: () {  }, phoneVerificationLoading: () {  },
-              // ... other states
+              }, 
+              initial: () {
+                setState(() => _isLoading = false);
+              }, 
+              loading: () {
+                setState(() => _isLoading = true);
+              }, 
+              authenticated: (user) {
+                setState(() => _isLoading = false);
+                context.go(RouteConstants.home);
+              }, 
+              unauthenticated: () {
+                setState(() => _isLoading = false);
+              },
             );
           },
           child: BlocBuilder<AuthBloc, AuthState>(

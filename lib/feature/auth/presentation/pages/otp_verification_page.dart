@@ -10,7 +10,14 @@ import 'package:mitho_deals/feature/auth/presentation/widgets/otp_title_widget.d
 import 'package:mitho_deals/feature/auth/presentation/widgets/otp_actions_widget.dart';
 
 class OtpVerificationPage extends StatefulWidget {
-  const OtpVerificationPage({super.key});
+  final String verificationId;
+  final String phoneNumber;
+  
+  const OtpVerificationPage({
+    super.key,
+    required this.verificationId,
+    required this.phoneNumber,
+  });
 
   @override
   State<OtpVerificationPage> createState() => _OtpVerificationPageState();
@@ -37,15 +44,10 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
   void initState() {
     super.initState();
     
-    // Get data from phone auth page
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final args = ModalRoute.of(context)?.settings.arguments as Map<String, String>?;
-      if (args != null) {
-        setState(() {
-          _verificationId = args['verificationId'];
-          _phoneNumber = args['phoneNumber'];
-        });
-      }
+    // Set data from widget parameters
+    setState(() {
+      _verificationId = widget.verificationId;
+      _phoneNumber = widget.phoneNumber;
     });
   }
 

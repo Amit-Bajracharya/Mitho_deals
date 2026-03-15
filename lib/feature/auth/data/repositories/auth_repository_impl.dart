@@ -62,19 +62,17 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
  @override
-  Future<void> verifyPhoneNumber(String phoneNumber) async {
+  Future<void> verifyPhoneNumber(
+    String phoneNumber, {
+    required Function(String) onCodeSent,
+    required Function(String) onVerificationFailed,
+    required Function(String) onAutoRetrievalTimeout,
+  }) async {
     await _dataSource.verifyPhoneNumber(
       phoneNumber,
-      (verificationId) {
-        // Handle code sent - you might want to use a callback or stream
-      },
-      (credential) async {
-        // Handle auto-verification
-        await _dataSource.signInWithCredential(credential);
-      },
-      (errorMessage) {
-        throw Exception(errorMessage);
-      },
+      onCodeSent: onCodeSent,
+      onAutoRetrievalTimeout: onAutoRetrievalTimeout,
+      onVerificationFailed: onVerificationFailed,
     );
   }
 }

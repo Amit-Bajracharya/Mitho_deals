@@ -6,33 +6,42 @@ class PhoneAuthUseCase {
 
   PhoneAuthUseCase(this._repository);
 
-  Future<void> verifyPhoneNumber(String phoneNumber) async {
-
-    if(phoneNumber.isEmpty){
-    throw Exception('Phone number required');
-  }
+  Future<void> verifyPhoneNumber(
+    String phoneNumber, {
+    required Function(String) onCodeSent,
+    required Function(String) onVerificationFailed,
+    required Function(String) onAutoRetrievalTimeout,
+  }) async {
+    if(phoneNumber.isEmpty) {
+      throw Exception('Phone number required');
+    }
 
     if (!_isValidPhoneNumber(phoneNumber)) {
       throw Exception('Invalid phone number format');
     }
 
-    await _repository.verifyPhoneNumber(phoneNumber);
+    await _repository.verifyPhoneNumber(
+      phoneNumber,
+      onCodeSent: onCodeSent,
+      onVerificationFailed: onVerificationFailed,
+      onAutoRetrievalTimeout: onAutoRetrievalTimeout,
+    );
   }
 
   Future<AuthResultEntity> verifyCode(String verificationId, String smsCode) async {
-      if (verificationId.isEmpty || smsCode.isEmpty) {
-        return const AuthResultEntity.failure('Verification code is required');
-      }
-    
-      if (smsCode.length != 6) {
-        return const AuthResultEntity.failure('Invalid verification code');
-      }
-    
-      // Delegate to repository
-      return await _repository.verifyPhoneCode(verificationId, smsCode);
+    if (verificationId.isEmpty || smsCode.isEmpty) {
+      return const AuthResultEntity.failure('Verification code is required');
     }
+    
+    if (smsCode.length != 6) {
+      return const AuthResultEntity.failure('Invalid verification code');
+    }
+    
+    // Delegate to repository
+    return await _repository.verifyPhoneCode(verificationId, smsCode);
+  }
   
-   bool _isValidPhoneNumber(String phoneNumber) {
+  bool _isValidPhoneNumber(String phoneNumber) {
     // Simple validation - can be enhanced
     return RegExp(r'^\+?[\d\s\-\(\)]+$').hasMatch(phoneNumber) && 
            phoneNumber.replaceFirst('+', '').replaceAll(RegExp(r'[\s\-\(\)]'), '').length >= 10;

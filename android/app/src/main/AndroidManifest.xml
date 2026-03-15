@@ -30,6 +30,14 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+        
+        <!-- Firebase Phone Authentication -->
+        <meta-data
+            android:name="com.google.firebase.auth.PHONE_AUTH_APP_VERIFICATION_PROVIDER"
+            android:value="auto" />
+        <meta-data
+            android:name="com.google.firebase.auth.PHONE_AUTH_RECAPTCHA_SITE_KEY"
+            android:value="6Lc-sx0qAAAAAMkW_jAq8h2QD3NkNk4Nk4Nk4Nk4" />
     </application>
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility and

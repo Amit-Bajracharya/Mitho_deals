@@ -125,7 +125,7 @@ class LoginPage extends StatelessWidget {
                 // Bottom Links
                 BottomLinksWidget(
                   onPhoneAuth: () {
-                    // TODO: Navigate to phone auth
+                    context.go(RouteConstants.phone_auth);
                   },
                   onRegister: () {
                     context.go('/register');
