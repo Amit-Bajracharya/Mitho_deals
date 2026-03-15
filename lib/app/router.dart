@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mitho_deals/core/constants/route_constants.dart';
+import 'package:mitho_deals/core/guards/auth_guard.dart';
 import 'package:mitho_deals/feature/auth/presentation/pages/login.dart';
+import 'package:mitho_deals/feature/auth/presentation/pages/phone_auth_pages.dart';
 import 'package:mitho_deals/feature/auth/presentation/pages/register_page.dart';
 import 'package:mitho_deals/feature/home/presentation/pages/home_page.dart';
 import 'package:mitho_deals/feature/introduction_screen/presentation/pages/introduction_page.dart';
@@ -31,7 +33,13 @@ class MyAppRouter {
       ),
       GoRoute(
         path: RouteConstants.home,
-        pageBuilder:(context, state) =>  MaterialPage(child: HomePage())
+        pageBuilder:(context, state) =>  MaterialPage(child: AuthGuard.protectRoute(context, HomePage()))
+      ),
+      GoRoute(path: RouteConstants.phone_auth,
+      pageBuilder: (context, state) => MaterialPage(child: PhoneAuthPage())
+      ),
+      GoRoute(path: RouteConstants.otp_verification, 
+      //pageBuilder: (context, state) => MaterialPage(child: )
       )
     ],
   );

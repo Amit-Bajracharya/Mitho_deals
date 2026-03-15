@@ -106,7 +106,7 @@ class RegisterPage extends StatelessWidget {
                 AuthHeaderWidget(
                   title: 'Create Account',
                   subtitle: 'Join Mitho Deals and find amazing food deals',
-                  logoIcon: Icons.restaurant,
+               
                 ),
                 
                 SizedBox(height: 40.h),

@@ -104,7 +104,7 @@ class LoginPage extends StatelessWidget {
                 AuthHeaderWidget(
                   title: 'Mitho Deals',
                   subtitle: 'Find the best food deals in town',
-                  logoIcon: Icons.restaurant,
+           
                 ),
                 
                 SizedBox(height: 50.h),

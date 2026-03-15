@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,6 +15,8 @@ void main()  async {
 }
 
 class MyApp extends StatelessWidget {
+  static final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  static final FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: analytics);
   const MyApp({super.key});
 
   @override
@@ -33,6 +36,7 @@ class MyApp extends StatelessWidget {
           routeInformationParser: router.routeInformationParser,
           routerDelegate: router.routerDelegate,
           routeInformationProvider: router.routeInformationProvider,
+    
         );
       },
     );

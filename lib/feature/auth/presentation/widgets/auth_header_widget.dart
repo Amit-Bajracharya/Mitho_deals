@@ -5,13 +5,13 @@ import 'package:google_fonts/google_fonts.dart';
 class AuthHeaderWidget extends StatelessWidget {
   final String title;
   final String subtitle;
-  final IconData? logoIcon;
+  
   
   const AuthHeaderWidget({
     super.key,
     required this.title,
     required this.subtitle,
-    this.logoIcon,
+    
   });
 
   @override
@@ -23,7 +23,7 @@ class AuthHeaderWidget extends StatelessWidget {
           width: 80.w,
           height: 80.h,
           decoration: BoxDecoration(
-            color: const Color(0xFFFF6B35), // Orange color
+            color: Colors.white, // Orange color
             borderRadius: BorderRadius.circular(20.r),
             boxShadow: [
               BoxShadow(
@@ -33,11 +33,10 @@ class AuthHeaderWidget extends StatelessWidget {
               ),
             ],
           ),
-          child: Icon(
-            logoIcon ?? Icons.restaurant,
-            color: Colors.white,
-            size: 40,
-          ),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Image.asset('assets/images/main_logo.png'),
+          )
         ),
         
         SizedBox(height: 24.h),
