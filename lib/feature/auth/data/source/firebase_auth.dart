@@ -42,14 +42,6 @@ class FirebaseAuthDataSource {
     required Function(String) onAutoRetrievalTimeout,
   }) async {
     try {
-      // For testing - bypass actual Firebase verification if certificate hash issue persists
-      if (phoneNumber.contains('123')) {
-        // Test mode - simulate OTP sent
-        await Future.delayed(const Duration(seconds: 2));
-        onCodeSent('test_verification_id_12345');
-        return;
-      }
-      
       await _auth.verifyPhoneNumber(
         phoneNumber: phoneNumber,
         verificationCompleted: (PhoneAuthCredential credential) async {
