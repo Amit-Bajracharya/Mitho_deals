@@ -6,7 +6,7 @@
 ## 🏛️ Architecture & Folder Structure
 The app strictly follows **Feature-Driven Clean Architecture** and must continuously match the exact folder groupings established in your `app_structure.txt` file.
 
-### Inside `lib/`:
+### Inside `lib/` in the root folder:
 - **`app/`**: Routing configuration (GoRouter) and UI Themes (`app_theme.dart`).
 - **`core/`**: Abstractions (`usecase.dart`), error handling (`failures.dart`), utilities, and string extensions.
 - **`shared/`**: Global widgets (CustomButtons) and global-level services (`firebase_service.dart`, `location_service.dart`).
