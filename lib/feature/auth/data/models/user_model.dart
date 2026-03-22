@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' as supa;
+
 import 'package:mitho_deals/feature/auth/domain/entities/user_entity.dart';
 
 part 'user_model.freezed.dart';
@@ -17,22 +18,23 @@ abstract class UserModel with _$UserModel {
     @Default(false) bool isEmailVerified,
     @Default(false) bool isPhoneVerified,
     DateTime? createdAt,
-    DateTime? lastLoginAt, // Fixed: lastLoginAt
+    DateTime? lastLoginAt, 
   }) = _UserModel;
 
-  factory UserModel.fromJson(Map<String, dynamic> json) => // Fixed: fromJson
+  factory UserModel.fromJson(Map<String, dynamic> json) => 
       _$UserModelFromJson(json);
 
-  factory UserModel.fromFirebaseUser(User user) { // Fixed: Added User type
+  // THIS IS THE SUPABASE MAGIC!
+  factory UserModel.fromSupabaseUser(supa.User user) { 
     return UserModel(
-      id: user.uid,
-      name: user.displayName ?? user.email?.split('@')[0] ?? '',
+      id: user.id,
+      name: user.userMetadata?['name'] ?? user.email?.split('@')[0] ?? '',
       email: user.email ?? '',
-      phoneNumber: user.phoneNumber,
-      isEmailVerified: user.emailVerified,
-      isPhoneVerified: false, // Firebase doesn't track this by default
-      createdAt: user.metadata.creationTime,
-      lastLoginAt: user.metadata.lastSignInTime, // Fixed: lastLoginAt
+      phoneNumber: user.phone,
+      isEmailVerified: user.emailConfirmedAt != null,
+      isPhoneVerified: user.phoneConfirmedAt != null,
+      createdAt: user.createdAt != null ? DateTime.parse(user.createdAt) : null,
+      lastLoginAt: user.lastSignInAt != null ? DateTime.parse(user.lastSignInAt!) : null, 
     );
   }
 
@@ -45,11 +47,10 @@ abstract class UserModel with _$UserModel {
       isEmailVerified: isEmailVerified,
       isPhoneVerified: isPhoneVerified,
       createdAt: createdAt,
-      lastLoginAt: lastLoginAt, // Fixed: lastLoginAt
+      lastLoginAt: lastLoginAt, 
     );
   }
 
-  // Convert Entity to Model
   factory UserModel.fromEntity(UserEntity entity) {
     return UserModel(
       id: entity.id,
@@ -59,7 +60,7 @@ abstract class UserModel with _$UserModel {
       isEmailVerified: entity.isEmailVerified,
       isPhoneVerified: entity.isPhoneVerified,
       createdAt: entity.createdAt,
-      lastLoginAt: entity.lastLoginAt, // Fixed: lastLoginAt
+      lastLoginAt: entity.lastLoginAt, 
     );
   }
 }

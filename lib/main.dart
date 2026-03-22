@@ -1,22 +1,26 @@
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_core/firebase_core.dart';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mitho_deals/app/router.dart';
 import 'package:mitho_deals/core/dependency_injection/auth_dependencies.dart';
-import 'package:mitho_deals/firebase_options.dart';
+
 import 'package:mitho_deals/shared/theme/app_theme.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main()  async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await dotenv.load(fileName: ".env");
+
+  await Supabase.initialize(url: dotenv.env['PROJECT_URL']!, anonKey: dotenv.env['API_KEY']!);
   setupAuthDependencies();
+
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  static final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
-  static final FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: analytics);
+
+  
   const MyApp({super.key});
 
   @override

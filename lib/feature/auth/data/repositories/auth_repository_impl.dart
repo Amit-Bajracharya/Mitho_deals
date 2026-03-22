@@ -1,12 +1,13 @@
-import 'package:mitho_deals/feature/auth/data/source/firebase_auth.dart' show FirebaseAuthDataSource;
+import 'package:mitho_deals/feature/auth/data/source/auth_remote_datasource.dart' show SupabaseAuthDataSource;
 import 'package:mitho_deals/feature/auth/domain/entities/auth_result_entity.dart';
 import 'package:mitho_deals/feature/auth/domain/entities/user_entity.dart';
 import 'package:mitho_deals/feature/auth/domain/repositories/auth_repository.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
-  final FirebaseAuthDataSource _dataSource;
+  final SupabaseAuthDataSource _dataSource;
 
   AuthRepositoryImpl(this._dataSource);
+  
   @override
   Stream<UserEntity?> authStateChanges() {
     return _dataSource.authStateChanges().map((model) => model?.toEntity());
