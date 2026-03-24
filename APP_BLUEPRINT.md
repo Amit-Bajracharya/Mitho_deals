@@ -9,12 +9,12 @@ The app strictly follows **Feature-Driven Clean Architecture** and must continuo
 ### Inside `lib/` in the root folder:
 - **`app/`**: Routing configuration (GoRouter) and UI Themes (`app_theme.dart`).
 - **`core/`**: Abstractions (`usecase.dart`), error handling (`failures.dart`), utilities, and string extensions.
-- **`shared/`**: Global widgets (CustomButtons) and global-level services (`firebase_service.dart`, `location_service.dart`).
+- **`shared/`**: Global widgets (CustomButtons) and global-level services (`supabase_service.dart`, `location_service.dart`).
 - **`features/`**: The heart of the app. Every single feature MUST contain a `data`, `domain`, and `presentation` layer folder.
 
 ### 🍱 The App's Features
 As outlined in `app_structure.txt`, the UI and logic are split into 6 core features:
-1. `auth/` - Firebase login/registration state & screens.
+1. `auth/` - Supabase login/registration state & screens.
 2. `deals/` - The core lists (`deals_list_screen.dart`), the map (`deals_map_screen.dart`), and deal fetching logic.
 3. `orders/` - The transaction history of food reserved by a user.
 4. `vendor/` - The specific dashboard allowing a restaurant to post surplus food.
