@@ -4,6 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mitho_deals/app/router.dart';
 import 'package:mitho_deals/core/dependency_injection/auth_dependencies.dart';
+import 'package:mitho_deals/core/dependency_injection/deals_dependencies.dart';
 
 import 'package:mitho_deals/shared/theme/app_theme.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -14,7 +15,7 @@ void main()  async {
 
   await Supabase.initialize(url: dotenv.env['PROJECT_URL']!, anonKey: dotenv.env['API_KEY']!);
   setupAuthDependencies();
-
+  setupDealsDependencies();
   runApp(const MyApp());
 }
 
