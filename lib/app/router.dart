@@ -6,6 +6,7 @@ import 'package:mitho_deals/feature/auth/presentation/pages/login.dart';
 import 'package:mitho_deals/feature/auth/presentation/pages/phone_auth_pages.dart';
 import 'package:mitho_deals/feature/auth/presentation/pages/otp_verification_page.dart';
 import 'package:mitho_deals/feature/auth/presentation/pages/register_page.dart';
+import 'package:mitho_deals/feature/deals/presentation/screens/deals_list_screen.dart';
 import 'package:mitho_deals/feature/home/presentation/pages/home_page.dart';
 import 'package:mitho_deals/feature/introduction_screen/presentation/pages/introduction_page.dart';
 import 'package:mitho_deals/splash_screen.dart';
@@ -49,7 +50,11 @@ class MyAppRouter {
             phoneNumber: phoneNumber,
           )
         );
-      }
+      },
+      ),
+      GoRoute(
+        path: RouteConstants.dealsList,
+        pageBuilder:(context, state) =>  const MaterialPage(child: DealsListScreen())
       )
     ],
   );
