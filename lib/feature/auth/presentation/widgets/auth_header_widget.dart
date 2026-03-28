@@ -20,44 +20,47 @@ class AuthHeaderWidget extends StatelessWidget {
       children: [
         // Logo
         Container(
-          width: 80.w,
-          height: 80.h,
+          width: 64.w,
+          height: 64.h,
           decoration: BoxDecoration(
             color: Colors.white, // Orange color
-            borderRadius: BorderRadius.circular(20.r),
+            borderRadius: BorderRadius.circular(16.r),
             boxShadow: [
               BoxShadow(
-                color: const Color(0xFFFF6B35).withOpacity(0.3),
-                blurRadius: 10,
-                offset: const Offset(0, 5),
+                color: const Color(0xFFFF6B35).withOpacity(0.2),
+                blurRadius: 8,
+                offset: const Offset(0, 4),
               ),
             ],
           ),
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Image.asset('assets/images/main_logo.png'),
+            padding: EdgeInsets.all(12.w),
+            child: Image.asset('assets/images/main_logo.png', fit: BoxFit.contain,),
           )
         ),
         
-        SizedBox(height: 24.h),
+        SizedBox(height: 20.h),
         
         // Title
         Text(
           title,
+          textAlign: TextAlign.center,
           style: GoogleFonts.poppins(
-            fontSize: 26.sp,
+            fontSize: 20.sp,
             fontWeight: FontWeight.bold,
             color: const Color(0xFF2D3436),
+            letterSpacing: -0.5,
           ),
         ),
         
-        SizedBox(height: 8.h),
+        SizedBox(height: 6.h),
         
         // Subtitle
         Text(
           subtitle,
+          textAlign: TextAlign.center,
           style: GoogleFonts.poppins(
-            fontSize: 13.sp,
+            fontSize: 12.sp,
             color: const Color(0xFF636E72),
             fontWeight: FontWeight.w400,
           ),

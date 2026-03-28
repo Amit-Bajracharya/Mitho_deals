@@ -31,7 +31,7 @@ class DealCardWidget extends StatelessWidget {
       savePercent = (((deal.originalPrice - deal.discountedPrice) / deal.originalPrice) * 100).round();
     }
 
-    // A mock rating for now, later you can add it to DealEntity
+    // A mock rating for now
     const rating = '4.8';
 
     return GestureDetector(
@@ -39,13 +39,13 @@ class DealCardWidget extends StatelessWidget {
         context.push(RouteConstants.dealDetails, extra: deal);
       },
       child: Container(
-        margin: EdgeInsets.only(bottom: 20.h),
+        margin: EdgeInsets.only(bottom: 16.h),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16.r),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.04),
+              color: Colors.black.withOpacity(0.03),
               blurRadius: 10,
               offset: const Offset(0, 4),
             ),
@@ -59,11 +59,11 @@ class DealCardWidget extends StatelessWidget {
               children: [
                 // Deal Image
                 Container(
-                  height: 180.h,
+                  height: 160.h,
                   width: double.infinity,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.vertical(top: Radius.circular(16.r)),
-                    color: Colors.grey[200],
+                    color: const Color(0xFFF9FAFB),
                     image: deal.imageUrl.isNotEmpty
                         ? DecorationImage(
                             image: NetworkImage(deal.imageUrl),
@@ -73,17 +73,17 @@ class DealCardWidget extends StatelessWidget {
                   ),
                   child: deal.imageUrl.isEmpty
                       ? Center(
-                          child: Icon(Icons.fastfood, size: 48.sp, color: Colors.grey[400]),
+                          child: Icon(Icons.fastfood, size: 40.sp, color: Colors.grey[300]),
                         )
                       : null,
                 ),
 
-                // Top Left: Orange Discount Badge
+                // Bottom Left: Orange Discount Badge
                 Positioned(
-                  bottom: 12.h,
-                  left: 12.w,
+                  bottom: 10.h,
+                  left: 10.w,
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+                    padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
                     decoration: BoxDecoration(
                       color: const Color(0xFFF97316),
                       borderRadius: BorderRadius.circular(20.r),
@@ -92,7 +92,7 @@ class DealCardWidget extends StatelessWidget {
                       '$savePercent% OFF',
                       style: GoogleFonts.poppins(
                         color: Colors.white,
-                        fontSize: 10.sp,
+                        fontSize: 9.sp,
                         fontWeight: FontWeight.w700,
                         letterSpacing: 0.5,
                       ),
@@ -102,16 +102,16 @@ class DealCardWidget extends StatelessWidget {
 
                 // Top Right: Portions Left Pill
                 Positioned(
-                  top: 12.h,
-                  right: 12.w,
+                  top: 10.h,
+                  right: 10.w,
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
+                    padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(20.r),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
+                          color: Colors.black.withOpacity(0.08),
                           blurRadius: 4,
                           offset: const Offset(0, 2),
                         ),
@@ -121,16 +121,16 @@ class DealCardWidget extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Icon(
-                          Icons.local_fire_department, // Flame or circle icon
-                          size: 12.sp,
+                          Icons.local_fire_department,
+                          size: 11.sp,
                           color: const Color(0xFFF97316),
                         ),
                         SizedBox(width: 4.w),
                         Text(
-                          isSoldOut ? 'Sold out soon' : '${deal.availablePortions} left',
+                          isSoldOut ? 'Sold out' : '${deal.availablePortions} left',
                           style: GoogleFonts.poppins(
                             color: const Color(0xFFF97316),
-                            fontSize: 12.sp,
+                            fontSize: 11.sp,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -143,7 +143,7 @@ class DealCardWidget extends StatelessWidget {
 
             // Bottom Half: Text Details
             Padding(
-              padding: EdgeInsets.all(16.w),
+              padding: EdgeInsets.all(12.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -153,9 +153,9 @@ class DealCardWidget extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          deal.vendorId.substring(0, deal.vendorId.length > 10 ? 10 : deal.vendorId.length) + ' Bakery', // Mock restaurant name if vendor details aren't joined
+                          deal.vendorName,
                           style: GoogleFonts.poppins(
-                            fontSize: 16.sp,
+                            fontSize: 14.sp,
                             fontWeight: FontWeight.w700,
                             color: const Color(0xFF1F2937),
                           ),
@@ -166,13 +166,13 @@ class DealCardWidget extends StatelessWidget {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Icon(Icons.star, size: 14.sp, color: const Color(0xFFF97316)),
+                          Icon(Icons.star, size: 12.sp, color: const Color(0xFFF97316)),
                           SizedBox(width: 4.w),
                           Text(
                             rating,
                             style: GoogleFonts.poppins(
                               color: const Color(0xFFF97316),
-                              fontSize: 14.sp,
+                              fontSize: 12.sp,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -180,72 +180,74 @@ class DealCardWidget extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(height: 4.h),
+                  SizedBox(height: 2.h),
                   
                   // Row 2: Food Name (Subtitle)
                   Text(
                     deal.foodName,
                     style: GoogleFonts.poppins(
-                      fontSize: 14.sp,
-                      color: Colors.grey[500],
+                      fontSize: 12.sp,
+                      color: Colors.grey[600],
                       fontWeight: FontWeight.w400,
                     ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                   
                   SizedBox(height: 12.h),
 
-                  // Row 3: Original Price & "PICKUP WINDOW"
+                  // Row 3: Price & Time
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        'Rs. ${deal.originalPrice.toStringAsFixed(0)}',
-                        style: GoogleFonts.poppins(
-                          fontSize: 12.sp,
-                          color: Colors.grey[400],
-                          decoration: TextDecoration.lineThrough,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      Text(
-                        'PICKUP WINDOW',
-                        style: GoogleFonts.poppins(
-                          fontSize: 9.sp,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.grey[400],
-                          letterSpacing: 0.5,
-                        ),
-                      ),
-                    ],
-                  ),
-                  
-                  SizedBox(height: 2.h),
-
-                  // Row 4: Discounted Price & Time Pill
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Rs. ${deal.discountedPrice.toStringAsFixed(0)}',
-                        style: GoogleFonts.poppins(
-                          fontSize: 20.sp,
-                          fontWeight: FontWeight.w700,
-                          color: const Color(0xFFF97316), // Orange
-                        ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'NPR ${deal.originalPrice.toStringAsFixed(0)}',
+                            style: GoogleFonts.poppins(
+                              fontSize: 10.sp,
+                              color: Colors.grey[400],
+                              decoration: TextDecoration.lineThrough,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          Text(
+                            'NPR ${deal.discountedPrice.toStringAsFixed(0)}',
+                            style: GoogleFonts.poppins(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w800,
+                              color: const Color(0xFF111827),
+                            ),
+                          ),
+                        ],
                       ),
                       Container(
-                        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
+                        padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
                         decoration: BoxDecoration(
-                          color: const Color(0xFFF3F4F6), // Note: very light grey
+                          color: const Color(0xFFF1F2F6),
                           borderRadius: BorderRadius.circular(6.r),
                         ),
-                        child: Text(
-                          pickupWindow,
-                          style: GoogleFonts.poppins(
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w600,
-                            color: const Color(0xFF374151), // Dark Grey text
-                          ),
+                        child: Column(
+                          children: [
+                            Text(
+                              'PICKUP AT',
+                              style: GoogleFonts.poppins(
+                                fontSize: 8.sp,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.grey[500],
+                                letterSpacing: 0.5,
+                              ),
+                            ),
+                            Text(
+                              pickupWindow,
+                              style: GoogleFonts.poppins(
+                                fontSize: 11.sp,
+                                fontWeight: FontWeight.w700,
+                                color: const Color(0xFF374151),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],

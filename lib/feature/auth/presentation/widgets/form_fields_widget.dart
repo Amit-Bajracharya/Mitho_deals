@@ -24,7 +24,7 @@ class FormFieldsWidget extends StatelessWidget {
       padding: EdgeInsets.all(12.w),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(25.r),
+        borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
@@ -40,25 +40,26 @@ class FormFieldsWidget extends StatelessWidget {
             controller: emailController,
             keyboardType: TextInputType.emailAddress,
             enabled: !isLoading,
+            style: GoogleFonts.poppins(fontSize: 13.sp),
             decoration: InputDecoration(
               labelText: 'Email',
               hintText: 'Enter your email',
-              prefixIcon: Icon(Icons.email_outlined, size: 22.sp),
+              prefixIcon: Icon(Icons.email_outlined, size: 18.sp),
               contentPadding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25.r),
+                borderRadius: BorderRadius.circular(12.r),
                 borderSide: const BorderSide(color: Color(0xFFE0E0E0)),
               ),
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25.r),
+                borderRadius: BorderRadius.circular(12.r),
                 borderSide: const BorderSide(color: Color(0xFFE0E0E0)),
               ),
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25.r),
-                borderSide: const BorderSide(color: Color(0xFFFF6B35), width: 2),
+                borderRadius: BorderRadius.circular(12.r),
+                borderSide: const BorderSide(color: Color(0xFFFF6B35), width: 1.5),
               ),
-              labelStyle: GoogleFonts.poppins(fontSize: 13.sp, color: const Color(0xFF636E72)),
-              hintStyle: GoogleFonts.poppins(fontSize: 13.sp, color: const Color(0xFFB2BEC3)),
+              labelStyle: GoogleFonts.poppins(fontSize: 12.sp, color: const Color(0xFF636E72)),
+              hintStyle: GoogleFonts.poppins(fontSize: 12.sp, color: const Color(0xFFB2BEC3)),
             ),
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -71,32 +72,33 @@ class FormFieldsWidget extends StatelessWidget {
             },
           ),
           
-          SizedBox(height: 20.h),
+          SizedBox(height: 16.h),
           
           // Password Field
           TextFormField(
             controller: passwordController,
             obscureText: true,
             enabled: !isLoading,
+            style: GoogleFonts.poppins(fontSize: 13.sp),
             decoration: InputDecoration(
               labelText: 'Password',
               hintText: 'Enter your password',
-              prefixIcon: Icon(Icons.lock_outline, size: 22.sp),
+              prefixIcon: Icon(Icons.lock_outline, size: 18.sp),
               contentPadding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25.r),
+                borderRadius: BorderRadius.circular(12.r),
                 borderSide: const BorderSide(color: Color(0xFFE0E0E0)),
               ),
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25.r),
+                borderRadius: BorderRadius.circular(12.r),
                 borderSide: const BorderSide(color: Color(0xFFE0E0E0)),
               ),
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25.r),
-                borderSide: const BorderSide(color: Color(0xFFFF6B35), width: 2),
+                borderRadius: BorderRadius.circular(12.r),
+                borderSide: const BorderSide(color: Color(0xFFFF6B35), width: 1.5),
               ),
-              labelStyle: GoogleFonts.poppins(fontSize: 13.sp, color: const Color(0xFF636E72)),
-              hintStyle: GoogleFonts.poppins(fontSize: 13.sp, color: const Color(0xFFB2BEC3)),
+              labelStyle: GoogleFonts.poppins(fontSize: 12.sp, color: const Color(0xFF636E72)),
+              hintStyle: GoogleFonts.poppins(fontSize: 12.sp, color: const Color(0xFFB2BEC3)),
             ),
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -109,7 +111,7 @@ class FormFieldsWidget extends StatelessWidget {
             },
           ),
           
-          SizedBox(height: 8.h),
+          SizedBox(height: 4.h),
           
           // Forgot Password
           if (onForgotPassword != null)
@@ -117,22 +119,27 @@ class FormFieldsWidget extends StatelessWidget {
               alignment: Alignment.centerRight,
               child: TextButton(
                 onPressed: isLoading ? null : onForgotPassword,
+                style: TextButton.styleFrom(
+                  padding: EdgeInsets.zero,
+                  minimumSize: Size.zero,
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
                 child: Text(
                   'Forgot Password?',
                   style: GoogleFonts.poppins(
                     color: const Color(0xFFFF6B35),
-                    fontSize: 12.sp,
+                    fontSize: 11.sp,
                   ),
                 ),
               ),
             ),
           
-          SizedBox(height: 8.h),
+          SizedBox(height: 12.h),
           
           // Login Button
           SizedBox(
             width: double.infinity,
-            height: 50.h,
+            height: 48.h,
             child: ElevatedButton(
               onPressed: isLoading ? null : onLoginPressed,
               style: ElevatedButton.styleFrom(
@@ -144,25 +151,25 @@ class FormFieldsWidget extends StatelessWidget {
                 ),
               ),
               child: isLoading
-                  ? const Row(
+                  ? Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(
+                          width: 18.w,
+                          height: 18.h,
+                          child: const CircularProgressIndicator(
                             color: Colors.white,
                             strokeWidth: 2,
                           ),
                         ),
-                        SizedBox(width: 12),
-                        Text('Logging in...'),
+                        SizedBox(width: 12.w),
+                        Text('Wait...', style: GoogleFonts.poppins(fontSize: 13.sp)),
                       ],
                     )
                   : Text(
                       'Login',
                       style: GoogleFonts.poppins(
-                        fontSize: 13.sp,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w600,
                       ),
                     ),

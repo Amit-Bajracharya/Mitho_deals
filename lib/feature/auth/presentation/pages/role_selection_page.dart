@@ -19,44 +19,44 @@ class RoleSelectionPage extends StatelessWidget {
             children: [
               // Illustration or Icon
               Container(
-                width: 120.w,
-                height: 120.w,
+                width: 96.w,
+                height: 96.w,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFFF6B35).withOpacity(0.1),
+                  color: const Color(0xFFFF6B35).withOpacity(0.08),
                   shape: BoxShape.circle,
                 ),
                 child: Center(
                   child: Icon(
                     Icons.restaurant_menu_rounded,
-                    size: 60.sp,
+                    size: 48.sp,
                     color: const Color(0xFFFF6B35),
                   ),
                 ),
               ),
               
-              SizedBox(height: 40.h),
+              SizedBox(height: 32.h),
               
               Text(
                 'Join Mitho Deals',
                 style: GoogleFonts.poppins(
-                  fontSize: 24.sp,
+                  fontSize: 20.sp,
                   fontWeight: FontWeight.w700,
                   color: const Color(0xFF2D3436),
                 ),
               ),
               
-              SizedBox(height: 12.h),
+              SizedBox(height: 8.h),
               
               Text(
                 'Help us reduce food waste or find\ndelicious deals near you!',
                 textAlign: TextAlign.center,
                 style: GoogleFonts.poppins(
-                  fontSize: 14.sp,
+                  fontSize: 12.sp,
                   color: const Color(0xFF636E72),
                 ),
               ),
               
-              SizedBox(height: 60.h),
+              SizedBox(height: 48.h),
               
               // Consumer Option
               _buildOptionCard(
@@ -67,7 +67,7 @@ class RoleSelectionPage extends StatelessWidget {
                 onTap: () => context.push('/register'),
               ),
               
-              SizedBox(height: 20.h),
+              SizedBox(height: 16.h),
               
               // Vendor Option
               _buildOptionCard(
@@ -78,14 +78,19 @@ class RoleSelectionPage extends StatelessWidget {
                 onTap: () => context.push('/vendor-register'),
               ),
               
-              SizedBox(height: 40.h),
+              SizedBox(height: 32.h),
               
               TextButton(
                 onPressed: () => context.go('/login'),
+                style: TextButton.styleFrom(
+                  padding: EdgeInsets.zero,
+                  minimumSize: Size.zero,
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
                 child: Text(
                   'Already have an account? Login',
                   style: GoogleFonts.poppins(
-                    fontSize: 14.sp,
+                    fontSize: 13.sp,
                     fontWeight: FontWeight.w500,
                     color: const Color(0xFFFF6B35),
                   ),
@@ -109,28 +114,28 @@ class RoleSelectionPage extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: double.infinity,
-        padding: EdgeInsets.all(20.w),
+        padding: EdgeInsets.all(16.w),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16.r),
-          border: Border.all(color: const Color(0xFFE0E0E0)),
+          border: Border.all(color: const Color(0xFFF1F2F6)),
           boxShadow: [
             BoxShadow(
-              color: color.withOpacity(0.05),
-              blurRadius: 10,
-              offset: const Offset(0, 4),
+              color: Colors.black.withOpacity(0.02),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
             ),
           ],
         ),
         child: Row(
           children: [
             Container(
-              padding: EdgeInsets.all(12.w),
+              padding: EdgeInsets.all(10.w),
               decoration: BoxDecoration(
-                color: color.withOpacity(0.1),
+                color: color.withOpacity(0.08),
                 borderRadius: BorderRadius.circular(12.r),
               ),
-              child: Icon(icon, color: color, size: 28.sp),
+              child: Icon(icon, color: color, size: 24.sp),
             ),
             SizedBox(width: 16.w),
             Expanded(
@@ -140,7 +145,7 @@ class RoleSelectionPage extends StatelessWidget {
                   Text(
                     title,
                     style: GoogleFonts.poppins(
-                      fontSize: 15.sp,
+                      fontSize: 14.sp,
                       fontWeight: FontWeight.w600,
                       color: const Color(0xFF2D3436),
                     ),
@@ -148,7 +153,7 @@ class RoleSelectionPage extends StatelessWidget {
                   Text(
                     subtitle,
                     style: GoogleFonts.poppins(
-                      fontSize: 12.sp,
+                      fontSize: 11.sp,
                       color: const Color(0xFF636E72),
                     ),
                   ),
@@ -157,7 +162,7 @@ class RoleSelectionPage extends StatelessWidget {
             ),
             Icon(
               Icons.arrow_forward_ios_rounded,
-              size: 16.sp,
+              size: 14.sp,
               color: const Color(0xFFB2BEC3),
             ),
           ],

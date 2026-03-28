@@ -35,15 +35,19 @@ class LoginPage extends StatelessWidget {
               loading: () {
                 ScaffoldMessenger.of(context).hideCurrentSnackBar();
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
+                  SnackBar(
                     content: Row(
                       children: [
-                        CircularProgressIndicator(color: Colors.white),
-                        SizedBox(width: 16),
-                        Text('Logging in...'),
+                        SizedBox(
+                          width: 20.w,
+                          height: 20.h,
+                          child: const CircularProgressIndicator(color: Colors.white, strokeWidth: 2,),
+                        ),
+                        SizedBox(width: 16.w),
+                        Text('Wait...', style: GoogleFonts.poppins(fontSize: 13.sp)),
                       ],
                     ),
-                    duration: Duration(seconds: 2),
+                    duration: const Duration(seconds: 1),
                   ),
                 );
               },
@@ -51,7 +55,7 @@ class LoginPage extends StatelessWidget {
                 ScaffoldMessenger.of(context).hideCurrentSnackBar();
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text('Welcome back, ${user.name}!'),
+                    content: Text('Welcome back, ${user.name}!', style: GoogleFonts.poppins(fontSize: 13.sp)),
                     backgroundColor: Colors.green,
                   ),
                 );
@@ -69,7 +73,7 @@ class LoginPage extends StatelessWidget {
                 ScaffoldMessenger.of(context).hideCurrentSnackBar();
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text(message),
+                    content: Text(message, style: GoogleFonts.poppins(fontSize: 13.sp)),
                     backgroundColor: Colors.red,
                   ),
                 );
@@ -103,16 +107,15 @@ class LoginPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(height: 60.h),
+                SizedBox(height: 48.h),
                 
                 // Logo and Title - Using separated widget
                 AuthHeaderWidget(
                   title: 'Mitho Deals',
-                  subtitle: 'Find the best food deals in town',
-           
+                  subtitle: 'Save money, reduce food waste',
                 ),
                 
-                SizedBox(height: 50.h),
+                SizedBox(height: 40.h),
                 
                 // Login Form - Using separated widget
                 FormFieldsWidget(
@@ -125,7 +128,7 @@ class LoginPage extends StatelessWidget {
                   onLoginPressed: _onLoginPressed,
                 ),
                 
-                SizedBox(height: 30.h),
+                SizedBox(height: 24.h),
                 
                 // Bottom Links
                 BottomLinksWidget(
