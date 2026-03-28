@@ -7,6 +7,13 @@ abstract class SupabaseAuthDataSource {
   UserModel? getCurrentUser();
   Future<UserModel> signInWithEmail(String email, String password);
   Future<UserModel> registerWithEmail(String email, String password, String name);
+  Future<UserModel> registerVendorWithEmail({
+    required String email,
+    required String password,
+    required String restaurantName,
+    required String description,
+    required String address,
+  });
   Future<void> logout();
   Future<UserModel> verifyPhoneCode(String verificationId, String smsCode);
   Future<void> verifyPhoneNumber(
@@ -59,10 +66,54 @@ class SupabaseAuthDataSourceImpl implements SupabaseAuthDataSource {
       final response = await supabaseClient.auth.signUp(
         email: email,
         password: password,
-        data: {'name': name},
+        data: {
+          'name': name,
+          'role': 'consumer', // Explicitly set role for consumers
+        },
       );
       final user = response.user;
       if (user == null) throw const ServerException(message: 'Registration failed');
+      return UserModel.fromSupabaseUser(user);
+    } catch (e) {
+      throw ServerException(message: e.toString());
+    }
+  }
+
+  @override
+  Future<UserModel> registerVendorWithEmail({
+    required String email,
+    required String password,
+    required String restaurantName,
+    required String description,
+    required String address,
+  }) async {
+    try {
+      // 1. Sign up as a vendor in auth metadata
+      final response = await supabaseClient.auth.signUp(
+        email: email,
+        password: password,
+        data: {
+          'name': restaurantName,
+          'role': 'vendor',
+        },
+      );
+
+      final user = response.user;
+      if (user == null) throw const ServerException(message: 'Vendor registration failed');
+
+      // 2. Insert vendor details into 'vendors' table
+      // Based on schema: owner_id links to auth.users.id
+      await supabaseClient.from('vendors').insert({
+        'owner_id': user.id,
+        'name': restaurantName,
+        'description': description,
+        'address': address,
+        'latitude': 0.0,
+        'longitude': 0.0,
+        'rating': 0.0,
+        'is_open': false,
+      });
+
       return UserModel.fromSupabaseUser(user);
     } catch (e) {
       throw ServerException(message: e.toString());

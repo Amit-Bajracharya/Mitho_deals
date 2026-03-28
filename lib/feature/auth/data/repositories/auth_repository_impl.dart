@@ -52,6 +52,28 @@ class AuthRepositoryImpl implements AuthRepository {
     }
   }
 
+  @override
+  Future<AuthResultEntity> registerVendor({
+    required String email,
+    required String password,
+    required String restaurantName,
+    required String description,
+    required String address,
+  }) async {
+    try {
+      final userModel = await _dataSource.registerVendorWithEmail(
+        email: email,
+        password: password,
+        restaurantName: restaurantName,
+        description: description,
+        address: address,
+      );
+      return AuthResultEntity.success(userModel.toEntity());
+    } catch (e) {
+      return AuthResultEntity.failure(e.toString());
+    }
+  }
+
    @override
   Future<AuthResultEntity> verifyPhoneCode(String verificationId, String smsCode) async {
     try {

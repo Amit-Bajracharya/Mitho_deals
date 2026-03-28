@@ -1,9 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mitho_deals/feature/auth/domain/usecases/phone_auth_usecase.dart';
+import 'package:mitho_deals/feature/auth/domain/usecases/register_usecase.dart';
 import '../../domain/entities/auth_result_entity.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../../domain/usecases/login_usecase.dart';
-import '../../domain/usecases/register_usecase.dart';
-import '../../domain/usecases/phone_auth_usecase.dart';
+import '../../domain/usecases/register_vendor_usecase.dart';
 import 'auth_event.dart';
 import 'auth_state.dart';
 
@@ -11,16 +12,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository _repository;
   final LoginUseCase _loginUseCase;
   final RegisterUseCase _registerUseCase;
+  final RegisterVendorUseCase _registerVendorUseCase;
   final PhoneAuthUseCase _phoneAuthUseCase;
 
   AuthBloc({
     required AuthRepository repository,
     required LoginUseCase loginUseCase,
     required RegisterUseCase registerUseCase,
+    required RegisterVendorUseCase registerVendorUseCase,
     required PhoneAuthUseCase phoneAuthUseCase,
   })  : _repository = repository,
         _loginUseCase = loginUseCase,
         _registerUseCase = registerUseCase,
+        _registerVendorUseCase = registerVendorUseCase,
         _phoneAuthUseCase = phoneAuthUseCase,
         super(const AuthState.initial()) {
     on<AuthEvent>(_onEvent);
@@ -29,7 +33,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> _onEvent(AuthEvent event, Emitter<AuthState> emit) async {
     await event.when(
       loginRequested: (email, password) async => _onLoginRequested(email, password, emit),
-      registerRequested: (email, password, name) async => _onRegisterRequested(email, password, name, emit),
+      registerRequested: (name, email, password) async => _onRegisterRequested(email, password, name, emit),
+      registerVendorRequested: (name, email, password, desc, addr) async => 
+          _onRegisterVendorRequested(name, email, password, desc, addr, emit),
       phoneVerificationRequested: (phoneNumber) async => _onPhoneVerificationRequested(phoneNumber, emit),
       phoneCodeVerified: (verificationId, smsCode) async => _onPhoneCodeVerified(verificationId, smsCode, emit),
       logoutRequested: () async => _onLogoutRequested(emit),
@@ -62,6 +68,35 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       final result = await _registerUseCase(email, password, name);
       
       // Simple check instead of when pattern
+      if (result is AuthSuccess) {
+        if (!emit.isDone) emit(AuthState.authenticated(result.user));
+      } else if (result is AuthFailure) {
+        if (!emit.isDone) emit(AuthState.error(result.message));
+      }
+    } catch (e) {
+      if (!emit.isDone) emit(AuthState.error(e.toString()));
+    }
+  }
+
+  Future<void> _onRegisterVendorRequested(
+    String name,
+    String email,
+    String password,
+    String description,
+    String address,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(const AuthState.loading());
+
+    try {
+      final result = await _registerVendorUseCase(
+        restaurantName: name,
+        email: email,
+        password: password,
+        description: description,
+        address: address,
+      );
+
       if (result is AuthSuccess) {
         if (!emit.isDone) emit(AuthState.authenticated(result.user));
       } else if (result is AuthFailure) {

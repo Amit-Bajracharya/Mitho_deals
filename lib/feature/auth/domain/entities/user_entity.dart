@@ -7,6 +7,7 @@ abstract class UserEntity with _$UserEntity {
     required String id,
     required String email,
     required String name,
+    String? role,   // 'consumer' or 'vendor'
     String? phoneNumber,
     @Default(false) bool isEmailVerified,
     @Default(false) bool isPhoneVerified,

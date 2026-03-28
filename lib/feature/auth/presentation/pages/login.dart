@@ -55,7 +55,12 @@ class LoginPage extends StatelessWidget {
                     backgroundColor: Colors.green,
                   ),
                 );
-                context.go(RouteConstants.home);
+                
+                if (user.role == 'vendor') {
+                  context.go(RouteConstants.vendorHome);
+                } else {
+                  context.go(RouteConstants.home);
+                }
               },
               unauthenticated: () {
                 ScaffoldMessenger.of(context).hideCurrentSnackBar();
@@ -128,7 +133,7 @@ class LoginPage extends StatelessWidget {
                     context.go(RouteConstants.phone_auth);
                   },
                   onRegister: () {
-                    context.go('/register');
+                    context.push('/role-select');
                   },
                   showRegisterLink: true, // Show register link
                 ),

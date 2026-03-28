@@ -6,6 +6,14 @@ abstract class AuthRepository {
 
   Future<AuthResultEntity> register(String email, String password, String name);
 
+  Future<AuthResultEntity> registerVendor({
+    required String email,
+    required String password,
+    required String restaurantName,
+    required String description,
+    required String address,
+  });
+
   //Phone Auth
   Future<void> verifyPhoneNumber(
     String phoneNumber, {

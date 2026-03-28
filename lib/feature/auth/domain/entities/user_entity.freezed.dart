@@ -14,7 +14,8 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$UserEntity {
 
- String get id; String get email; String get name; String? get phoneNumber; bool get isEmailVerified; bool get isPhoneVerified; DateTime? get createdAt; DateTime? get lastLoginAt;
+ String get id; String get email; String get name; String? get role;// 'consumer' or 'vendor'
+ String? get phoneNumber; bool get isEmailVerified; bool get isPhoneVerified; DateTime? get createdAt; DateTime? get lastLoginAt;
 /// Create a copy of UserEntity
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +26,16 @@ $UserEntityCopyWith<UserEntity> get copyWith => _$UserEntityCopyWithImpl<UserEnt
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UserEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.email, email) || other.email == email)&&(identical(other.name, name) || other.name == name)&&(identical(other.phoneNumber, phoneNumber) || other.phoneNumber == phoneNumber)&&(identical(other.isEmailVerified, isEmailVerified) || other.isEmailVerified == isEmailVerified)&&(identical(other.isPhoneVerified, isPhoneVerified) || other.isPhoneVerified == isPhoneVerified)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.lastLoginAt, lastLoginAt) || other.lastLoginAt == lastLoginAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UserEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.email, email) || other.email == email)&&(identical(other.name, name) || other.name == name)&&(identical(other.role, role) || other.role == role)&&(identical(other.phoneNumber, phoneNumber) || other.phoneNumber == phoneNumber)&&(identical(other.isEmailVerified, isEmailVerified) || other.isEmailVerified == isEmailVerified)&&(identical(other.isPhoneVerified, isPhoneVerified) || other.isPhoneVerified == isPhoneVerified)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.lastLoginAt, lastLoginAt) || other.lastLoginAt == lastLoginAt));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,email,name,phoneNumber,isEmailVerified,isPhoneVerified,createdAt,lastLoginAt);
+int get hashCode => Object.hash(runtimeType,id,email,name,role,phoneNumber,isEmailVerified,isPhoneVerified,createdAt,lastLoginAt);
 
 @override
 String toString() {
-  return 'UserEntity(id: $id, email: $email, name: $name, phoneNumber: $phoneNumber, isEmailVerified: $isEmailVerified, isPhoneVerified: $isPhoneVerified, createdAt: $createdAt, lastLoginAt: $lastLoginAt)';
+  return 'UserEntity(id: $id, email: $email, name: $name, role: $role, phoneNumber: $phoneNumber, isEmailVerified: $isEmailVerified, isPhoneVerified: $isPhoneVerified, createdAt: $createdAt, lastLoginAt: $lastLoginAt)';
 }
 
 
@@ -45,7 +46,7 @@ abstract mixin class $UserEntityCopyWith<$Res>  {
   factory $UserEntityCopyWith(UserEntity value, $Res Function(UserEntity) _then) = _$UserEntityCopyWithImpl;
 @useResult
 $Res call({
- String id, String email, String name, String? phoneNumber, bool isEmailVerified, bool isPhoneVerified, DateTime? createdAt, DateTime? lastLoginAt
+ String id, String email, String name, String? role, String? phoneNumber, bool isEmailVerified, bool isPhoneVerified, DateTime? createdAt, DateTime? lastLoginAt
 });
 
 
@@ -62,12 +63,13 @@ class _$UserEntityCopyWithImpl<$Res>
 
 /// Create a copy of UserEntity
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? email = null,Object? name = null,Object? phoneNumber = freezed,Object? isEmailVerified = null,Object? isPhoneVerified = null,Object? createdAt = freezed,Object? lastLoginAt = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? email = null,Object? name = null,Object? role = freezed,Object? phoneNumber = freezed,Object? isEmailVerified = null,Object? isPhoneVerified = null,Object? createdAt = freezed,Object? lastLoginAt = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,phoneNumber: freezed == phoneNumber ? _self.phoneNumber : phoneNumber // ignore: cast_nullable_to_non_nullable
+as String,role: freezed == role ? _self.role : role // ignore: cast_nullable_to_non_nullable
+as String?,phoneNumber: freezed == phoneNumber ? _self.phoneNumber : phoneNumber // ignore: cast_nullable_to_non_nullable
 as String?,isEmailVerified: null == isEmailVerified ? _self.isEmailVerified : isEmailVerified // ignore: cast_nullable_to_non_nullable
 as bool,isPhoneVerified: null == isPhoneVerified ? _self.isPhoneVerified : isPhoneVerified // ignore: cast_nullable_to_non_nullable
 as bool,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
@@ -157,10 +159,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String email,  String name,  String? phoneNumber,  bool isEmailVerified,  bool isPhoneVerified,  DateTime? createdAt,  DateTime? lastLoginAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String email,  String name,  String? role,  String? phoneNumber,  bool isEmailVerified,  bool isPhoneVerified,  DateTime? createdAt,  DateTime? lastLoginAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _UserEntity() when $default != null:
-return $default(_that.id,_that.email,_that.name,_that.phoneNumber,_that.isEmailVerified,_that.isPhoneVerified,_that.createdAt,_that.lastLoginAt);case _:
+return $default(_that.id,_that.email,_that.name,_that.role,_that.phoneNumber,_that.isEmailVerified,_that.isPhoneVerified,_that.createdAt,_that.lastLoginAt);case _:
   return orElse();
 
 }
@@ -178,10 +180,10 @@ return $default(_that.id,_that.email,_that.name,_that.phoneNumber,_that.isEmailV
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String email,  String name,  String? phoneNumber,  bool isEmailVerified,  bool isPhoneVerified,  DateTime? createdAt,  DateTime? lastLoginAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String email,  String name,  String? role,  String? phoneNumber,  bool isEmailVerified,  bool isPhoneVerified,  DateTime? createdAt,  DateTime? lastLoginAt)  $default,) {final _that = this;
 switch (_that) {
 case _UserEntity():
-return $default(_that.id,_that.email,_that.name,_that.phoneNumber,_that.isEmailVerified,_that.isPhoneVerified,_that.createdAt,_that.lastLoginAt);case _:
+return $default(_that.id,_that.email,_that.name,_that.role,_that.phoneNumber,_that.isEmailVerified,_that.isPhoneVerified,_that.createdAt,_that.lastLoginAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -198,10 +200,10 @@ return $default(_that.id,_that.email,_that.name,_that.phoneNumber,_that.isEmailV
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String email,  String name,  String? phoneNumber,  bool isEmailVerified,  bool isPhoneVerified,  DateTime? createdAt,  DateTime? lastLoginAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String email,  String name,  String? role,  String? phoneNumber,  bool isEmailVerified,  bool isPhoneVerified,  DateTime? createdAt,  DateTime? lastLoginAt)?  $default,) {final _that = this;
 switch (_that) {
 case _UserEntity() when $default != null:
-return $default(_that.id,_that.email,_that.name,_that.phoneNumber,_that.isEmailVerified,_that.isPhoneVerified,_that.createdAt,_that.lastLoginAt);case _:
+return $default(_that.id,_that.email,_that.name,_that.role,_that.phoneNumber,_that.isEmailVerified,_that.isPhoneVerified,_that.createdAt,_that.lastLoginAt);case _:
   return null;
 
 }
@@ -213,12 +215,14 @@ return $default(_that.id,_that.email,_that.name,_that.phoneNumber,_that.isEmailV
 
 
 class _UserEntity implements UserEntity {
-  const _UserEntity({required this.id, required this.email, required this.name, this.phoneNumber, this.isEmailVerified = false, this.isPhoneVerified = false, this.createdAt, this.lastLoginAt});
+  const _UserEntity({required this.id, required this.email, required this.name, this.role, this.phoneNumber, this.isEmailVerified = false, this.isPhoneVerified = false, this.createdAt, this.lastLoginAt});
   
 
 @override final  String id;
 @override final  String email;
 @override final  String name;
+@override final  String? role;
+// 'consumer' or 'vendor'
 @override final  String? phoneNumber;
 @override@JsonKey() final  bool isEmailVerified;
 @override@JsonKey() final  bool isPhoneVerified;
@@ -235,16 +239,16 @@ _$UserEntityCopyWith<_UserEntity> get copyWith => __$UserEntityCopyWithImpl<_Use
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UserEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.email, email) || other.email == email)&&(identical(other.name, name) || other.name == name)&&(identical(other.phoneNumber, phoneNumber) || other.phoneNumber == phoneNumber)&&(identical(other.isEmailVerified, isEmailVerified) || other.isEmailVerified == isEmailVerified)&&(identical(other.isPhoneVerified, isPhoneVerified) || other.isPhoneVerified == isPhoneVerified)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.lastLoginAt, lastLoginAt) || other.lastLoginAt == lastLoginAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UserEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.email, email) || other.email == email)&&(identical(other.name, name) || other.name == name)&&(identical(other.role, role) || other.role == role)&&(identical(other.phoneNumber, phoneNumber) || other.phoneNumber == phoneNumber)&&(identical(other.isEmailVerified, isEmailVerified) || other.isEmailVerified == isEmailVerified)&&(identical(other.isPhoneVerified, isPhoneVerified) || other.isPhoneVerified == isPhoneVerified)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.lastLoginAt, lastLoginAt) || other.lastLoginAt == lastLoginAt));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,email,name,phoneNumber,isEmailVerified,isPhoneVerified,createdAt,lastLoginAt);
+int get hashCode => Object.hash(runtimeType,id,email,name,role,phoneNumber,isEmailVerified,isPhoneVerified,createdAt,lastLoginAt);
 
 @override
 String toString() {
-  return 'UserEntity(id: $id, email: $email, name: $name, phoneNumber: $phoneNumber, isEmailVerified: $isEmailVerified, isPhoneVerified: $isPhoneVerified, createdAt: $createdAt, lastLoginAt: $lastLoginAt)';
+  return 'UserEntity(id: $id, email: $email, name: $name, role: $role, phoneNumber: $phoneNumber, isEmailVerified: $isEmailVerified, isPhoneVerified: $isPhoneVerified, createdAt: $createdAt, lastLoginAt: $lastLoginAt)';
 }
 
 
@@ -255,7 +259,7 @@ abstract mixin class _$UserEntityCopyWith<$Res> implements $UserEntityCopyWith<$
   factory _$UserEntityCopyWith(_UserEntity value, $Res Function(_UserEntity) _then) = __$UserEntityCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String email, String name, String? phoneNumber, bool isEmailVerified, bool isPhoneVerified, DateTime? createdAt, DateTime? lastLoginAt
+ String id, String email, String name, String? role, String? phoneNumber, bool isEmailVerified, bool isPhoneVerified, DateTime? createdAt, DateTime? lastLoginAt
 });
 
 
@@ -272,12 +276,13 @@ class __$UserEntityCopyWithImpl<$Res>
 
 /// Create a copy of UserEntity
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? email = null,Object? name = null,Object? phoneNumber = freezed,Object? isEmailVerified = null,Object? isPhoneVerified = null,Object? createdAt = freezed,Object? lastLoginAt = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? email = null,Object? name = null,Object? role = freezed,Object? phoneNumber = freezed,Object? isEmailVerified = null,Object? isPhoneVerified = null,Object? createdAt = freezed,Object? lastLoginAt = freezed,}) {
   return _then(_UserEntity(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,phoneNumber: freezed == phoneNumber ? _self.phoneNumber : phoneNumber // ignore: cast_nullable_to_non_nullable
+as String,role: freezed == role ? _self.role : role // ignore: cast_nullable_to_non_nullable
+as String?,phoneNumber: freezed == phoneNumber ? _self.phoneNumber : phoneNumber // ignore: cast_nullable_to_non_nullable
 as String?,isEmailVerified: null == isEmailVerified ? _self.isEmailVerified : isEmailVerified // ignore: cast_nullable_to_non_nullable
 as bool,isPhoneVerified: null == isPhoneVerified ? _self.isPhoneVerified : isPhoneVerified // ignore: cast_nullable_to_non_nullable
 as bool,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
