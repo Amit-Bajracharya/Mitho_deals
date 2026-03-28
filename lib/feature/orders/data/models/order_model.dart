@@ -7,54 +7,55 @@ part 'order_model.g.dart';
 
 @freezed
 abstract class OrderModel with _$OrderModel {
-  // We need this private constructor to add custom methods like toEntity()
-  const OrderModel._();
+  const OrderModel._(); // Required to add custom methods like toEntity()
 
   const factory OrderModel({
     required String id,
     @JsonKey(name: 'user_id') required String userId,
     @JsonKey(name: 'deal_id') required String dealId,
+    @JsonKey(name: 'vendor_id') required String vendorId,
     required int quantity,
-    @JsonKey(name: 'total_price') required double totalPrice,
+    @JsonKey(name: 'total_amount') required double totalAmount,
     required String status,
-    @JsonKey(name: 'created_at') required DateTime createdAt,
-    
-    // This allows us to handle the Supabase join query .select('*, deals(*)')
-    // If the join is performed, Supabase returns the deal data inside a 'deals' key
+    @JsonKey(name: 'pickup_code') required String pickupCode,
+    @JsonKey(name: 'order_placed_time') required DateTime orderPlacedTime,
+
+    // Handles the Supabase join: .select('*, deals(*)')
+    // Supabase returns the joined deal data under the key 'deals'
     @JsonKey(name: 'deals') DealModel? deal,
   }) = _OrderModel;
 
-  // Standard fromJson for build_runner
   factory OrderModel.fromJson(Map<String, dynamic> json) =>
       _$OrderModelFromJson(json);
 
-  // --- MAPPING LOGIC ---
-
-  // Converts Model (Data Layer) -> Entity (Domain Layer)
+  // Data Layer → Domain Layer
   OrderEntity toEntity() {
     return OrderEntity(
       id: id,
       userId: userId,
       dealId: dealId,
+      vendorId: vendorId,
       quantity: quantity,
-      totalPrice: totalPrice,
+      totalAmount: totalAmount,
       status: status,
-      createdAt: createdAt,
-      // Recursively convert the deal model to entity if it exists
+      pickupCode: pickupCode,
+      orderPlacedTime: orderPlacedTime,
       deal: deal?.toEntity(),
     );
   }
 
-  // Converts Entity (Domain Layer) -> Model (Data Layer)
+  // Domain Layer → Data Layer (used when placing an order)
   factory OrderModel.fromEntity(OrderEntity entity) {
     return OrderModel(
       id: entity.id,
       userId: entity.userId,
       dealId: entity.dealId,
+      vendorId: entity.vendorId,
       quantity: entity.quantity,
-      totalPrice: entity.totalPrice,
+      totalAmount: entity.totalAmount,
       status: entity.status,
-      createdAt: entity.createdAt,
+      pickupCode: entity.pickupCode,
+      orderPlacedTime: entity.orderPlacedTime,
       deal: entity.deal != null ? DealModel.fromEntity(entity.deal!) : null,
     );
   }

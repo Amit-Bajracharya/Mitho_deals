@@ -14,7 +14,15 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$OrderEntity {
 
- String get id; String get userId; String get dealId; int get quantity; double get totalPrice; String get status; DateTime get createdAt;// We optionally fetch the Deal so the UI can show the food name
+ String get id; String get userId;// Who placed the order
+ String get dealId;// Which deal was ordered
+ String get vendorId;// Which vendor to pick up from
+ int get quantity;// Number of portions
+ double get totalAmount;// Matches DB 'total_amount'
+ String get status;// 'reserved', 'picked_up', 'cancelled'
+ String get pickupCode;// Unique code to show vendor at pickup
+ DateTime get orderPlacedTime;// Matches DB 'order_placed_time'
+// Optionally joined deal data so UI can show food name & image
  DealEntity? get deal;
 /// Create a copy of OrderEntity
 /// with the given fields replaced by the non-null parameter values.
@@ -26,16 +34,16 @@ $OrderEntityCopyWith<OrderEntity> get copyWith => _$OrderEntityCopyWithImpl<Orde
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is OrderEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.dealId, dealId) || other.dealId == dealId)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.totalPrice, totalPrice) || other.totalPrice == totalPrice)&&(identical(other.status, status) || other.status == status)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.deal, deal) || other.deal == deal));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is OrderEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.dealId, dealId) || other.dealId == dealId)&&(identical(other.vendorId, vendorId) || other.vendorId == vendorId)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.totalAmount, totalAmount) || other.totalAmount == totalAmount)&&(identical(other.status, status) || other.status == status)&&(identical(other.pickupCode, pickupCode) || other.pickupCode == pickupCode)&&(identical(other.orderPlacedTime, orderPlacedTime) || other.orderPlacedTime == orderPlacedTime)&&(identical(other.deal, deal) || other.deal == deal));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,userId,dealId,quantity,totalPrice,status,createdAt,deal);
+int get hashCode => Object.hash(runtimeType,id,userId,dealId,vendorId,quantity,totalAmount,status,pickupCode,orderPlacedTime,deal);
 
 @override
 String toString() {
-  return 'OrderEntity(id: $id, userId: $userId, dealId: $dealId, quantity: $quantity, totalPrice: $totalPrice, status: $status, createdAt: $createdAt, deal: $deal)';
+  return 'OrderEntity(id: $id, userId: $userId, dealId: $dealId, vendorId: $vendorId, quantity: $quantity, totalAmount: $totalAmount, status: $status, pickupCode: $pickupCode, orderPlacedTime: $orderPlacedTime, deal: $deal)';
 }
 
 
@@ -46,7 +54,7 @@ abstract mixin class $OrderEntityCopyWith<$Res>  {
   factory $OrderEntityCopyWith(OrderEntity value, $Res Function(OrderEntity) _then) = _$OrderEntityCopyWithImpl;
 @useResult
 $Res call({
- String id, String userId, String dealId, int quantity, double totalPrice, String status, DateTime createdAt, DealEntity? deal
+ String id, String userId, String dealId, String vendorId, int quantity, double totalAmount, String status, String pickupCode, DateTime orderPlacedTime, DealEntity? deal
 });
 
 
@@ -63,15 +71,17 @@ class _$OrderEntityCopyWithImpl<$Res>
 
 /// Create a copy of OrderEntity
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? userId = null,Object? dealId = null,Object? quantity = null,Object? totalPrice = null,Object? status = null,Object? createdAt = null,Object? deal = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? userId = null,Object? dealId = null,Object? vendorId = null,Object? quantity = null,Object? totalAmount = null,Object? status = null,Object? pickupCode = null,Object? orderPlacedTime = null,Object? deal = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
 as String,dealId: null == dealId ? _self.dealId : dealId // ignore: cast_nullable_to_non_nullable
+as String,vendorId: null == vendorId ? _self.vendorId : vendorId // ignore: cast_nullable_to_non_nullable
 as String,quantity: null == quantity ? _self.quantity : quantity // ignore: cast_nullable_to_non_nullable
-as int,totalPrice: null == totalPrice ? _self.totalPrice : totalPrice // ignore: cast_nullable_to_non_nullable
+as int,totalAmount: null == totalAmount ? _self.totalAmount : totalAmount // ignore: cast_nullable_to_non_nullable
 as double,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
-as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as String,pickupCode: null == pickupCode ? _self.pickupCode : pickupCode // ignore: cast_nullable_to_non_nullable
+as String,orderPlacedTime: null == orderPlacedTime ? _self.orderPlacedTime : orderPlacedTime // ignore: cast_nullable_to_non_nullable
 as DateTime,deal: freezed == deal ? _self.deal : deal // ignore: cast_nullable_to_non_nullable
 as DealEntity?,
   ));
@@ -170,10 +180,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String userId,  String dealId,  int quantity,  double totalPrice,  String status,  DateTime createdAt,  DealEntity? deal)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String userId,  String dealId,  String vendorId,  int quantity,  double totalAmount,  String status,  String pickupCode,  DateTime orderPlacedTime,  DealEntity? deal)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _OrderEntity() when $default != null:
-return $default(_that.id,_that.userId,_that.dealId,_that.quantity,_that.totalPrice,_that.status,_that.createdAt,_that.deal);case _:
+return $default(_that.id,_that.userId,_that.dealId,_that.vendorId,_that.quantity,_that.totalAmount,_that.status,_that.pickupCode,_that.orderPlacedTime,_that.deal);case _:
   return orElse();
 
 }
@@ -191,10 +201,10 @@ return $default(_that.id,_that.userId,_that.dealId,_that.quantity,_that.totalPri
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String userId,  String dealId,  int quantity,  double totalPrice,  String status,  DateTime createdAt,  DealEntity? deal)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String userId,  String dealId,  String vendorId,  int quantity,  double totalAmount,  String status,  String pickupCode,  DateTime orderPlacedTime,  DealEntity? deal)  $default,) {final _that = this;
 switch (_that) {
 case _OrderEntity():
-return $default(_that.id,_that.userId,_that.dealId,_that.quantity,_that.totalPrice,_that.status,_that.createdAt,_that.deal);case _:
+return $default(_that.id,_that.userId,_that.dealId,_that.vendorId,_that.quantity,_that.totalAmount,_that.status,_that.pickupCode,_that.orderPlacedTime,_that.deal);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -211,10 +221,10 @@ return $default(_that.id,_that.userId,_that.dealId,_that.quantity,_that.totalPri
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String userId,  String dealId,  int quantity,  double totalPrice,  String status,  DateTime createdAt,  DealEntity? deal)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String userId,  String dealId,  String vendorId,  int quantity,  double totalAmount,  String status,  String pickupCode,  DateTime orderPlacedTime,  DealEntity? deal)?  $default,) {final _that = this;
 switch (_that) {
 case _OrderEntity() when $default != null:
-return $default(_that.id,_that.userId,_that.dealId,_that.quantity,_that.totalPrice,_that.status,_that.createdAt,_that.deal);case _:
+return $default(_that.id,_that.userId,_that.dealId,_that.vendorId,_that.quantity,_that.totalAmount,_that.status,_that.pickupCode,_that.orderPlacedTime,_that.deal);case _:
   return null;
 
 }
@@ -226,17 +236,27 @@ return $default(_that.id,_that.userId,_that.dealId,_that.quantity,_that.totalPri
 
 
 class _OrderEntity implements OrderEntity {
-  const _OrderEntity({required this.id, required this.userId, required this.dealId, required this.quantity, required this.totalPrice, required this.status, required this.createdAt, this.deal});
+  const _OrderEntity({required this.id, required this.userId, required this.dealId, required this.vendorId, required this.quantity, required this.totalAmount, required this.status, required this.pickupCode, required this.orderPlacedTime, this.deal});
   
 
 @override final  String id;
 @override final  String userId;
+// Who placed the order
 @override final  String dealId;
+// Which deal was ordered
+@override final  String vendorId;
+// Which vendor to pick up from
 @override final  int quantity;
-@override final  double totalPrice;
+// Number of portions
+@override final  double totalAmount;
+// Matches DB 'total_amount'
 @override final  String status;
-@override final  DateTime createdAt;
-// We optionally fetch the Deal so the UI can show the food name
+// 'reserved', 'picked_up', 'cancelled'
+@override final  String pickupCode;
+// Unique code to show vendor at pickup
+@override final  DateTime orderPlacedTime;
+// Matches DB 'order_placed_time'
+// Optionally joined deal data so UI can show food name & image
 @override final  DealEntity? deal;
 
 /// Create a copy of OrderEntity
@@ -249,16 +269,16 @@ _$OrderEntityCopyWith<_OrderEntity> get copyWith => __$OrderEntityCopyWithImpl<_
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _OrderEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.dealId, dealId) || other.dealId == dealId)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.totalPrice, totalPrice) || other.totalPrice == totalPrice)&&(identical(other.status, status) || other.status == status)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.deal, deal) || other.deal == deal));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _OrderEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.dealId, dealId) || other.dealId == dealId)&&(identical(other.vendorId, vendorId) || other.vendorId == vendorId)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.totalAmount, totalAmount) || other.totalAmount == totalAmount)&&(identical(other.status, status) || other.status == status)&&(identical(other.pickupCode, pickupCode) || other.pickupCode == pickupCode)&&(identical(other.orderPlacedTime, orderPlacedTime) || other.orderPlacedTime == orderPlacedTime)&&(identical(other.deal, deal) || other.deal == deal));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,userId,dealId,quantity,totalPrice,status,createdAt,deal);
+int get hashCode => Object.hash(runtimeType,id,userId,dealId,vendorId,quantity,totalAmount,status,pickupCode,orderPlacedTime,deal);
 
 @override
 String toString() {
-  return 'OrderEntity(id: $id, userId: $userId, dealId: $dealId, quantity: $quantity, totalPrice: $totalPrice, status: $status, createdAt: $createdAt, deal: $deal)';
+  return 'OrderEntity(id: $id, userId: $userId, dealId: $dealId, vendorId: $vendorId, quantity: $quantity, totalAmount: $totalAmount, status: $status, pickupCode: $pickupCode, orderPlacedTime: $orderPlacedTime, deal: $deal)';
 }
 
 
@@ -269,7 +289,7 @@ abstract mixin class _$OrderEntityCopyWith<$Res> implements $OrderEntityCopyWith
   factory _$OrderEntityCopyWith(_OrderEntity value, $Res Function(_OrderEntity) _then) = __$OrderEntityCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String userId, String dealId, int quantity, double totalPrice, String status, DateTime createdAt, DealEntity? deal
+ String id, String userId, String dealId, String vendorId, int quantity, double totalAmount, String status, String pickupCode, DateTime orderPlacedTime, DealEntity? deal
 });
 
 
@@ -286,15 +306,17 @@ class __$OrderEntityCopyWithImpl<$Res>
 
 /// Create a copy of OrderEntity
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? userId = null,Object? dealId = null,Object? quantity = null,Object? totalPrice = null,Object? status = null,Object? createdAt = null,Object? deal = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? userId = null,Object? dealId = null,Object? vendorId = null,Object? quantity = null,Object? totalAmount = null,Object? status = null,Object? pickupCode = null,Object? orderPlacedTime = null,Object? deal = freezed,}) {
   return _then(_OrderEntity(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
 as String,dealId: null == dealId ? _self.dealId : dealId // ignore: cast_nullable_to_non_nullable
+as String,vendorId: null == vendorId ? _self.vendorId : vendorId // ignore: cast_nullable_to_non_nullable
 as String,quantity: null == quantity ? _self.quantity : quantity // ignore: cast_nullable_to_non_nullable
-as int,totalPrice: null == totalPrice ? _self.totalPrice : totalPrice // ignore: cast_nullable_to_non_nullable
+as int,totalAmount: null == totalAmount ? _self.totalAmount : totalAmount // ignore: cast_nullable_to_non_nullable
 as double,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
-as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as String,pickupCode: null == pickupCode ? _self.pickupCode : pickupCode // ignore: cast_nullable_to_non_nullable
+as String,orderPlacedTime: null == orderPlacedTime ? _self.orderPlacedTime : orderPlacedTime // ignore: cast_nullable_to_non_nullable
 as DateTime,deal: freezed == deal ? _self.deal : deal // ignore: cast_nullable_to_non_nullable
 as DealEntity?,
   ));

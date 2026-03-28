@@ -15,6 +15,14 @@ class AuthEvent with _$AuthEvent {
     required String password
   }) = RegisterRequested;
 
+  const factory AuthEvent.registerVendorRequested({
+    required String restaurantName,
+    required String email,
+    required String password,
+    required String description,
+    required String address,
+  }) = RegisterVendorRequested;
+
   const factory AuthEvent.phoneVerificationRequested({
     required String phoneNumber
   }) = PhoneVerificationRequested;

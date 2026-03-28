@@ -6,6 +6,9 @@ import 'package:mitho_deals/feature/auth/presentation/pages/login.dart';
 import 'package:mitho_deals/feature/auth/presentation/pages/phone_auth_pages.dart';
 import 'package:mitho_deals/feature/auth/presentation/pages/otp_verification_page.dart';
 import 'package:mitho_deals/feature/auth/presentation/pages/register_page.dart';
+import 'package:mitho_deals/feature/auth/presentation/pages/role_selection_page.dart';
+import 'package:mitho_deals/feature/auth/presentation/pages/vendor_register_page.dart';
+import 'package:mitho_deals/feature/vendor/presentation/pages/vendor_home_page.dart';
 import 'package:mitho_deals/feature/deals/presentation/screens/deals_list_screen.dart';
 import 'package:mitho_deals/feature/home/presentation/pages/home_page.dart';
 import 'package:mitho_deals/feature/introduction_screen/presentation/pages/introduction_page.dart';
@@ -34,8 +37,20 @@ class MyAppRouter {
         pageBuilder:(context, state) =>  MaterialPage(child: RegisterPage())
       ),
       GoRoute(
+        path: '/role-select',
+        pageBuilder:(context, state) =>  MaterialPage(child: RoleSelectionPage())
+      ),
+      GoRoute(
+        path: '/vendor-register',
+        pageBuilder:(context, state) =>  MaterialPage(child: VendorRegisterPage())
+      ),
+      GoRoute(
+        path: RouteConstants.vendorHome,
+        pageBuilder:(context, state) =>  MaterialPage(child: AuthGuard.protectRoute(context, const VendorHomePage()))
+      ),
+      GoRoute(
         path: RouteConstants.home,
-        pageBuilder:(context, state) =>  MaterialPage(child: AuthGuard.protectRoute(context, HomePage()))
+        pageBuilder:(context, state) =>  MaterialPage(child: AuthGuard.protectRoute(context, const HomePage()))
       ),
       GoRoute(path: RouteConstants.phone_auth,
       pageBuilder: (context, state) => MaterialPage(child: PhoneAuthPage())

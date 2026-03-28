@@ -6,6 +6,7 @@ import '../../feature/auth/data/repositories/auth_repository_impl.dart';
 import '../../feature/auth/domain/repositories/auth_repository.dart';
 import '../../feature/auth/domain/usecases/login_usecase.dart';
 import '../../feature/auth/domain/usecases/register_usecase.dart';
+import '../../feature/auth/domain/usecases/register_vendor_usecase.dart';
 import '../../feature/auth/domain/usecases/phone_auth_usecase.dart';
 import '../../feature/auth/presentation/bloc/auth_bloc.dart';
 
@@ -29,6 +30,10 @@ void setupAuthDependencies() {
   ServiceLocator.register<RegisterUseCase>(
     RegisterUseCase(ServiceLocator.get<AuthRepository>()),
   );
+
+  ServiceLocator.register<RegisterVendorUseCase>(
+    RegisterVendorUseCase(ServiceLocator.get<AuthRepository>()),
+  );
   
   ServiceLocator.register<PhoneAuthUseCase>(
     PhoneAuthUseCase(ServiceLocator.get<AuthRepository>()),
@@ -40,6 +45,7 @@ void setupAuthDependencies() {
       repository: ServiceLocator.get<AuthRepository>(),
       loginUseCase: ServiceLocator.get<LoginUseCase>(),
       registerUseCase: ServiceLocator.get<RegisterUseCase>(),
+      registerVendorUseCase: ServiceLocator.get<RegisterVendorUseCase>(),
       phoneAuthUseCase: ServiceLocator.get<PhoneAuthUseCase>(),
     ),
   );
