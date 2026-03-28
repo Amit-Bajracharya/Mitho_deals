@@ -17,6 +17,7 @@ abstract class OrderEntity with _$OrderEntity {
     required DateTime orderPlacedTime, // Matches DB 'order_placed_time'
 
     // Optionally joined deal data so UI can show food name & image
+    required String vendorName,    // Name of the restaurant/vendor
     DealEntity? deal,
   }) = _OrderEntity;
 }

@@ -5,6 +5,8 @@ import 'package:mitho_deals/feature/orders/data/repositories/orders_repository_i
 import 'package:mitho_deals/feature/orders/domain/repo/orders_repository.dart';
 import 'package:mitho_deals/feature/orders/domain/usecase/get_my_order_usecase.dart';
 
+import 'package:mitho_deals/feature/orders/presentation/bloc/orders_bloc.dart';
+
 void setupOrdersDependencies() {
   // Data Sources
   ServiceLocator.register<OrdersRemoteDataSource>(
@@ -19,5 +21,10 @@ void setupOrdersDependencies() {
   // Use Cases
   ServiceLocator.register<GetMyOrdersUseCase>(
     GetMyOrdersUseCase(ServiceLocator.get<OrdersRepository>()),
+  );
+
+  // BLoC
+  ServiceLocator.register<OrdersBloc>(
+    OrdersBloc(getMyOrdersUseCase: ServiceLocator.get<GetMyOrdersUseCase>()),
   );
 }

@@ -7,4 +7,5 @@ class RouteConstants {
   static const String otp_verification = '/otp_verification';
   static const String vendorHome = '/vendor-home';
   static const String dealsList = '/deals';
+  static const String dealDetails = '/deal-details';
 }

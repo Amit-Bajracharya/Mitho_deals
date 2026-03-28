@@ -65,7 +65,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(const AuthState.loading());
     
     try {
-      final result = await _registerUseCase(email, password, name);
+      final result = await _registerUseCase(name, email, password);
       
       // Simple check instead of when pattern
       if (result is AuthSuccess) {

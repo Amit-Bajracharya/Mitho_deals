@@ -22,7 +22,7 @@ class OrdersRemoteDataSourceImpl implements OrdersRemoteDataSource {
       // We join with 'deals' table to get food details
       final response = await supabaseClient
           .from('orders')
-          .select('*, deals(*)')
+          .select('*, deals(*), vendors(name)')
           .eq('user_id', user.id)
           .order('order_placed_time', ascending: false);
 

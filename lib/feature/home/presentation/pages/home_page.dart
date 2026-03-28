@@ -8,6 +8,7 @@ import 'package:mitho_deals/feature/auth/presentation/bloc/auth_bloc.dart';
 import 'package:mitho_deals/feature/auth/presentation/bloc/auth_event.dart';
 import 'package:mitho_deals/feature/auth/presentation/bloc/auth_state.dart';
 import 'package:mitho_deals/feature/deals/presentation/screens/deals_list_screen.dart';
+import 'package:mitho_deals/feature/orders/presentation/pages/orders_screen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -21,7 +22,7 @@ class _HomePageState extends State<HomePage> {
 
   final List<Widget> _pages = [
     const DealsListScreen(),
-    _PlaceholderScreen('Orders'),
+    const OrdersScreen(),
     _PlaceholderScreen('Saved'),
     _PlaceholderScreen('Profile'),
   ];

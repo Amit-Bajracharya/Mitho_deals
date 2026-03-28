@@ -15,7 +15,8 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$DealModel {
 
- String get id;@JsonKey(name: 'vendor_id') String get vendorId;@JsonKey(name: 'food_name') String get foodName; String get description;@JsonKey(name: 'original_price') double get originalPrice;@JsonKey(name: 'discounted_price') double get discountedPrice;@JsonKey(name: 'available_portions') int get availablePortions;@JsonKey(name: 'pickup_start_time') DateTime get pickupStartTime;@JsonKey(name: 'pickup_end_time') DateTime get pickupEndTime;@JsonKey(name: 'image_url') String get imageUrl;@JsonKey(name: 'is_available') bool get isAvailable;
+ String get id;@JsonKey(name: 'vendor_id') String get vendorId;@JsonKey(name: 'food_name') String get foodName; String get description;@JsonKey(name: 'original_price') double get originalPrice;@JsonKey(name: 'discounted_price') double get discountedPrice;@JsonKey(name: 'available_portions') int get availablePortions;@JsonKey(name: 'pickup_start_time') DateTime get pickupStartTime;@JsonKey(name: 'pickup_end_time') DateTime get pickupEndTime;@JsonKey(name: 'image_url') String get imageUrl;@JsonKey(name: 'is_available') bool get isAvailable;// Joined vendor info from Supabase: .select('*, vendors(*)')
+@JsonKey(name: 'vendors') Map<String, dynamic>? get vendorInfo;
 /// Create a copy of DealModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +29,16 @@ $DealModelCopyWith<DealModel> get copyWith => _$DealModelCopyWithImpl<DealModel>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DealModel&&(identical(other.id, id) || other.id == id)&&(identical(other.vendorId, vendorId) || other.vendorId == vendorId)&&(identical(other.foodName, foodName) || other.foodName == foodName)&&(identical(other.description, description) || other.description == description)&&(identical(other.originalPrice, originalPrice) || other.originalPrice == originalPrice)&&(identical(other.discountedPrice, discountedPrice) || other.discountedPrice == discountedPrice)&&(identical(other.availablePortions, availablePortions) || other.availablePortions == availablePortions)&&(identical(other.pickupStartTime, pickupStartTime) || other.pickupStartTime == pickupStartTime)&&(identical(other.pickupEndTime, pickupEndTime) || other.pickupEndTime == pickupEndTime)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.isAvailable, isAvailable) || other.isAvailable == isAvailable));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DealModel&&(identical(other.id, id) || other.id == id)&&(identical(other.vendorId, vendorId) || other.vendorId == vendorId)&&(identical(other.foodName, foodName) || other.foodName == foodName)&&(identical(other.description, description) || other.description == description)&&(identical(other.originalPrice, originalPrice) || other.originalPrice == originalPrice)&&(identical(other.discountedPrice, discountedPrice) || other.discountedPrice == discountedPrice)&&(identical(other.availablePortions, availablePortions) || other.availablePortions == availablePortions)&&(identical(other.pickupStartTime, pickupStartTime) || other.pickupStartTime == pickupStartTime)&&(identical(other.pickupEndTime, pickupEndTime) || other.pickupEndTime == pickupEndTime)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.isAvailable, isAvailable) || other.isAvailable == isAvailable)&&const DeepCollectionEquality().equals(other.vendorInfo, vendorInfo));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,vendorId,foodName,description,originalPrice,discountedPrice,availablePortions,pickupStartTime,pickupEndTime,imageUrl,isAvailable);
+int get hashCode => Object.hash(runtimeType,id,vendorId,foodName,description,originalPrice,discountedPrice,availablePortions,pickupStartTime,pickupEndTime,imageUrl,isAvailable,const DeepCollectionEquality().hash(vendorInfo));
 
 @override
 String toString() {
-  return 'DealModel(id: $id, vendorId: $vendorId, foodName: $foodName, description: $description, originalPrice: $originalPrice, discountedPrice: $discountedPrice, availablePortions: $availablePortions, pickupStartTime: $pickupStartTime, pickupEndTime: $pickupEndTime, imageUrl: $imageUrl, isAvailable: $isAvailable)';
+  return 'DealModel(id: $id, vendorId: $vendorId, foodName: $foodName, description: $description, originalPrice: $originalPrice, discountedPrice: $discountedPrice, availablePortions: $availablePortions, pickupStartTime: $pickupStartTime, pickupEndTime: $pickupEndTime, imageUrl: $imageUrl, isAvailable: $isAvailable, vendorInfo: $vendorInfo)';
 }
 
 
@@ -48,7 +49,7 @@ abstract mixin class $DealModelCopyWith<$Res>  {
   factory $DealModelCopyWith(DealModel value, $Res Function(DealModel) _then) = _$DealModelCopyWithImpl;
 @useResult
 $Res call({
- String id,@JsonKey(name: 'vendor_id') String vendorId,@JsonKey(name: 'food_name') String foodName, String description,@JsonKey(name: 'original_price') double originalPrice,@JsonKey(name: 'discounted_price') double discountedPrice,@JsonKey(name: 'available_portions') int availablePortions,@JsonKey(name: 'pickup_start_time') DateTime pickupStartTime,@JsonKey(name: 'pickup_end_time') DateTime pickupEndTime,@JsonKey(name: 'image_url') String imageUrl,@JsonKey(name: 'is_available') bool isAvailable
+ String id,@JsonKey(name: 'vendor_id') String vendorId,@JsonKey(name: 'food_name') String foodName, String description,@JsonKey(name: 'original_price') double originalPrice,@JsonKey(name: 'discounted_price') double discountedPrice,@JsonKey(name: 'available_portions') int availablePortions,@JsonKey(name: 'pickup_start_time') DateTime pickupStartTime,@JsonKey(name: 'pickup_end_time') DateTime pickupEndTime,@JsonKey(name: 'image_url') String imageUrl,@JsonKey(name: 'is_available') bool isAvailable,@JsonKey(name: 'vendors') Map<String, dynamic>? vendorInfo
 });
 
 
@@ -65,7 +66,7 @@ class _$DealModelCopyWithImpl<$Res>
 
 /// Create a copy of DealModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? vendorId = null,Object? foodName = null,Object? description = null,Object? originalPrice = null,Object? discountedPrice = null,Object? availablePortions = null,Object? pickupStartTime = null,Object? pickupEndTime = null,Object? imageUrl = null,Object? isAvailable = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? vendorId = null,Object? foodName = null,Object? description = null,Object? originalPrice = null,Object? discountedPrice = null,Object? availablePortions = null,Object? pickupStartTime = null,Object? pickupEndTime = null,Object? imageUrl = null,Object? isAvailable = null,Object? vendorInfo = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,vendorId: null == vendorId ? _self.vendorId : vendorId // ignore: cast_nullable_to_non_nullable
@@ -78,7 +79,8 @@ as int,pickupStartTime: null == pickupStartTime ? _self.pickupStartTime : pickup
 as DateTime,pickupEndTime: null == pickupEndTime ? _self.pickupEndTime : pickupEndTime // ignore: cast_nullable_to_non_nullable
 as DateTime,imageUrl: null == imageUrl ? _self.imageUrl : imageUrl // ignore: cast_nullable_to_non_nullable
 as String,isAvailable: null == isAvailable ? _self.isAvailable : isAvailable // ignore: cast_nullable_to_non_nullable
-as bool,
+as bool,vendorInfo: freezed == vendorInfo ? _self.vendorInfo : vendorInfo // ignore: cast_nullable_to_non_nullable
+as Map<String, dynamic>?,
   ));
 }
 
@@ -163,10 +165,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'vendor_id')  String vendorId, @JsonKey(name: 'food_name')  String foodName,  String description, @JsonKey(name: 'original_price')  double originalPrice, @JsonKey(name: 'discounted_price')  double discountedPrice, @JsonKey(name: 'available_portions')  int availablePortions, @JsonKey(name: 'pickup_start_time')  DateTime pickupStartTime, @JsonKey(name: 'pickup_end_time')  DateTime pickupEndTime, @JsonKey(name: 'image_url')  String imageUrl, @JsonKey(name: 'is_available')  bool isAvailable)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'vendor_id')  String vendorId, @JsonKey(name: 'food_name')  String foodName,  String description, @JsonKey(name: 'original_price')  double originalPrice, @JsonKey(name: 'discounted_price')  double discountedPrice, @JsonKey(name: 'available_portions')  int availablePortions, @JsonKey(name: 'pickup_start_time')  DateTime pickupStartTime, @JsonKey(name: 'pickup_end_time')  DateTime pickupEndTime, @JsonKey(name: 'image_url')  String imageUrl, @JsonKey(name: 'is_available')  bool isAvailable, @JsonKey(name: 'vendors')  Map<String, dynamic>? vendorInfo)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _DealModel() when $default != null:
-return $default(_that.id,_that.vendorId,_that.foodName,_that.description,_that.originalPrice,_that.discountedPrice,_that.availablePortions,_that.pickupStartTime,_that.pickupEndTime,_that.imageUrl,_that.isAvailable);case _:
+return $default(_that.id,_that.vendorId,_that.foodName,_that.description,_that.originalPrice,_that.discountedPrice,_that.availablePortions,_that.pickupStartTime,_that.pickupEndTime,_that.imageUrl,_that.isAvailable,_that.vendorInfo);case _:
   return orElse();
 
 }
@@ -184,10 +186,10 @@ return $default(_that.id,_that.vendorId,_that.foodName,_that.description,_that.o
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'vendor_id')  String vendorId, @JsonKey(name: 'food_name')  String foodName,  String description, @JsonKey(name: 'original_price')  double originalPrice, @JsonKey(name: 'discounted_price')  double discountedPrice, @JsonKey(name: 'available_portions')  int availablePortions, @JsonKey(name: 'pickup_start_time')  DateTime pickupStartTime, @JsonKey(name: 'pickup_end_time')  DateTime pickupEndTime, @JsonKey(name: 'image_url')  String imageUrl, @JsonKey(name: 'is_available')  bool isAvailable)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'vendor_id')  String vendorId, @JsonKey(name: 'food_name')  String foodName,  String description, @JsonKey(name: 'original_price')  double originalPrice, @JsonKey(name: 'discounted_price')  double discountedPrice, @JsonKey(name: 'available_portions')  int availablePortions, @JsonKey(name: 'pickup_start_time')  DateTime pickupStartTime, @JsonKey(name: 'pickup_end_time')  DateTime pickupEndTime, @JsonKey(name: 'image_url')  String imageUrl, @JsonKey(name: 'is_available')  bool isAvailable, @JsonKey(name: 'vendors')  Map<String, dynamic>? vendorInfo)  $default,) {final _that = this;
 switch (_that) {
 case _DealModel():
-return $default(_that.id,_that.vendorId,_that.foodName,_that.description,_that.originalPrice,_that.discountedPrice,_that.availablePortions,_that.pickupStartTime,_that.pickupEndTime,_that.imageUrl,_that.isAvailable);case _:
+return $default(_that.id,_that.vendorId,_that.foodName,_that.description,_that.originalPrice,_that.discountedPrice,_that.availablePortions,_that.pickupStartTime,_that.pickupEndTime,_that.imageUrl,_that.isAvailable,_that.vendorInfo);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -204,10 +206,10 @@ return $default(_that.id,_that.vendorId,_that.foodName,_that.description,_that.o
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id, @JsonKey(name: 'vendor_id')  String vendorId, @JsonKey(name: 'food_name')  String foodName,  String description, @JsonKey(name: 'original_price')  double originalPrice, @JsonKey(name: 'discounted_price')  double discountedPrice, @JsonKey(name: 'available_portions')  int availablePortions, @JsonKey(name: 'pickup_start_time')  DateTime pickupStartTime, @JsonKey(name: 'pickup_end_time')  DateTime pickupEndTime, @JsonKey(name: 'image_url')  String imageUrl, @JsonKey(name: 'is_available')  bool isAvailable)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id, @JsonKey(name: 'vendor_id')  String vendorId, @JsonKey(name: 'food_name')  String foodName,  String description, @JsonKey(name: 'original_price')  double originalPrice, @JsonKey(name: 'discounted_price')  double discountedPrice, @JsonKey(name: 'available_portions')  int availablePortions, @JsonKey(name: 'pickup_start_time')  DateTime pickupStartTime, @JsonKey(name: 'pickup_end_time')  DateTime pickupEndTime, @JsonKey(name: 'image_url')  String imageUrl, @JsonKey(name: 'is_available')  bool isAvailable, @JsonKey(name: 'vendors')  Map<String, dynamic>? vendorInfo)?  $default,) {final _that = this;
 switch (_that) {
 case _DealModel() when $default != null:
-return $default(_that.id,_that.vendorId,_that.foodName,_that.description,_that.originalPrice,_that.discountedPrice,_that.availablePortions,_that.pickupStartTime,_that.pickupEndTime,_that.imageUrl,_that.isAvailable);case _:
+return $default(_that.id,_that.vendorId,_that.foodName,_that.description,_that.originalPrice,_that.discountedPrice,_that.availablePortions,_that.pickupStartTime,_that.pickupEndTime,_that.imageUrl,_that.isAvailable,_that.vendorInfo);case _:
   return null;
 
 }
@@ -219,7 +221,7 @@ return $default(_that.id,_that.vendorId,_that.foodName,_that.description,_that.o
 @JsonSerializable()
 
 class _DealModel extends DealModel {
-  const _DealModel({required this.id, @JsonKey(name: 'vendor_id') required this.vendorId, @JsonKey(name: 'food_name') required this.foodName, required this.description, @JsonKey(name: 'original_price') required this.originalPrice, @JsonKey(name: 'discounted_price') required this.discountedPrice, @JsonKey(name: 'available_portions') required this.availablePortions, @JsonKey(name: 'pickup_start_time') required this.pickupStartTime, @JsonKey(name: 'pickup_end_time') required this.pickupEndTime, @JsonKey(name: 'image_url') this.imageUrl = '', @JsonKey(name: 'is_available') this.isAvailable = true}): super._();
+  const _DealModel({required this.id, @JsonKey(name: 'vendor_id') required this.vendorId, @JsonKey(name: 'food_name') required this.foodName, required this.description, @JsonKey(name: 'original_price') required this.originalPrice, @JsonKey(name: 'discounted_price') required this.discountedPrice, @JsonKey(name: 'available_portions') required this.availablePortions, @JsonKey(name: 'pickup_start_time') required this.pickupStartTime, @JsonKey(name: 'pickup_end_time') required this.pickupEndTime, @JsonKey(name: 'image_url') this.imageUrl = '', @JsonKey(name: 'is_available') this.isAvailable = true, @JsonKey(name: 'vendors') final  Map<String, dynamic>? vendorInfo}): _vendorInfo = vendorInfo,super._();
   factory _DealModel.fromJson(Map<String, dynamic> json) => _$DealModelFromJson(json);
 
 @override final  String id;
@@ -233,6 +235,17 @@ class _DealModel extends DealModel {
 @override@JsonKey(name: 'pickup_end_time') final  DateTime pickupEndTime;
 @override@JsonKey(name: 'image_url') final  String imageUrl;
 @override@JsonKey(name: 'is_available') final  bool isAvailable;
+// Joined vendor info from Supabase: .select('*, vendors(*)')
+ final  Map<String, dynamic>? _vendorInfo;
+// Joined vendor info from Supabase: .select('*, vendors(*)')
+@override@JsonKey(name: 'vendors') Map<String, dynamic>? get vendorInfo {
+  final value = _vendorInfo;
+  if (value == null) return null;
+  if (_vendorInfo is EqualUnmodifiableMapView) return _vendorInfo;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableMapView(value);
+}
+
 
 /// Create a copy of DealModel
 /// with the given fields replaced by the non-null parameter values.
@@ -247,16 +260,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DealModel&&(identical(other.id, id) || other.id == id)&&(identical(other.vendorId, vendorId) || other.vendorId == vendorId)&&(identical(other.foodName, foodName) || other.foodName == foodName)&&(identical(other.description, description) || other.description == description)&&(identical(other.originalPrice, originalPrice) || other.originalPrice == originalPrice)&&(identical(other.discountedPrice, discountedPrice) || other.discountedPrice == discountedPrice)&&(identical(other.availablePortions, availablePortions) || other.availablePortions == availablePortions)&&(identical(other.pickupStartTime, pickupStartTime) || other.pickupStartTime == pickupStartTime)&&(identical(other.pickupEndTime, pickupEndTime) || other.pickupEndTime == pickupEndTime)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.isAvailable, isAvailable) || other.isAvailable == isAvailable));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DealModel&&(identical(other.id, id) || other.id == id)&&(identical(other.vendorId, vendorId) || other.vendorId == vendorId)&&(identical(other.foodName, foodName) || other.foodName == foodName)&&(identical(other.description, description) || other.description == description)&&(identical(other.originalPrice, originalPrice) || other.originalPrice == originalPrice)&&(identical(other.discountedPrice, discountedPrice) || other.discountedPrice == discountedPrice)&&(identical(other.availablePortions, availablePortions) || other.availablePortions == availablePortions)&&(identical(other.pickupStartTime, pickupStartTime) || other.pickupStartTime == pickupStartTime)&&(identical(other.pickupEndTime, pickupEndTime) || other.pickupEndTime == pickupEndTime)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.isAvailable, isAvailable) || other.isAvailable == isAvailable)&&const DeepCollectionEquality().equals(other._vendorInfo, _vendorInfo));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,vendorId,foodName,description,originalPrice,discountedPrice,availablePortions,pickupStartTime,pickupEndTime,imageUrl,isAvailable);
+int get hashCode => Object.hash(runtimeType,id,vendorId,foodName,description,originalPrice,discountedPrice,availablePortions,pickupStartTime,pickupEndTime,imageUrl,isAvailable,const DeepCollectionEquality().hash(_vendorInfo));
 
 @override
 String toString() {
-  return 'DealModel(id: $id, vendorId: $vendorId, foodName: $foodName, description: $description, originalPrice: $originalPrice, discountedPrice: $discountedPrice, availablePortions: $availablePortions, pickupStartTime: $pickupStartTime, pickupEndTime: $pickupEndTime, imageUrl: $imageUrl, isAvailable: $isAvailable)';
+  return 'DealModel(id: $id, vendorId: $vendorId, foodName: $foodName, description: $description, originalPrice: $originalPrice, discountedPrice: $discountedPrice, availablePortions: $availablePortions, pickupStartTime: $pickupStartTime, pickupEndTime: $pickupEndTime, imageUrl: $imageUrl, isAvailable: $isAvailable, vendorInfo: $vendorInfo)';
 }
 
 
@@ -267,7 +280,7 @@ abstract mixin class _$DealModelCopyWith<$Res> implements $DealModelCopyWith<$Re
   factory _$DealModelCopyWith(_DealModel value, $Res Function(_DealModel) _then) = __$DealModelCopyWithImpl;
 @override @useResult
 $Res call({
- String id,@JsonKey(name: 'vendor_id') String vendorId,@JsonKey(name: 'food_name') String foodName, String description,@JsonKey(name: 'original_price') double originalPrice,@JsonKey(name: 'discounted_price') double discountedPrice,@JsonKey(name: 'available_portions') int availablePortions,@JsonKey(name: 'pickup_start_time') DateTime pickupStartTime,@JsonKey(name: 'pickup_end_time') DateTime pickupEndTime,@JsonKey(name: 'image_url') String imageUrl,@JsonKey(name: 'is_available') bool isAvailable
+ String id,@JsonKey(name: 'vendor_id') String vendorId,@JsonKey(name: 'food_name') String foodName, String description,@JsonKey(name: 'original_price') double originalPrice,@JsonKey(name: 'discounted_price') double discountedPrice,@JsonKey(name: 'available_portions') int availablePortions,@JsonKey(name: 'pickup_start_time') DateTime pickupStartTime,@JsonKey(name: 'pickup_end_time') DateTime pickupEndTime,@JsonKey(name: 'image_url') String imageUrl,@JsonKey(name: 'is_available') bool isAvailable,@JsonKey(name: 'vendors') Map<String, dynamic>? vendorInfo
 });
 
 
@@ -284,7 +297,7 @@ class __$DealModelCopyWithImpl<$Res>
 
 /// Create a copy of DealModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? vendorId = null,Object? foodName = null,Object? description = null,Object? originalPrice = null,Object? discountedPrice = null,Object? availablePortions = null,Object? pickupStartTime = null,Object? pickupEndTime = null,Object? imageUrl = null,Object? isAvailable = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? vendorId = null,Object? foodName = null,Object? description = null,Object? originalPrice = null,Object? discountedPrice = null,Object? availablePortions = null,Object? pickupStartTime = null,Object? pickupEndTime = null,Object? imageUrl = null,Object? isAvailable = null,Object? vendorInfo = freezed,}) {
   return _then(_DealModel(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,vendorId: null == vendorId ? _self.vendorId : vendorId // ignore: cast_nullable_to_non_nullable
@@ -297,7 +310,8 @@ as int,pickupStartTime: null == pickupStartTime ? _self.pickupStartTime : pickup
 as DateTime,pickupEndTime: null == pickupEndTime ? _self.pickupEndTime : pickupEndTime // ignore: cast_nullable_to_non_nullable
 as DateTime,imageUrl: null == imageUrl ? _self.imageUrl : imageUrl // ignore: cast_nullable_to_non_nullable
 as String,isAvailable: null == isAvailable ? _self.isAvailable : isAvailable // ignore: cast_nullable_to_non_nullable
-as bool,
+as bool,vendorInfo: freezed == vendorInfo ? _self._vendorInfo : vendorInfo // ignore: cast_nullable_to_non_nullable
+as Map<String, dynamic>?,
   ));
 }
 

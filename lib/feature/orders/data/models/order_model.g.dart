@@ -19,6 +19,7 @@ _OrderModel _$OrderModelFromJson(Map<String, dynamic> json) => _OrderModel(
   deal: json['deals'] == null
       ? null
       : DealModel.fromJson(json['deals'] as Map<String, dynamic>),
+  vendorInfo: json['vendors'] as Map<String, dynamic>?,
 );
 
 Map<String, dynamic> _$OrderModelToJson(_OrderModel instance) =>
@@ -33,4 +34,5 @@ Map<String, dynamic> _$OrderModelToJson(_OrderModel instance) =>
       'pickup_code': instance.pickupCode,
       'order_placed_time': instance.orderPlacedTime.toIso8601String(),
       'deals': instance.deal,
+      'vendors': instance.vendorInfo,
     };
