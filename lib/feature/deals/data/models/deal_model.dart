@@ -7,7 +7,7 @@ part 'deal_model.g.dart';
 @freezed
 abstract class DealModel with _$DealModel {
   const DealModel._(); // needed to add custom methods below
-  // When supabase sends you the data it is sent in vendor_id and so on so to convert it to our domain entity we need to use the @JsonKey annotation to map the fields correctly.
+
   const factory DealModel({
     required String id,
     @JsonKey(name: 'vendor_id') required String vendorId,
@@ -20,9 +20,11 @@ abstract class DealModel with _$DealModel {
     @JsonKey(name: 'pickup_end_time') required DateTime pickupEndTime,
     @JsonKey(name: 'image_url') @Default('') String imageUrl,
     @JsonKey(name: 'is_available') @Default(true) bool isAvailable,
+    
+    // Joined vendor info from Supabase: .select('*, vendors(*)')
+    @JsonKey(name: 'vendors') Map<String, dynamic>? vendorInfo,
   }) = _DealModel;
 
-  // Freezed generates fromJson automatically from .g.dart
   factory DealModel.fromJson(Map<String, dynamic> json) =>
       _$DealModelFromJson(json);
 
@@ -40,6 +42,10 @@ abstract class DealModel with _$DealModel {
       pickupEndTime: pickupEndTime,
       imageUrl: imageUrl,
       isAvailable: isAvailable,
+      vendorName: vendorInfo?['name'] ?? 'Restaurant',
+      vendorAddress: vendorInfo?['address'] ?? 'Thamel, Kathmandu',
+      latitude: (vendorInfo?['latitude'] as num?)?.toDouble() ?? 27.7172,
+      longitude: (vendorInfo?['longitude'] as num?)?.toDouble() ?? 85.3240,
     );
   }
 
@@ -57,6 +63,12 @@ abstract class DealModel with _$DealModel {
       pickupEndTime: entity.pickupEndTime,
       imageUrl: entity.imageUrl,
       isAvailable: entity.isAvailable,
+      vendorInfo: {
+        'name': entity.vendorName,
+        'address': entity.vendorAddress,
+        'latitude': entity.latitude,
+        'longitude': entity.longitude,
+      },
     );
   }
 }

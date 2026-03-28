@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$DealEntity {
 
- String get id; String get vendorId; String get foodName; String get description; double get originalPrice; double get discountedPrice; int get availablePortions; DateTime get pickupStartTime; DateTime get pickupEndTime; String get imageUrl; bool get isAvailable;
+ String get id; String get vendorId; String get foodName; String get description; double get originalPrice; double get discountedPrice; int get availablePortions; DateTime get pickupStartTime; DateTime get pickupEndTime; String get imageUrl; String get vendorName; String get vendorAddress; double get latitude; double get longitude; bool get isAvailable;
 /// Create a copy of DealEntity
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $DealEntityCopyWith<DealEntity> get copyWith => _$DealEntityCopyWithImpl<DealEnt
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DealEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.vendorId, vendorId) || other.vendorId == vendorId)&&(identical(other.foodName, foodName) || other.foodName == foodName)&&(identical(other.description, description) || other.description == description)&&(identical(other.originalPrice, originalPrice) || other.originalPrice == originalPrice)&&(identical(other.discountedPrice, discountedPrice) || other.discountedPrice == discountedPrice)&&(identical(other.availablePortions, availablePortions) || other.availablePortions == availablePortions)&&(identical(other.pickupStartTime, pickupStartTime) || other.pickupStartTime == pickupStartTime)&&(identical(other.pickupEndTime, pickupEndTime) || other.pickupEndTime == pickupEndTime)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.isAvailable, isAvailable) || other.isAvailable == isAvailable));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DealEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.vendorId, vendorId) || other.vendorId == vendorId)&&(identical(other.foodName, foodName) || other.foodName == foodName)&&(identical(other.description, description) || other.description == description)&&(identical(other.originalPrice, originalPrice) || other.originalPrice == originalPrice)&&(identical(other.discountedPrice, discountedPrice) || other.discountedPrice == discountedPrice)&&(identical(other.availablePortions, availablePortions) || other.availablePortions == availablePortions)&&(identical(other.pickupStartTime, pickupStartTime) || other.pickupStartTime == pickupStartTime)&&(identical(other.pickupEndTime, pickupEndTime) || other.pickupEndTime == pickupEndTime)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.vendorName, vendorName) || other.vendorName == vendorName)&&(identical(other.vendorAddress, vendorAddress) || other.vendorAddress == vendorAddress)&&(identical(other.latitude, latitude) || other.latitude == latitude)&&(identical(other.longitude, longitude) || other.longitude == longitude)&&(identical(other.isAvailable, isAvailable) || other.isAvailable == isAvailable));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,vendorId,foodName,description,originalPrice,discountedPrice,availablePortions,pickupStartTime,pickupEndTime,imageUrl,isAvailable);
+int get hashCode => Object.hash(runtimeType,id,vendorId,foodName,description,originalPrice,discountedPrice,availablePortions,pickupStartTime,pickupEndTime,imageUrl,vendorName,vendorAddress,latitude,longitude,isAvailable);
 
 @override
 String toString() {
-  return 'DealEntity(id: $id, vendorId: $vendorId, foodName: $foodName, description: $description, originalPrice: $originalPrice, discountedPrice: $discountedPrice, availablePortions: $availablePortions, pickupStartTime: $pickupStartTime, pickupEndTime: $pickupEndTime, imageUrl: $imageUrl, isAvailable: $isAvailable)';
+  return 'DealEntity(id: $id, vendorId: $vendorId, foodName: $foodName, description: $description, originalPrice: $originalPrice, discountedPrice: $discountedPrice, availablePortions: $availablePortions, pickupStartTime: $pickupStartTime, pickupEndTime: $pickupEndTime, imageUrl: $imageUrl, vendorName: $vendorName, vendorAddress: $vendorAddress, latitude: $latitude, longitude: $longitude, isAvailable: $isAvailable)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $DealEntityCopyWith<$Res>  {
   factory $DealEntityCopyWith(DealEntity value, $Res Function(DealEntity) _then) = _$DealEntityCopyWithImpl;
 @useResult
 $Res call({
- String id, String vendorId, String foodName, String description, double originalPrice, double discountedPrice, int availablePortions, DateTime pickupStartTime, DateTime pickupEndTime, String imageUrl, bool isAvailable
+ String id, String vendorId, String foodName, String description, double originalPrice, double discountedPrice, int availablePortions, DateTime pickupStartTime, DateTime pickupEndTime, String imageUrl, String vendorName, String vendorAddress, double latitude, double longitude, bool isAvailable
 });
 
 
@@ -62,7 +62,7 @@ class _$DealEntityCopyWithImpl<$Res>
 
 /// Create a copy of DealEntity
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? vendorId = null,Object? foodName = null,Object? description = null,Object? originalPrice = null,Object? discountedPrice = null,Object? availablePortions = null,Object? pickupStartTime = null,Object? pickupEndTime = null,Object? imageUrl = null,Object? isAvailable = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? vendorId = null,Object? foodName = null,Object? description = null,Object? originalPrice = null,Object? discountedPrice = null,Object? availablePortions = null,Object? pickupStartTime = null,Object? pickupEndTime = null,Object? imageUrl = null,Object? vendorName = null,Object? vendorAddress = null,Object? latitude = null,Object? longitude = null,Object? isAvailable = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,vendorId: null == vendorId ? _self.vendorId : vendorId // ignore: cast_nullable_to_non_nullable
@@ -74,7 +74,11 @@ as double,availablePortions: null == availablePortions ? _self.availablePortions
 as int,pickupStartTime: null == pickupStartTime ? _self.pickupStartTime : pickupStartTime // ignore: cast_nullable_to_non_nullable
 as DateTime,pickupEndTime: null == pickupEndTime ? _self.pickupEndTime : pickupEndTime // ignore: cast_nullable_to_non_nullable
 as DateTime,imageUrl: null == imageUrl ? _self.imageUrl : imageUrl // ignore: cast_nullable_to_non_nullable
-as String,isAvailable: null == isAvailable ? _self.isAvailable : isAvailable // ignore: cast_nullable_to_non_nullable
+as String,vendorName: null == vendorName ? _self.vendorName : vendorName // ignore: cast_nullable_to_non_nullable
+as String,vendorAddress: null == vendorAddress ? _self.vendorAddress : vendorAddress // ignore: cast_nullable_to_non_nullable
+as String,latitude: null == latitude ? _self.latitude : latitude // ignore: cast_nullable_to_non_nullable
+as double,longitude: null == longitude ? _self.longitude : longitude // ignore: cast_nullable_to_non_nullable
+as double,isAvailable: null == isAvailable ? _self.isAvailable : isAvailable // ignore: cast_nullable_to_non_nullable
 as bool,
   ));
 }
@@ -160,10 +164,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String vendorId,  String foodName,  String description,  double originalPrice,  double discountedPrice,  int availablePortions,  DateTime pickupStartTime,  DateTime pickupEndTime,  String imageUrl,  bool isAvailable)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String vendorId,  String foodName,  String description,  double originalPrice,  double discountedPrice,  int availablePortions,  DateTime pickupStartTime,  DateTime pickupEndTime,  String imageUrl,  String vendorName,  String vendorAddress,  double latitude,  double longitude,  bool isAvailable)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _DealEntity() when $default != null:
-return $default(_that.id,_that.vendorId,_that.foodName,_that.description,_that.originalPrice,_that.discountedPrice,_that.availablePortions,_that.pickupStartTime,_that.pickupEndTime,_that.imageUrl,_that.isAvailable);case _:
+return $default(_that.id,_that.vendorId,_that.foodName,_that.description,_that.originalPrice,_that.discountedPrice,_that.availablePortions,_that.pickupStartTime,_that.pickupEndTime,_that.imageUrl,_that.vendorName,_that.vendorAddress,_that.latitude,_that.longitude,_that.isAvailable);case _:
   return orElse();
 
 }
@@ -181,10 +185,10 @@ return $default(_that.id,_that.vendorId,_that.foodName,_that.description,_that.o
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String vendorId,  String foodName,  String description,  double originalPrice,  double discountedPrice,  int availablePortions,  DateTime pickupStartTime,  DateTime pickupEndTime,  String imageUrl,  bool isAvailable)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String vendorId,  String foodName,  String description,  double originalPrice,  double discountedPrice,  int availablePortions,  DateTime pickupStartTime,  DateTime pickupEndTime,  String imageUrl,  String vendorName,  String vendorAddress,  double latitude,  double longitude,  bool isAvailable)  $default,) {final _that = this;
 switch (_that) {
 case _DealEntity():
-return $default(_that.id,_that.vendorId,_that.foodName,_that.description,_that.originalPrice,_that.discountedPrice,_that.availablePortions,_that.pickupStartTime,_that.pickupEndTime,_that.imageUrl,_that.isAvailable);case _:
+return $default(_that.id,_that.vendorId,_that.foodName,_that.description,_that.originalPrice,_that.discountedPrice,_that.availablePortions,_that.pickupStartTime,_that.pickupEndTime,_that.imageUrl,_that.vendorName,_that.vendorAddress,_that.latitude,_that.longitude,_that.isAvailable);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -201,10 +205,10 @@ return $default(_that.id,_that.vendorId,_that.foodName,_that.description,_that.o
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String vendorId,  String foodName,  String description,  double originalPrice,  double discountedPrice,  int availablePortions,  DateTime pickupStartTime,  DateTime pickupEndTime,  String imageUrl,  bool isAvailable)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String vendorId,  String foodName,  String description,  double originalPrice,  double discountedPrice,  int availablePortions,  DateTime pickupStartTime,  DateTime pickupEndTime,  String imageUrl,  String vendorName,  String vendorAddress,  double latitude,  double longitude,  bool isAvailable)?  $default,) {final _that = this;
 switch (_that) {
 case _DealEntity() when $default != null:
-return $default(_that.id,_that.vendorId,_that.foodName,_that.description,_that.originalPrice,_that.discountedPrice,_that.availablePortions,_that.pickupStartTime,_that.pickupEndTime,_that.imageUrl,_that.isAvailable);case _:
+return $default(_that.id,_that.vendorId,_that.foodName,_that.description,_that.originalPrice,_that.discountedPrice,_that.availablePortions,_that.pickupStartTime,_that.pickupEndTime,_that.imageUrl,_that.vendorName,_that.vendorAddress,_that.latitude,_that.longitude,_that.isAvailable);case _:
   return null;
 
 }
@@ -216,7 +220,7 @@ return $default(_that.id,_that.vendorId,_that.foodName,_that.description,_that.o
 
 
 class _DealEntity implements DealEntity {
-  const _DealEntity({required this.id, required this.vendorId, required this.foodName, required this.description, required this.originalPrice, required this.discountedPrice, required this.availablePortions, required this.pickupStartTime, required this.pickupEndTime, required this.imageUrl, this.isAvailable = true});
+  const _DealEntity({required this.id, required this.vendorId, required this.foodName, required this.description, required this.originalPrice, required this.discountedPrice, required this.availablePortions, required this.pickupStartTime, required this.pickupEndTime, required this.imageUrl, required this.vendorName, required this.vendorAddress, required this.latitude, required this.longitude, this.isAvailable = true});
   
 
 @override final  String id;
@@ -229,6 +233,10 @@ class _DealEntity implements DealEntity {
 @override final  DateTime pickupStartTime;
 @override final  DateTime pickupEndTime;
 @override final  String imageUrl;
+@override final  String vendorName;
+@override final  String vendorAddress;
+@override final  double latitude;
+@override final  double longitude;
 @override@JsonKey() final  bool isAvailable;
 
 /// Create a copy of DealEntity
@@ -241,16 +249,16 @@ _$DealEntityCopyWith<_DealEntity> get copyWith => __$DealEntityCopyWithImpl<_Dea
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DealEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.vendorId, vendorId) || other.vendorId == vendorId)&&(identical(other.foodName, foodName) || other.foodName == foodName)&&(identical(other.description, description) || other.description == description)&&(identical(other.originalPrice, originalPrice) || other.originalPrice == originalPrice)&&(identical(other.discountedPrice, discountedPrice) || other.discountedPrice == discountedPrice)&&(identical(other.availablePortions, availablePortions) || other.availablePortions == availablePortions)&&(identical(other.pickupStartTime, pickupStartTime) || other.pickupStartTime == pickupStartTime)&&(identical(other.pickupEndTime, pickupEndTime) || other.pickupEndTime == pickupEndTime)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.isAvailable, isAvailable) || other.isAvailable == isAvailable));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DealEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.vendorId, vendorId) || other.vendorId == vendorId)&&(identical(other.foodName, foodName) || other.foodName == foodName)&&(identical(other.description, description) || other.description == description)&&(identical(other.originalPrice, originalPrice) || other.originalPrice == originalPrice)&&(identical(other.discountedPrice, discountedPrice) || other.discountedPrice == discountedPrice)&&(identical(other.availablePortions, availablePortions) || other.availablePortions == availablePortions)&&(identical(other.pickupStartTime, pickupStartTime) || other.pickupStartTime == pickupStartTime)&&(identical(other.pickupEndTime, pickupEndTime) || other.pickupEndTime == pickupEndTime)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.vendorName, vendorName) || other.vendorName == vendorName)&&(identical(other.vendorAddress, vendorAddress) || other.vendorAddress == vendorAddress)&&(identical(other.latitude, latitude) || other.latitude == latitude)&&(identical(other.longitude, longitude) || other.longitude == longitude)&&(identical(other.isAvailable, isAvailable) || other.isAvailable == isAvailable));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,vendorId,foodName,description,originalPrice,discountedPrice,availablePortions,pickupStartTime,pickupEndTime,imageUrl,isAvailable);
+int get hashCode => Object.hash(runtimeType,id,vendorId,foodName,description,originalPrice,discountedPrice,availablePortions,pickupStartTime,pickupEndTime,imageUrl,vendorName,vendorAddress,latitude,longitude,isAvailable);
 
 @override
 String toString() {
-  return 'DealEntity(id: $id, vendorId: $vendorId, foodName: $foodName, description: $description, originalPrice: $originalPrice, discountedPrice: $discountedPrice, availablePortions: $availablePortions, pickupStartTime: $pickupStartTime, pickupEndTime: $pickupEndTime, imageUrl: $imageUrl, isAvailable: $isAvailable)';
+  return 'DealEntity(id: $id, vendorId: $vendorId, foodName: $foodName, description: $description, originalPrice: $originalPrice, discountedPrice: $discountedPrice, availablePortions: $availablePortions, pickupStartTime: $pickupStartTime, pickupEndTime: $pickupEndTime, imageUrl: $imageUrl, vendorName: $vendorName, vendorAddress: $vendorAddress, latitude: $latitude, longitude: $longitude, isAvailable: $isAvailable)';
 }
 
 
@@ -261,7 +269,7 @@ abstract mixin class _$DealEntityCopyWith<$Res> implements $DealEntityCopyWith<$
   factory _$DealEntityCopyWith(_DealEntity value, $Res Function(_DealEntity) _then) = __$DealEntityCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String vendorId, String foodName, String description, double originalPrice, double discountedPrice, int availablePortions, DateTime pickupStartTime, DateTime pickupEndTime, String imageUrl, bool isAvailable
+ String id, String vendorId, String foodName, String description, double originalPrice, double discountedPrice, int availablePortions, DateTime pickupStartTime, DateTime pickupEndTime, String imageUrl, String vendorName, String vendorAddress, double latitude, double longitude, bool isAvailable
 });
 
 
@@ -278,7 +286,7 @@ class __$DealEntityCopyWithImpl<$Res>
 
 /// Create a copy of DealEntity
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? vendorId = null,Object? foodName = null,Object? description = null,Object? originalPrice = null,Object? discountedPrice = null,Object? availablePortions = null,Object? pickupStartTime = null,Object? pickupEndTime = null,Object? imageUrl = null,Object? isAvailable = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? vendorId = null,Object? foodName = null,Object? description = null,Object? originalPrice = null,Object? discountedPrice = null,Object? availablePortions = null,Object? pickupStartTime = null,Object? pickupEndTime = null,Object? imageUrl = null,Object? vendorName = null,Object? vendorAddress = null,Object? latitude = null,Object? longitude = null,Object? isAvailable = null,}) {
   return _then(_DealEntity(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,vendorId: null == vendorId ? _self.vendorId : vendorId // ignore: cast_nullable_to_non_nullable
@@ -290,7 +298,11 @@ as double,availablePortions: null == availablePortions ? _self.availablePortions
 as int,pickupStartTime: null == pickupStartTime ? _self.pickupStartTime : pickupStartTime // ignore: cast_nullable_to_non_nullable
 as DateTime,pickupEndTime: null == pickupEndTime ? _self.pickupEndTime : pickupEndTime // ignore: cast_nullable_to_non_nullable
 as DateTime,imageUrl: null == imageUrl ? _self.imageUrl : imageUrl // ignore: cast_nullable_to_non_nullable
-as String,isAvailable: null == isAvailable ? _self.isAvailable : isAvailable // ignore: cast_nullable_to_non_nullable
+as String,vendorName: null == vendorName ? _self.vendorName : vendorName // ignore: cast_nullable_to_non_nullable
+as String,vendorAddress: null == vendorAddress ? _self.vendorAddress : vendorAddress // ignore: cast_nullable_to_non_nullable
+as String,latitude: null == latitude ? _self.latitude : latitude // ignore: cast_nullable_to_non_nullable
+as double,longitude: null == longitude ? _self.longitude : longitude // ignore: cast_nullable_to_non_nullable
+as double,isAvailable: null == isAvailable ? _self.isAvailable : isAvailable // ignore: cast_nullable_to_non_nullable
 as bool,
   ));
 }

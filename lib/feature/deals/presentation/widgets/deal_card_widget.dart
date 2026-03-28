@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
+import 'package:go_router/go_router.dart';
+import 'package:mitho_deals/core/constants/route_constants.dart';
 import 'package:mitho_deals/feature/deals/domain/entitiy/deal_entity.dart';
+import 'package:intl/intl.dart';
 
 class DealCardWidget extends StatelessWidget {
   final DealEntity deal;
@@ -33,7 +35,9 @@ class DealCardWidget extends StatelessWidget {
     const rating = '4.8';
 
     return GestureDetector(
-      onTap: isSoldOut ? null : onClaim,
+      onTap: isSoldOut ? null : () {
+        context.push(RouteConstants.dealDetails, extra: deal);
+      },
       child: Container(
         margin: EdgeInsets.only(bottom: 20.h),
         decoration: BoxDecoration(

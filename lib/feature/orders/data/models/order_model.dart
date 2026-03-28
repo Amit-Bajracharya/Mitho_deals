@@ -21,12 +21,17 @@ abstract class OrderModel with _$OrderModel {
     @JsonKey(name: 'order_placed_time') required DateTime orderPlacedTime,
 
     // Handles the Supabase join: .select('*, deals(*)')
-    // Supabase returns the joined deal data under the key 'deals'
     @JsonKey(name: 'deals') DealModel? deal,
+    
+    // Handles the Supabase join: .select('*, vendors(name)')
+    // Supabase returns { "vendors": { "name": "..." } }
+    @JsonKey(name: 'vendors') Map<String, dynamic>? vendorInfo,
   }) = _OrderModel;
 
   factory OrderModel.fromJson(Map<String, dynamic> json) =>
       _$OrderModelFromJson(json);
+
+  String get vendorName => vendorInfo?['name'] as String? ?? 'Restaurant';
 
   // Data Layer → Domain Layer
   OrderEntity toEntity() {
@@ -40,6 +45,7 @@ abstract class OrderModel with _$OrderModel {
       status: status,
       pickupCode: pickupCode,
       orderPlacedTime: orderPlacedTime,
+      vendorName: vendorName,
       deal: deal?.toEntity(),
     );
   }
@@ -56,6 +62,7 @@ abstract class OrderModel with _$OrderModel {
       status: entity.status,
       pickupCode: entity.pickupCode,
       orderPlacedTime: entity.orderPlacedTime,
+      vendorInfo: {'name': entity.vendorName},
       deal: entity.deal != null ? DealModel.fromEntity(entity.deal!) : null,
     );
   }

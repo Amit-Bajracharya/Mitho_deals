@@ -24,15 +24,31 @@ class DealsRemoteDataSourceImpl implements DealsRemoteDataSource {
   @override
   Future<void> claimDeal(String dealId, int quantity) async {
     try {
-      final response = await supabaseClient
+      final user = supabaseClient.auth.currentUser;
+      if (user == null) {
+        throw const ServerException(message: 'User must be logged in to claim a deal');
+      }
+
+      // 1. Fetch deal details for order creation
+      final dealResponse = await supabaseClient
           .from('deals')
-          .select('available_portions')
+          .select('available_portions, vendor_id, discounted_price')
           .eq('id', dealId)
           .single();
-      final current = response['available_potions'] as int;
+
+      final current = dealResponse['available_portions'] as int;
+      final vendorId = dealResponse['vendor_id'] as String;
+      final discountedPrice = (dealResponse['discounted_price'] as num).toDouble();
+
       if (current < quantity) {
-        throw ServerException(message: "Not enough portion available");
+        throw ServerException(message: "Not enough portions available");
       }
+
+      // 2. Transact: Update stock AND Create order
+      // We use a manual sequence as client-side transactions are best handled via RPC if needed,
+      // but simple sequential tasks work for MVP.
+      
+      // Update portions
       await supabaseClient
           .from('deals')
           .update({
@@ -40,8 +56,23 @@ class DealsRemoteDataSourceImpl implements DealsRemoteDataSource {
             'is_available': (current - quantity) > 0,
           })
           .eq('id', dealId);
+
+      // Create Order
+      final String pickupCode = 'M-${(DateTime.now().millisecondsSinceEpoch % 10000).toString().padLeft(4, '0')}';
+      
+      await supabaseClient.from('orders').insert({
+        'user_id': user.id,
+        'deal_id': dealId,
+        'vendor_id': vendorId,
+        'quantity': quantity,
+        'total_amount': discountedPrice * quantity,
+        'status': 'reserved',
+        'pickup_code': pickupCode,
+        'order_placed_time': DateTime.now().toIso8601String(),
+      });
+
     } catch (e) {
-      throw ServerException(message: "Failed to claim the deal");
+      throw ServerException(message: "Failed to claim the deal: $e");
     }
   }
 
@@ -52,7 +83,7 @@ class DealsRemoteDataSourceImpl implements DealsRemoteDataSource {
     try {
       final response = await supabaseClient
           .from('deals')
-          .select()
+          .select('*, vendors(*)')
           .eq('is_available', true)
           .order('pickup_start_time', ascending: true);
       return (response as List)

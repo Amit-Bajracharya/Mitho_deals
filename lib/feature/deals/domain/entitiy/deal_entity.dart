@@ -17,6 +17,10 @@ abstract class DealEntity with _$DealEntity {
     required DateTime pickupStartTime,
     required DateTime pickupEndTime,
     required String imageUrl,
+    required String vendorName,
+    required String vendorAddress,
+    required double latitude,
+    required double longitude,
     @Default(true) bool isAvailable,
   }) = _DealEntity;
 

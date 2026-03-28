@@ -18,6 +18,7 @@ _DealModel _$DealModelFromJson(Map<String, dynamic> json) => _DealModel(
   pickupEndTime: DateTime.parse(json['pickup_end_time'] as String),
   imageUrl: json['image_url'] as String? ?? '',
   isAvailable: json['is_available'] as bool? ?? true,
+  vendorInfo: json['vendors'] as Map<String, dynamic>?,
 );
 
 Map<String, dynamic> _$DealModelToJson(_DealModel instance) =>
@@ -33,4 +34,5 @@ Map<String, dynamic> _$DealModelToJson(_DealModel instance) =>
       'pickup_end_time': instance.pickupEndTime.toIso8601String(),
       'image_url': instance.imageUrl,
       'is_available': instance.isAvailable,
+      'vendors': instance.vendorInfo,
     };
