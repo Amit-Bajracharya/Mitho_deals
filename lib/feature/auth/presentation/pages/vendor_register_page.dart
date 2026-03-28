@@ -35,12 +35,16 @@ class VendorRegisterPage extends StatelessWidget {
               loading: () {
                 ScaffoldMessenger.of(context).hideCurrentSnackBar();
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
+                  SnackBar(
                     content: Row(
                       children: [
-                        CircularProgressIndicator(color: Colors.white),
-                        SizedBox(width: 16),
-                        Text('Creating vendor account...'),
+                        SizedBox(
+                          width: 18.w,
+                          height: 18.h,
+                          child: const CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
+                        ),
+                        SizedBox(width: 16.w),
+                        Text('Processing...', style: GoogleFonts.poppins(fontSize: 13.sp)),
                       ],
                     ),
                   ),
@@ -49,8 +53,8 @@ class VendorRegisterPage extends StatelessWidget {
               authenticated: (user) {
                 ScaffoldMessenger.of(context).hideCurrentSnackBar();
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Vendor account created! Please login.'),
+                  SnackBar(
+                    content: Text('Profile created! Please login.', style: GoogleFonts.poppins(fontSize: 13.sp)),
                     backgroundColor: Colors.green,
                   ),
                 );
@@ -61,7 +65,7 @@ class VendorRegisterPage extends StatelessWidget {
                 ScaffoldMessenger.of(context).hideCurrentSnackBar();
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text(message),
+                    content: Text(message, style: GoogleFonts.poppins(fontSize: 13.sp)),
                     backgroundColor: Colors.red,
                   ),
                 );
@@ -94,12 +98,12 @@ class VendorRegisterPage extends StatelessWidget {
             key: _formKey,
             child: Column(
               children: [
-                SizedBox(height: 40.h),
+                SizedBox(height: 32.h),
                 const AuthHeaderWidget(
                   title: 'Partner with Mitho',
                   subtitle: 'Register your restaurant and start rescuing food',
                 ),
-                SizedBox(height: 30.h),
+                SizedBox(height: 24.h),
                 _buildField(
                   controller: _restaurantNameController,
                   label: 'Restaurant Name',
@@ -107,7 +111,7 @@ class VendorRegisterPage extends StatelessWidget {
                   icon: Icons.store_rounded,
                   isLoading: isLoading,
                 ),
-                SizedBox(height: 16.h),
+                SizedBox(height: 14.h),
                 _buildField(
                   controller: _emailController,
                   label: 'Business Email',
@@ -116,7 +120,7 @@ class VendorRegisterPage extends StatelessWidget {
                   isLoading: isLoading,
                   keyboardType: TextInputType.emailAddress,
                 ),
-                SizedBox(height: 16.h),
+                SizedBox(height: 14.h),
                 _buildField(
                   controller: _passwordController,
                   label: 'Password',
@@ -125,16 +129,16 @@ class VendorRegisterPage extends StatelessWidget {
                   isLoading: isLoading,
                   obscureText: true,
                 ),
-                SizedBox(height: 16.h),
+                SizedBox(height: 14.h),
                 _buildField(
                   controller: _descriptionController,
                   label: 'Description',
                   hint: 'Tell us about your restaurant',
                   icon: Icons.description_outlined,
                   isLoading: isLoading,
-                  maxLines: 3,
+                  maxLines: 2,
                 ),
-                SizedBox(height: 16.h),
+                SizedBox(height: 14.h),
                 _buildField(
                   controller: _addressController,
                   label: 'Store Address',
@@ -142,8 +146,20 @@ class VendorRegisterPage extends StatelessWidget {
                   icon: Icons.location_on_outlined,
                   isLoading: isLoading,
                 ),
-                SizedBox(height: 30.h),
+                SizedBox(height: 24.h),
                 _buildRegisterButton(context, isLoading),
+                SizedBox(height: 20.h),
+                TextButton(
+                  onPressed: () => context.go('/login'),
+                  child: Text(
+                    'Back to Login',
+                    style: GoogleFonts.poppins(
+                      fontSize: 13.sp,
+                      color: const Color(0xFFFF6B35),
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
                 SizedBox(height: 20.h),
               ],
             ),
@@ -169,34 +185,35 @@ class VendorRegisterPage extends StatelessWidget {
       obscureText: obscureText,
       maxLines: maxLines,
       keyboardType: keyboardType,
+      style: GoogleFonts.poppins(fontSize: 13.sp),
       decoration: InputDecoration(
         labelText: label,
         hintText: hint,
-        prefixIcon: Icon(icon, size: 22.sp),
-        contentPadding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 20.w),
+        prefixIcon: Icon(icon, size: 18.sp),
+        contentPadding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16.r),
-          borderSide: const BorderSide(color: Color(0xFFE0E0E0)),
+          borderRadius: BorderRadius.circular(12.r),
+          borderSide: const BorderSide(color: Color(0xFFF1F2F6)),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16.r),
-          borderSide: const BorderSide(color: Color(0xFFE0E0E0)),
+          borderRadius: BorderRadius.circular(12.r),
+          borderSide: const BorderSide(color: Color(0xFFF1F2F6)),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16.r),
-          borderSide: const BorderSide(color: Color(0xFFFF6B35), width: 2),
+          borderRadius: BorderRadius.circular(12.r),
+          borderSide: const BorderSide(color: Color(0xFFFF6B35), width: 1.5),
         ),
-        labelStyle: GoogleFonts.poppins(fontSize: 14.sp),
-        hintStyle: GoogleFonts.poppins(fontSize: 14.sp, color: Colors.grey),
+        labelStyle: GoogleFonts.poppins(fontSize: 12.sp, color: const Color(0xFF636E72)),
+        hintStyle: GoogleFonts.poppins(fontSize: 11.sp, color: Colors.grey[400]),
       ),
-      validator: (val) => (val == null || val.isEmpty) ? 'Required field' : null,
+      validator: (val) => (val == null || val.isEmpty) ? 'Required' : null,
     );
   }
 
   Widget _buildRegisterButton(BuildContext context, bool isLoading) {
     return SizedBox(
       width: double.infinity,
-      height: 56.h,
+      height: 48.h,
       child: ElevatedButton(
         onPressed: isLoading ? null : () => _onRegister(context),
         style: ElevatedButton.styleFrom(
@@ -204,15 +221,15 @@ class VendorRegisterPage extends StatelessWidget {
           foregroundColor: Colors.white,
           elevation: 0,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16.r),
+            borderRadius: BorderRadius.circular(12.r),
           ),
         ),
         child: isLoading
-            ? const CircularProgressIndicator(color: Colors.white)
+            ? SizedBox(width: 20.w, height: 20.h, child: const CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
             : Text(
                 'Register Restaurant',
                 style: GoogleFonts.poppins(
-                  fontSize: 16.sp,
+                  fontSize: 14.sp,
                   fontWeight: FontWeight.w600,
                 ),
               ),

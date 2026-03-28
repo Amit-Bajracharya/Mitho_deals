@@ -42,7 +42,7 @@ class _HomePageState extends State<HomePage> {
             error: (message) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text(message),
+                  content: Text(message, style: GoogleFonts.poppins(fontSize: 13.sp)),
                   backgroundColor: Colors.red,
                 ),
               );
@@ -60,36 +60,35 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildBottomNav() {
     return Container(
-      padding: EdgeInsets.only(top: 8.h, bottom: 20.h),
+      padding: EdgeInsets.only(top: 10.h, bottom: 24.h), // Adjusted for safe area / slimming
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            offset: const Offset(0, -4),
-            blurRadius: 10,
+            color: Colors.black.withOpacity(0.04),
+            offset: const Offset(0, -2),
+            blurRadius: 8,
           ),
         ],
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          _buildNavItem(Icons.explore, 'Explore', 0),
-          _buildNavItem(Icons.receipt_long, 'Orders', 1),
-          _buildNavItem(Icons.favorite, 'Saved', 2),
-          _buildNavItem(Icons.person, 'Profile', 3),
+          _buildNavItem(Icons.explore_outlined, Icons.explore, 'Explore', 0),
+          _buildNavItem(Icons.receipt_long_outlined, Icons.receipt_long, 'Orders', 1),
+          _buildNavItem(Icons.favorite_outline, Icons.favorite, 'Saved', 2),
+          _buildNavItem(Icons.person_outline, Icons.person, 'Profile', 3),
         ],
       ),
     );
   }
 
-  Widget _buildNavItem(IconData icon, String label, int index) {
+  Widget _buildNavItem(IconData outlineIcon, IconData solidIcon, String label, int index) {
     final isActive = _currentIndex == index;
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
         if (index == 3) {
-          // Temporarily show the profile menu on tap for logout functionality
           _showProfileMenu(context);
         } else {
           setState(() {
@@ -97,24 +96,27 @@ class _HomePageState extends State<HomePage> {
           });
         }
       },
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            icon,
-            size: 24.sp,
-            color: isActive ? const Color(0xFFF97316) : Colors.grey[400],
-          ),
-          SizedBox(height: 4.h),
-          Text(
-            label,
-            style: GoogleFonts.poppins(
-              fontSize: 10.sp,
-              fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 12.w),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              isActive ? solidIcon : outlineIcon,
+              size: 20.sp, // Reduced from 24sp
               color: isActive ? const Color(0xFFF97316) : Colors.grey[400],
             ),
-          ),
-        ],
+            SizedBox(height: 4.h),
+            Text(
+              label,
+              style: GoogleFonts.poppins(
+                fontSize: 10.sp,
+                fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
+                color: isActive ? const Color(0xFFF97316) : Colors.grey[400],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -125,7 +127,7 @@ class _HomePageState extends State<HomePage> {
     showModalBottomSheet(
       context: context,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16.r)),
       ),
       builder: (context) => Container(
         padding: EdgeInsets.all(16.w),
@@ -133,7 +135,7 @@ class _HomePageState extends State<HomePage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-              width: 40.w,
+              width: 32.w,
               height: 4.h,
               decoration: BoxDecoration(
                 color: const Color(0xFFE0E0E0),
@@ -142,22 +144,22 @@ class _HomePageState extends State<HomePage> {
             ),
             SizedBox(height: 16.h),
             ListTile(
-              leading: Icon(Icons.person, size: 20.sp),
-              title: Text('My Profile', style: GoogleFonts.poppins(fontSize: 14.sp)),
+              leading: Icon(Icons.person_outline, size: 18.sp),
+              title: Text('My Profile', style: GoogleFonts.poppins(fontSize: 13.sp)),
               onTap: () => Navigator.pop(context),
             ),
             ListTile(
-              leading: Icon(Icons.logout, size: 20.sp, color: Colors.red),
+              leading: Icon(Icons.logout_rounded, size: 18.sp, color: Colors.redAccent),
               title: Text(
                 'Logout',
-                style: GoogleFonts.poppins(fontSize: 14.sp, color: Colors.red, fontWeight: FontWeight.w500),
+                style: GoogleFonts.poppins(fontSize: 13.sp, color: Colors.redAccent, fontWeight: FontWeight.w500),
               ),
               onTap: () {
                 Navigator.pop(context);
                 authBloc.add(const AuthEvent.logoutRequested());
               },
             ),
-            SizedBox(height: 20.h),
+            SizedBox(height: 16.h),
           ],
         ),
       ),
@@ -165,7 +167,6 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-// Temporary placeholder for unbuilt screens
 class _PlaceholderScreen extends StatelessWidget {
   final String title;
   const _PlaceholderScreen(this.title);
@@ -177,8 +178,8 @@ class _PlaceholderScreen extends StatelessWidget {
         '$title Screen\n(Coming Soon)',
         textAlign: TextAlign.center,
         style: GoogleFonts.poppins(
-          fontSize: 18.sp,
-          color: Colors.grey,
+          fontSize: 14.sp,
+          color: Colors.grey[400],
         ),
       ),
     );

@@ -10,7 +10,6 @@ import '../bloc/auth_bloc.dart';
 import '../bloc/auth_event.dart';
 import '../bloc/auth_state.dart';
 import '../widgets/auth_header_widget.dart';
-import '../widgets/form_fields_widget.dart';
 import '../widgets/bottom_links_widget.dart';
 
 class RegisterPage extends StatelessWidget {
@@ -36,15 +35,19 @@ class RegisterPage extends StatelessWidget {
               loading: () {
                 ScaffoldMessenger.of(context).hideCurrentSnackBar();
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
+                  SnackBar(
                     content: Row(
                       children: [
-                        CircularProgressIndicator(color: Colors.white),
-                        SizedBox(width: 16),
-                        Text('Creating account...'),
+                        SizedBox(
+                          width: 18.w,
+                          height: 18.h,
+                          child: const CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
+                        ),
+                        SizedBox(width: 16.w),
+                        Text('Wait...', style: GoogleFonts.poppins(fontSize: 13.sp)),
                       ],
                     ),
-                    duration: Duration(seconds: 2),
+                    duration: const Duration(seconds: 1),
                   ),
                 );
               },
@@ -52,21 +55,18 @@ class RegisterPage extends StatelessWidget {
                 ScaffoldMessenger.of(context).hideCurrentSnackBar();
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text('Account created successfully! Please login with your new account.'),
+                    content: Text('Success! Please login.', style: GoogleFonts.poppins(fontSize: 13.sp)),
                     backgroundColor: Colors.green,
                   ),
                 );
-                // Go to login page instead of home
                 context.go('/login');
               },
-              unauthenticated: () {
-                ScaffoldMessenger.of(context).hideCurrentSnackBar();
-              },
+              unauthenticated: () {},
               error: (message) {
                 ScaffoldMessenger.of(context).hideCurrentSnackBar();
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text(message),
+                    content: Text(message, style: GoogleFonts.poppins(fontSize: 13.sp)),
                     backgroundColor: Colors.red,
                   ),
                 );
@@ -100,31 +100,23 @@ class RegisterPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(height: 60.h),
+                SizedBox(height: 48.h),
                 
-                // Logo and Title
                 AuthHeaderWidget(
                   title: 'Create Account',
-                  subtitle: 'Join Mitho Deals and find amazing food deals',
-               
+                  subtitle: 'Join Mitho and find amazing deals',
                 ),
                 
-                SizedBox(height: 40.h),
+                SizedBox(height: 32.h),
                 
-                // Register Form with Name Field
                 _buildRegisterFields(isLoading),
                 
-                SizedBox(height: 30.h),
+                SizedBox(height: 24.h),
                 
-                // Bottom Links
                 BottomLinksWidget(
-                  onPhoneAuth: () {
-                    // TODO: Navigate to phone auth
-                  },
-                  onLogin: () {
-                    context.go('/login');
-                  },
-                  showRegisterLink: false, // Show login link instead
+                  onPhoneAuth: () => context.go(RouteConstants.phone_auth),
+                  onLogin: () => context.go('/login'),
+                  showRegisterLink: false,
                 ),
               ],
             ),
@@ -139,7 +131,7 @@ class RegisterPage extends StatelessWidget {
       padding: EdgeInsets.all(12.w),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(25.r),
+        borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
@@ -150,160 +142,83 @@ class RegisterPage extends StatelessWidget {
       ),
       child: Column(
         children: [
-          // Name Field
-          TextFormField(
+          _buildTextField(
             controller: _nameController,
-            enabled: !isLoading,
-            decoration: InputDecoration(
-              labelText: 'Full Name',
-              hintText: 'Enter your full name',
-              prefixIcon: Icon(Icons.person_outline, size: 22.sp),
-              contentPadding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25.r),
-                borderSide: const BorderSide(color: Color(0xFFE0E0E0)),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25.r),
-                borderSide: const BorderSide(color: Color(0xFFE0E0E0)),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25.r),
-                borderSide: const BorderSide(color: Color(0xFFFF6B35), width: 2),
-              ),
-              labelStyle: GoogleFonts.poppins(fontSize: 13.sp, color: const Color(0xFF636E72)),
-              hintStyle: GoogleFonts.poppins(fontSize: 13.sp, color: const Color(0xFFB2BEC3)),
-            ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter your full name';
-              }
-              if (value.length < 2) {
-                return 'Name must be at least 2 characters';
-              }
-              return null;
-            },
+            label: 'Full Name',
+            hint: 'Enter your name',
+            icon: Icons.person_outline,
+            isLoading: isLoading,
           ),
-          
           SizedBox(height: 16.h),
-          
-          // Email Field
-          TextFormField(
+          _buildTextField(
             controller: _emailController,
+            label: 'Email',
+            hint: 'Enter your email',
+            icon: Icons.email_outlined,
+            isLoading: isLoading,
             keyboardType: TextInputType.emailAddress,
-            enabled: !isLoading,
-            decoration: InputDecoration(
-              labelText: 'Email',
-              hintText: 'Enter your email',
-              prefixIcon: Icon(Icons.email_outlined, size: 22.sp),
-              contentPadding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25.r),
-                borderSide: const BorderSide(color: Color(0xFFE0E0E0)),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25.r),
-                borderSide: const BorderSide(color: Color(0xFFE0E0E0)),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25.r),
-                borderSide: const BorderSide(color: Color(0xFFFF6B35), width: 2),
-              ),
-              labelStyle: GoogleFonts.poppins(fontSize: 13.sp, color: const Color(0xFF636E72)),
-              hintStyle: GoogleFonts.poppins(fontSize: 13.sp, color: const Color(0xFFB2BEC3)),
-            ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter your email';
-              }
-              if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
-                return 'Please enter a valid email';
-              }
-              return null;
-            },
           ),
-          
           SizedBox(height: 16.h),
-          
-          // Password Field
-          TextFormField(
+          _buildTextField(
             controller: _passwordController,
+            label: 'Password',
+            hint: 'At least 6 characters',
+            icon: Icons.lock_outline,
+            isLoading: isLoading,
             obscureText: true,
-            enabled: !isLoading,
-            decoration: InputDecoration(
-              labelText: 'Password',
-              hintText: 'Create a password (min 6 characters)',
-              prefixIcon: Icon(Icons.lock_outline, size: 22.sp),
-              contentPadding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25.r),
-                borderSide: const BorderSide(color: Color(0xFFE0E0E0)),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25.r),
-                borderSide: const BorderSide(color: Color(0xFFE0E0E0)),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25.r),
-                borderSide: const BorderSide(color: Color(0xFFFF6B35), width: 2),
-              ),
-              labelStyle: GoogleFonts.poppins(fontSize: 13.sp, color: const Color(0xFF636E72)),
-              hintStyle: GoogleFonts.poppins(fontSize: 13.sp, color: const Color(0xFFB2BEC3)),
-            ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter your password';
-              }
-              if (value.length < 6) {
-                return 'Password must be at least 6 characters';
-              }
-              return null;
-            },
           ),
-          
-          SizedBox(height: 8.h),
-          
-          // Register Button
+          SizedBox(height: 20.h),
           SizedBox(
             width: double.infinity,
-            height: 50.h,
+            height: 48.h,
             child: ElevatedButton(
               onPressed: isLoading ? null : _onRegisterPressed,
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFFFF6B35),
                 foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
                 elevation: 0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12.r),
-                ),
               ),
               child: isLoading
-                  ? const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(
-                            color: Colors.white,
-                            strokeWidth: 2,
-                          ),
-                        ),
-                        SizedBox(width: 12),
-                        Text('Creating account...'),
-                      ],
-                    )
-                  : Text(
-                      'Create Account',
-                      style: GoogleFonts.poppins(
-                        fontSize: 13.sp,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
+                  ? Text('Processing...', style: GoogleFonts.poppins(fontSize: 14.sp))
+                  : Text('Create Account', style: GoogleFonts.poppins(fontSize: 14.sp, fontWeight: FontWeight.w600)),
             ),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildTextField({
+    required TextEditingController controller,
+    required String label,
+    required String hint,
+    required IconData icon,
+    bool isLoading = false,
+    bool obscureText = false,
+    TextInputType? keyboardType,
+  }) {
+    return TextFormField(
+      controller: controller,
+      obscureText: obscureText,
+      enabled: !isLoading,
+      keyboardType: keyboardType,
+      style: GoogleFonts.poppins(fontSize: 13.sp),
+      decoration: InputDecoration(
+        labelText: label,
+        hintText: hint,
+        prefixIcon: Icon(icon, size: 18.sp),
+        contentPadding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12.r), borderSide: const BorderSide(color: Color(0xFFE0E0E0))),
+        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12.r), borderSide: const BorderSide(color: Color(0xFFE0E0E0))),
+        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12.r), borderSide: const BorderSide(color: Color(0xFFFF6B35), width: 1.5)),
+        labelStyle: GoogleFonts.poppins(fontSize: 12.sp, color: const Color(0xFF636E72)),
+        hintStyle: GoogleFonts.poppins(fontSize: 12.sp, color: const Color(0xFFB2BEC3)),
+      ),
+      validator: (value) {
+        if (value == null || value.isEmpty) return 'Required';
+        return null;
+      },
     );
   }
 

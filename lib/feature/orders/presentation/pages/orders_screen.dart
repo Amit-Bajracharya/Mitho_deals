@@ -43,7 +43,7 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
                 builder: (context, state) {
                   return state.when(
                     initial: () => const SizedBox.shrink(),
-                    loading: () => const Center(child: CircularProgressIndicator(color: Color(0xFFF97316))),
+                    loading: () => const Center(child: CircularProgressIndicator(color: Color(0xFFF97316), strokeWidth: 2,)),
                     error: (message) => Center(child: Text(message, style: const TextStyle(color: Colors.red))),
                     loaded: (orders) {
                       if (orders.isEmpty) {
@@ -75,7 +75,7 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
       title: Text(
         'My Food Rescues',
         style: GoogleFonts.poppins(
-          fontSize: 20.sp,
+          fontSize: 18.sp,
           fontWeight: FontWeight.w700,
           color: const Color(0xFF1F2937),
         ),
@@ -92,7 +92,8 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
         indicatorColor: const Color(0xFFF97316),
         labelColor: const Color(0xFFF97316),
         unselectedLabelColor: Colors.grey,
-        labelStyle: GoogleFonts.poppins(fontSize: 14.sp, fontWeight: FontWeight.w600),
+        indicatorWeight: 2,
+        labelStyle: GoogleFonts.poppins(fontSize: 13.sp, fontWeight: FontWeight.w600),
         tabs: const [
           Tab(text: 'Active'),
           Tab(text: 'History'),
@@ -107,9 +108,10 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
     }
 
     return RefreshIndicator(
+      color: const Color(0xFFF97316),
       onRefresh: () async => _ordersBloc.add(const OrdersEvent.loadMyOrders()),
       child: ListView.builder(
-        padding: EdgeInsets.all(16.w),
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
         itemCount: orders.length,
         itemBuilder: (context, index) {
           return _buildOrderCard(orders[index]);
@@ -123,16 +125,16 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
     final bool isActive = order.status == 'reserved';
 
     return Container(
-      margin: EdgeInsets.all(16.h),
-      padding: EdgeInsets.all(16.w),
+      margin: EdgeInsets.only(bottom: 12.h),
+      padding: EdgeInsets.all(12.w),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16.r),
+        borderRadius: BorderRadius.circular(12.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
+            color: Colors.black.withOpacity(0.03),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
           ),
         ],
       ),
@@ -146,22 +148,22 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
                 child: Text(
                   deal?.foodName ?? 'Food Deal',
                   style: GoogleFonts.poppins(
-                    fontSize: 16.sp,
+                    fontSize: 14.sp,
                     fontWeight: FontWeight.w700,
                     color: const Color(0xFF111827),
                   ),
                 ),
               ),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
+                padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 3.h),
                 decoration: BoxDecoration(
                   color: isActive ? const Color(0xFFFFF7ED) : Colors.grey[100],
-                  borderRadius: BorderRadius.circular(8.r),
+                  borderRadius: BorderRadius.circular(6.r),
                 ),
                 child: Text(
                   order.status.toUpperCase(),
                   style: GoogleFonts.poppins(
-                    fontSize: 10.sp,
+                    fontSize: 9.sp,
                     fontWeight: FontWeight.w700,
                     color: isActive ? const Color(0xFFF97316) : Colors.grey[600],
                   ),
@@ -169,13 +171,13 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
               ),
             ],
           ),
-          SizedBox(height: 4.h),
+          SizedBox(height: 2.h),
           Text(
             'Order from ${order.vendorName}',
-            style: GoogleFonts.poppins(fontSize: 12.sp, color: Colors.grey[600]),
+            style: GoogleFonts.poppins(fontSize: 11.sp, color: Colors.grey[600]),
           ),
-          SizedBox(height: 16.h),
-          const Divider(),
+          SizedBox(height: 12.h),
+          const Divider(height: 1),
           SizedBox(height: 12.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -185,11 +187,11 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
                 children: [
                   Text(
                     'Time Placed',
-                    style: GoogleFonts.poppins(fontSize: 11.sp, color: Colors.grey),
+                    style: GoogleFonts.poppins(fontSize: 10.sp, color: Colors.grey),
                   ),
                   Text(
                     DateFormat('MMM dd, hh:mm a').format(order.orderPlacedTime),
-                    style: GoogleFonts.poppins(fontSize: 13.sp, fontWeight: FontWeight.w500),
+                    style: GoogleFonts.poppins(fontSize: 12.sp, fontWeight: FontWeight.w500),
                   ),
                 ],
               ),
@@ -198,12 +200,12 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
                 children: [
                   Text(
                     'Total Paid',
-                    style: GoogleFonts.poppins(fontSize: 11.sp, color: Colors.grey),
+                    style: GoogleFonts.poppins(fontSize: 10.sp, color: Colors.grey),
                   ),
                   Text(
                     'NPR ${order.totalAmount.toStringAsFixed(0)}',
                     style: GoogleFonts.poppins(
-                      fontSize: 15.sp, 
+                      fontSize: 14.sp, 
                       fontWeight: FontWeight.w700,
                       color: const Color(0xFF111827),
                     ),
@@ -213,31 +215,31 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
             ],
           ),
           if (isActive) ...[
-            SizedBox(height: 16.h),
+            SizedBox(height: 12.h),
             Container(
               width: double.infinity,
-              padding: EdgeInsets.all(12.w),
+              padding: EdgeInsets.all(10.w),
               decoration: BoxDecoration(
-                color: const Color(0xFFF97316).withOpacity(0.05),
-                borderRadius: BorderRadius.circular(12.r),
-                border: Border.all(color: const Color(0xFFF97316).withOpacity(0.2)),
+                color: const Color(0xFFF97316).withOpacity(0.04),
+                borderRadius: BorderRadius.circular(10.r),
+                border: Border.all(color: const Color(0xFFF97316).withOpacity(0.15)),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.qr_code_2_rounded, color: const Color(0xFFF97316), size: 24.sp),
+                  Icon(Icons.qr_code_2_rounded, color: const Color(0xFFF97316), size: 18.sp),
                   SizedBox(width: 8.w),
                   Text(
                     'Pickup Code: ',
-                    style: GoogleFonts.poppins(fontSize: 14.sp, fontWeight: FontWeight.w500),
+                    style: GoogleFonts.poppins(fontSize: 13.sp, fontWeight: FontWeight.w500),
                   ),
                   Text(
                     order.pickupCode,
                     style: GoogleFonts.poppins(
-                      fontSize: 18.sp, 
+                      fontSize: 16.sp, 
                       fontWeight: FontWeight.w800,
                       color: const Color(0xFFF97316),
-                      letterSpacing: 1.2,
+                      letterSpacing: 1.1,
                     ),
                   ),
                 ],
@@ -254,16 +256,16 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.receipt_long_outlined, size: 64.sp, color: Colors.grey[300]),
-          SizedBox(height: 16.h),
+          Icon(Icons.receipt_long_outlined, size: 48.sp, color: Colors.grey[300]),
+          SizedBox(height: 12.h),
           Text(
             'No orders yet',
-            style: GoogleFonts.poppins(fontSize: 18.sp, fontWeight: FontWeight.w600, color: Colors.grey),
+            style: GoogleFonts.poppins(fontSize: 16.sp, fontWeight: FontWeight.w600, color: Colors.grey),
           ),
-          SizedBox(height: 8.h),
+          SizedBox(height: 6.h),
           Text(
-            'Explore deals and start rescuing food!',
-            style: GoogleFonts.poppins(fontSize: 14.sp, color: Colors.grey),
+            'Rescue some food and it will show up here!',
+            style: GoogleFonts.poppins(fontSize: 12.sp, color: Colors.grey),
           ),
         ],
       ),
