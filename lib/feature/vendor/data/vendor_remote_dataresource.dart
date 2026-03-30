@@ -21,7 +21,7 @@ abstract class VendorRemoteDataSource {
 }
 
 class VendorRemoteDataSourceImpl implements VendorRemoteDataSource{
-  final SupabaseClient client;
+ // final SupabaseClient client;
 
   @override
   Future<void> fulfillOrder(String pickupCode) {
