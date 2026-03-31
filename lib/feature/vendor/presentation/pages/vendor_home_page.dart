@@ -1,47 +1,97 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mitho_deals/feature/vendor/domain/entities/vendor_stats.dart';
+import '../bloc/vendor_bloc.dart';
+import '../../../../core/dependency_injection/vendor_dependencies.dart';
 
-class VendorHomePage extends StatelessWidget {
+class VendorHomePage extends StatefulWidget {
   const VendorHomePage({super.key});
 
   @override
+  State<VendorHomePage> createState() => _VendorHomePageState();
+}
+
+class _VendorHomePageState extends State<VendorHomePage> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<VendorBloc>().add(const VendorEvent.loadDashboard());
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFF9FAFB),
-      appBar: _buildAppBar(),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(24.w),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildStatsSection(),
-            SizedBox(height: 24.h),
-            _buildScanButton(),
-            SizedBox(height: 32.h),
-            _buildCurrentPickupsHeader(),
-            SizedBox(height: 16.h),
-            _buildOrderCard(
-              orderId: "M-8829",
-              items: "Momo Platter (2), Coke (1)",
-              customer: "Arbin Thapa",
-              arrivalTime: "04:22",
-            ),
-            SizedBox(height: 16.h),
-            _buildOrderCard(
-              orderId: "M-8831",
-              items: "Pastry Box (Medium)",
-              customer: "Sita Gurung",
-              arrivalTime: "12:45",
-            ),
-            SizedBox(height: 32.h),
-            _buildRecentReviewsHeader(),
-            SizedBox(height: 16.h),
-            _buildReviewCard(),
-          ],
+    return BlocProvider(
+      create: (context) => sl<VendorBloc>(),
+      child: Scaffold(
+        backgroundColor: const Color(0xFFF9FAFB),
+        appBar: _buildAppBar(),
+        body: BlocBuilder<VendorBloc, VendorState>(
+          builder: (context, state) {
+            return state.when(
+              initial: () => const Center(child: Text('Initializing...')),
+              loading: () => const Center(child: CircularProgressIndicator()),
+              loaded: (stats, orders) => _buildContent(stats, orders),
+              error: (message) => Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('Error: $message'),
+                    ElevatedButton(
+                      onPressed: () {
+                        context.read<VendorBloc>().add(const VendorEvent.loadDashboard());
+                      },
+                      child: const Text('Retry'),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
         ),
+        bottomNavigationBar: _buildBottomNav(),
       ),
-      bottomNavigationBar: _buildBottomNav(),
+    );
+  }
+
+  Widget _buildContent(VendorStats stats, List orders) {
+    return SingleChildScrollView(
+      padding: EdgeInsets.all(24.w),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildStatsSection(stats),
+          SizedBox(height: 24.h),
+          _buildScanButton(),
+          SizedBox(height: 32.h),
+          _buildCurrentPickupsHeader(orders.length),
+          SizedBox(height: 16.h),
+          ...orders.map((order) => _buildOrderCard(
+            orderId: order.id,
+            items: order.dealId, // You might want to enhance this with deal details
+            customer: "Customer", // You might want to add customer info to order
+            arrivalTime: "12:00", // You might want to add pickup time to order
+          )).toList(),
+          if (orders.isEmpty) 
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 32.h),
+              child: Center(
+                child: Text(
+                  'No active pickups',
+                  style: GoogleFonts.poppins(
+                    fontSize: 16.sp,
+                    color: Colors.grey[600],
+                  ),
+                ),
+              ),
+            ),
+          SizedBox(height: 32.h),
+          _buildRecentReviewsHeader(),
+          SizedBox(height: 16.h),
+          _buildReviewCard(),
+        ],
+      ),
     );
   }
 
@@ -104,13 +154,13 @@ class VendorHomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildStatsSection() {
+  Widget _buildStatsSection(VendorStats stats) {
     return Row(
       children: [
         Expanded(
           child: _buildStatCard(
             title: "TODAY'S REVENUE",
-            value: "Rs. 8,420",
+            value: "Rs. ${stats.todayRevenue.toStringAsFixed(0)}",
             trend: "+14%",
             icon: Icons.account_balance_wallet_outlined,
             color: const Color(0xFFFF6B35),
@@ -120,8 +170,8 @@ class VendorHomePage extends StatelessWidget {
         Expanded(
           child: _buildStatCard(
             title: "ITEMS SAVED",
-            value: "24",
-            trend: "+3",
+            value: "${stats.totalItemsSaved}",
+            trend: "+${stats.totalItemsSaved}",
             icon: Icons.eco_outlined,
             color: Colors.green,
           ),
@@ -229,7 +279,7 @@ class VendorHomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildCurrentPickupsHeader() {
+  Widget _buildCurrentPickupsHeader(int orderCount) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -248,7 +298,7 @@ class VendorHomePage extends StatelessWidget {
             borderRadius: BorderRadius.circular(10.r),
           ),
           child: Text(
-            '3 ACTIVE',
+            '$orderCount ACTIVE',
             style: GoogleFonts.poppins(
               fontSize: 10.sp,
               fontWeight: FontWeight.w700,
