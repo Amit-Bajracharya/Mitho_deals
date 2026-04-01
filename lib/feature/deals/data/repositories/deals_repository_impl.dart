@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:mitho_deals/core/errors/exceptions.dart';
 import 'package:mitho_deals/feature/deals/data/datasources/deals_remote_datasource.dart';
 import 'package:mitho_deals/feature/deals/data/models/deal_model.dart';
@@ -8,10 +9,11 @@ class DealsRepositoryImpl implements DealRepository {
   final DealsRemoteDataSource _dataSource;
 
   DealsRepositoryImpl(this._dataSource);
+
   @override
-  Future<void> addDeal(DealEntity deal) async {
+  Future<void> addDeal(DealEntity deal, File? imageFile) async {
     try {
-      await _dataSource.addDeal(DealModel.fromEntity(deal));
+      await _dataSource.addDeal(DealModel.fromEntity(deal), imageFile);
     } on ServerException catch (e) {
       throw Exception(e.message);
     }

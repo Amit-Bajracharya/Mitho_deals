@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:mitho_deals/core/dependency_injection/service_locator.dart';
 import 'package:mitho_deals/feature/deals/domain/entitiy/deal_entity.dart';
 import 'package:mitho_deals/feature/deals/presentation/bloc/deals_bloc.dart';
+import 'package:mitho_deals/feature/deals/presentation/bloc/deals_event.dart';
 
 class DealDetailsScreen extends StatefulWidget {
   final DealEntity deal;
