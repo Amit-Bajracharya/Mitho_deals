@@ -1,23 +1,46 @@
+import 'dart:io';
 import 'package:mitho_deals/core/errors/exceptions.dart';
 import 'package:mitho_deals/feature/deals/data/models/deal_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract class DealsRemoteDataSource {
   Future<List<DealModel>> getAvailableDeals();
-  Future<void> addDeal(DealModel deal);
+  Future<void> addDeal(DealModel deal, File? imageFile);
   Future<void> claimDeal(String dealId, int quantity);
 }
 
 class DealsRemoteDataSourceImpl implements DealsRemoteDataSource {
   final SupabaseClient supabaseClient;
   DealsRemoteDataSourceImpl(this.supabaseClient);
+
   @override
-  Future<void> addDeal(DealModel deal) async {
-    // TODO: implement addDeal
+  Future<void> addDeal(DealModel deal, File? imageFile) async {
     try {
-      await supabaseClient.from('deals').insert(deal.toString());
+      String? imageUrl;
+      
+      // Upload image to Supabase Storage if provided
+      if (imageFile != null) {
+        final fileName = 'deals/${DateTime.now().millisecondsSinceEpoch}_${deal.foodName.replaceAll(' ', '_')}.jpg';
+        
+        await supabaseClient.storage
+            .from('deal-images')
+            .upload(fileName, imageFile);
+        
+        // Get public URL
+        imageUrl = supabaseClient.storage
+            .from('deal-images')
+            .getPublicUrl(fileName);
+      }
+
+      // Insert deal with image URL
+      final dealData = deal.toJson();
+      if (imageUrl != null) {
+        dealData['image_url'] = imageUrl;
+      }
+
+      await supabaseClient.from('deals').insert(dealData);
     } catch (e) {
-      throw ServerException(message: "Failed to add deal : $e");
+      throw ServerException(message: "Failed to add deal: $e");
     }
   }
 

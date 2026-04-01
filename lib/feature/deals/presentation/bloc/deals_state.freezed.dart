@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'deals_bloc.dart';
+part of 'deals_state.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -11,272 +11,6 @@ part of 'deals_bloc.dart';
 
 // dart format off
 T _$identity<T>(T value) => value;
-/// @nodoc
-mixin _$DealsEvent {
-
-
-
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DealsEvent);
-}
-
-
-@override
-int get hashCode => runtimeType.hashCode;
-
-@override
-String toString() {
-  return 'DealsEvent()';
-}
-
-
-}
-
-/// @nodoc
-class $DealsEventCopyWith<$Res>  {
-$DealsEventCopyWith(DealsEvent _, $Res Function(DealsEvent) __);
-}
-
-
-/// Adds pattern-matching-related methods to [DealsEvent].
-extension DealsEventPatterns on DealsEvent {
-/// A variant of `map` that fallback to returning `orElse`.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case _:
-///     return orElse();
-/// }
-/// ```
-
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( LoadDeals value)?  loadDeals,TResult Function( ClaimDeal value)?  claimDeal,required TResult orElse(),}){
-final _that = this;
-switch (_that) {
-case LoadDeals() when loadDeals != null:
-return loadDeals(_that);case ClaimDeal() when claimDeal != null:
-return claimDeal(_that);case _:
-  return orElse();
-
-}
-}
-/// A `switch`-like method, using callbacks.
-///
-/// Callbacks receives the raw object, upcasted.
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case final Subclass2 value:
-///     return ...;
-/// }
-/// ```
-
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( LoadDeals value)  loadDeals,required TResult Function( ClaimDeal value)  claimDeal,}){
-final _that = this;
-switch (_that) {
-case LoadDeals():
-return loadDeals(_that);case ClaimDeal():
-return claimDeal(_that);case _:
-  throw StateError('Unexpected subclass');
-
-}
-}
-/// A variant of `map` that fallback to returning `null`.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case _:
-///     return null;
-/// }
-/// ```
-
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( LoadDeals value)?  loadDeals,TResult? Function( ClaimDeal value)?  claimDeal,}){
-final _that = this;
-switch (_that) {
-case LoadDeals() when loadDeals != null:
-return loadDeals(_that);case ClaimDeal() when claimDeal != null:
-return claimDeal(_that);case _:
-  return null;
-
-}
-}
-/// A variant of `when` that fallback to an `orElse` callback.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case _:
-///     return orElse();
-/// }
-/// ```
-
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  loadDeals,TResult Function( String dealId,  int quantity)?  claimDeal,required TResult orElse(),}) {final _that = this;
-switch (_that) {
-case LoadDeals() when loadDeals != null:
-return loadDeals();case ClaimDeal() when claimDeal != null:
-return claimDeal(_that.dealId,_that.quantity);case _:
-  return orElse();
-
-}
-}
-/// A `switch`-like method, using callbacks.
-///
-/// As opposed to `map`, this offers destructuring.
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case Subclass2(:final field2):
-///     return ...;
-/// }
-/// ```
-
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  loadDeals,required TResult Function( String dealId,  int quantity)  claimDeal,}) {final _that = this;
-switch (_that) {
-case LoadDeals():
-return loadDeals();case ClaimDeal():
-return claimDeal(_that.dealId,_that.quantity);case _:
-  throw StateError('Unexpected subclass');
-
-}
-}
-/// A variant of `when` that fallback to returning `null`
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case _:
-///     return null;
-/// }
-/// ```
-
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  loadDeals,TResult? Function( String dealId,  int quantity)?  claimDeal,}) {final _that = this;
-switch (_that) {
-case LoadDeals() when loadDeals != null:
-return loadDeals();case ClaimDeal() when claimDeal != null:
-return claimDeal(_that.dealId,_that.quantity);case _:
-  return null;
-
-}
-}
-
-}
-
-/// @nodoc
-
-
-class LoadDeals implements DealsEvent {
-  const LoadDeals();
-  
-
-
-
-
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoadDeals);
-}
-
-
-@override
-int get hashCode => runtimeType.hashCode;
-
-@override
-String toString() {
-  return 'DealsEvent.loadDeals()';
-}
-
-
-}
-
-
-
-
-/// @nodoc
-
-
-class ClaimDeal implements DealsEvent {
-  const ClaimDeal({required this.dealId, required this.quantity});
-  
-
- final  String dealId;
- final  int quantity;
-
-/// Create a copy of DealsEvent
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$ClaimDealCopyWith<ClaimDeal> get copyWith => _$ClaimDealCopyWithImpl<ClaimDeal>(this, _$identity);
-
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ClaimDeal&&(identical(other.dealId, dealId) || other.dealId == dealId)&&(identical(other.quantity, quantity) || other.quantity == quantity));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,dealId,quantity);
-
-@override
-String toString() {
-  return 'DealsEvent.claimDeal(dealId: $dealId, quantity: $quantity)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class $ClaimDealCopyWith<$Res> implements $DealsEventCopyWith<$Res> {
-  factory $ClaimDealCopyWith(ClaimDeal value, $Res Function(ClaimDeal) _then) = _$ClaimDealCopyWithImpl;
-@useResult
-$Res call({
- String dealId, int quantity
-});
-
-
-
-
-}
-/// @nodoc
-class _$ClaimDealCopyWithImpl<$Res>
-    implements $ClaimDealCopyWith<$Res> {
-  _$ClaimDealCopyWithImpl(this._self, this._then);
-
-  final ClaimDeal _self;
-  final $Res Function(ClaimDeal) _then;
-
-/// Create a copy of DealsEvent
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? dealId = null,Object? quantity = null,}) {
-  return _then(ClaimDeal(
-dealId: null == dealId ? _self.dealId : dealId // ignore: cast_nullable_to_non_nullable
-as String,quantity: null == quantity ? _self.quantity : quantity // ignore: cast_nullable_to_non_nullable
-as int,
-  ));
-}
-
-
-}
-
 /// @nodoc
 mixin _$DealsState {
 
@@ -321,14 +55,17 @@ extension DealsStatePatterns on DealsState {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Initial value)?  initial,TResult Function( _Loading value)?  loading,TResult Function( _Loaded value)?  loaded,TResult Function( _Error value)?  error,TResult Function( _ClaimedSuccess value)?  claimedSuccess,TResult Function( _ClaimedError value)?  claimedError,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Initial value)?  initial,TResult Function( _Loading value)?  loading,TResult Function( _Loaded value)?  loaded,TResult Function( _Error value)?  error,TResult Function( _AddingDeal value)?  addingDeal,TResult Function( _AddDealSuccess value)?  addDealSuccess,TResult Function( _AddDealError value)?  addDealError,TResult Function( _ClaimedSuccess value)?  claimedSuccess,TResult Function( _ClaimedError value)?  claimedError,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial(_that);case _Loading() when loading != null:
 return loading(_that);case _Loaded() when loaded != null:
 return loaded(_that);case _Error() when error != null:
-return error(_that);case _ClaimedSuccess() when claimedSuccess != null:
+return error(_that);case _AddingDeal() when addingDeal != null:
+return addingDeal(_that);case _AddDealSuccess() when addDealSuccess != null:
+return addDealSuccess(_that);case _AddDealError() when addDealError != null:
+return addDealError(_that);case _ClaimedSuccess() when claimedSuccess != null:
 return claimedSuccess(_that);case _ClaimedError() when claimedError != null:
 return claimedError(_that);case _:
   return orElse();
@@ -348,14 +85,17 @@ return claimedError(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Initial value)  initial,required TResult Function( _Loading value)  loading,required TResult Function( _Loaded value)  loaded,required TResult Function( _Error value)  error,required TResult Function( _ClaimedSuccess value)  claimedSuccess,required TResult Function( _ClaimedError value)  claimedError,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Initial value)  initial,required TResult Function( _Loading value)  loading,required TResult Function( _Loaded value)  loaded,required TResult Function( _Error value)  error,required TResult Function( _AddingDeal value)  addingDeal,required TResult Function( _AddDealSuccess value)  addDealSuccess,required TResult Function( _AddDealError value)  addDealError,required TResult Function( _ClaimedSuccess value)  claimedSuccess,required TResult Function( _ClaimedError value)  claimedError,}){
 final _that = this;
 switch (_that) {
 case _Initial():
 return initial(_that);case _Loading():
 return loading(_that);case _Loaded():
 return loaded(_that);case _Error():
-return error(_that);case _ClaimedSuccess():
+return error(_that);case _AddingDeal():
+return addingDeal(_that);case _AddDealSuccess():
+return addDealSuccess(_that);case _AddDealError():
+return addDealError(_that);case _ClaimedSuccess():
 return claimedSuccess(_that);case _ClaimedError():
 return claimedError(_that);case _:
   throw StateError('Unexpected subclass');
@@ -374,14 +114,17 @@ return claimedError(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Initial value)?  initial,TResult? Function( _Loading value)?  loading,TResult? Function( _Loaded value)?  loaded,TResult? Function( _Error value)?  error,TResult? Function( _ClaimedSuccess value)?  claimedSuccess,TResult? Function( _ClaimedError value)?  claimedError,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Initial value)?  initial,TResult? Function( _Loading value)?  loading,TResult? Function( _Loaded value)?  loaded,TResult? Function( _Error value)?  error,TResult? Function( _AddingDeal value)?  addingDeal,TResult? Function( _AddDealSuccess value)?  addDealSuccess,TResult? Function( _AddDealError value)?  addDealError,TResult? Function( _ClaimedSuccess value)?  claimedSuccess,TResult? Function( _ClaimedError value)?  claimedError,}){
 final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial(_that);case _Loading() when loading != null:
 return loading(_that);case _Loaded() when loaded != null:
 return loaded(_that);case _Error() when error != null:
-return error(_that);case _ClaimedSuccess() when claimedSuccess != null:
+return error(_that);case _AddingDeal() when addingDeal != null:
+return addingDeal(_that);case _AddDealSuccess() when addDealSuccess != null:
+return addDealSuccess(_that);case _AddDealError() when addDealError != null:
+return addDealError(_that);case _ClaimedSuccess() when claimedSuccess != null:
 return claimedSuccess(_that);case _ClaimedError() when claimedError != null:
 return claimedError(_that);case _:
   return null;
@@ -400,13 +143,16 @@ return claimedError(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( List<DealEntity> deals)?  loaded,TResult Function( String message)?  error,TResult Function()?  claimedSuccess,TResult Function( String message)?  claimedError,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( List<DealEntity> deals)?  loaded,TResult Function( String message)?  error,TResult Function()?  addingDeal,TResult Function()?  addDealSuccess,TResult Function( String message)?  addDealError,TResult Function()?  claimedSuccess,TResult Function( String message)?  claimedError,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case _Loading() when loading != null:
 return loading();case _Loaded() when loaded != null:
 return loaded(_that.deals);case _Error() when error != null:
-return error(_that.message);case _ClaimedSuccess() when claimedSuccess != null:
+return error(_that.message);case _AddingDeal() when addingDeal != null:
+return addingDeal();case _AddDealSuccess() when addDealSuccess != null:
+return addDealSuccess();case _AddDealError() when addDealError != null:
+return addDealError(_that.message);case _ClaimedSuccess() when claimedSuccess != null:
 return claimedSuccess();case _ClaimedError() when claimedError != null:
 return claimedError(_that.message);case _:
   return orElse();
@@ -426,13 +172,16 @@ return claimedError(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( List<DealEntity> deals)  loaded,required TResult Function( String message)  error,required TResult Function()  claimedSuccess,required TResult Function( String message)  claimedError,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( List<DealEntity> deals)  loaded,required TResult Function( String message)  error,required TResult Function()  addingDeal,required TResult Function()  addDealSuccess,required TResult Function( String message)  addDealError,required TResult Function()  claimedSuccess,required TResult Function( String message)  claimedError,}) {final _that = this;
 switch (_that) {
 case _Initial():
 return initial();case _Loading():
 return loading();case _Loaded():
 return loaded(_that.deals);case _Error():
-return error(_that.message);case _ClaimedSuccess():
+return error(_that.message);case _AddingDeal():
+return addingDeal();case _AddDealSuccess():
+return addDealSuccess();case _AddDealError():
+return addDealError(_that.message);case _ClaimedSuccess():
 return claimedSuccess();case _ClaimedError():
 return claimedError(_that.message);case _:
   throw StateError('Unexpected subclass');
@@ -451,13 +200,16 @@ return claimedError(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( List<DealEntity> deals)?  loaded,TResult? Function( String message)?  error,TResult? Function()?  claimedSuccess,TResult? Function( String message)?  claimedError,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( List<DealEntity> deals)?  loaded,TResult? Function( String message)?  error,TResult? Function()?  addingDeal,TResult? Function()?  addDealSuccess,TResult? Function( String message)?  addDealError,TResult? Function()?  claimedSuccess,TResult? Function( String message)?  claimedError,}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case _Loading() when loading != null:
 return loading();case _Loaded() when loaded != null:
 return loaded(_that.deals);case _Error() when error != null:
-return error(_that.message);case _ClaimedSuccess() when claimedSuccess != null:
+return error(_that.message);case _AddingDeal() when addingDeal != null:
+return addingDeal();case _AddDealSuccess() when addDealSuccess != null:
+return addDealSuccess();case _AddDealError() when addDealError != null:
+return addDealError(_that.message);case _ClaimedSuccess() when claimedSuccess != null:
 return claimedSuccess();case _ClaimedError() when claimedError != null:
 return claimedError(_that.message);case _:
   return null;
@@ -661,6 +413,136 @@ class __$ErrorCopyWithImpl<$Res>
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') $Res call({Object? message = null,}) {
   return _then(_Error(
+null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class _AddingDeal implements DealsState {
+  const _AddingDeal();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AddingDeal);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'DealsState.addingDeal()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class _AddDealSuccess implements DealsState {
+  const _AddDealSuccess();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AddDealSuccess);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'DealsState.addDealSuccess()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class _AddDealError implements DealsState {
+  const _AddDealError(this.message);
+  
+
+ final  String message;
+
+/// Create a copy of DealsState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$AddDealErrorCopyWith<_AddDealError> get copyWith => __$AddDealErrorCopyWithImpl<_AddDealError>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AddDealError&&(identical(other.message, message) || other.message == message));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,message);
+
+@override
+String toString() {
+  return 'DealsState.addDealError(message: $message)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$AddDealErrorCopyWith<$Res> implements $DealsStateCopyWith<$Res> {
+  factory _$AddDealErrorCopyWith(_AddDealError value, $Res Function(_AddDealError) _then) = __$AddDealErrorCopyWithImpl;
+@useResult
+$Res call({
+ String message
+});
+
+
+
+
+}
+/// @nodoc
+class __$AddDealErrorCopyWithImpl<$Res>
+    implements _$AddDealErrorCopyWith<$Res> {
+  __$AddDealErrorCopyWithImpl(this._self, this._then);
+
+  final _AddDealError _self;
+  final $Res Function(_AddDealError) _then;
+
+/// Create a copy of DealsState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? message = null,}) {
+  return _then(_AddDealError(
 null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String,
   ));

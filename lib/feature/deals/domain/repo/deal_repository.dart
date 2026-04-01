@@ -1,10 +1,9 @@
+import 'dart:io';
 import 'package:mitho_deals/feature/deals/domain/entitiy/deal_entity.dart';
 
 abstract class DealRepository {
   Future<List<DealEntity>> getAvailableDeals();
-
-  Future<void> addDeal(DealEntity deal);
-
+  Future<void> addDeal(DealEntity deal, File imageFile);
   Future<void> claimDeal(String dealId, int quantity); 
 }
 

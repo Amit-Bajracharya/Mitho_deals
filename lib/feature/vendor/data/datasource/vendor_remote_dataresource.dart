@@ -8,12 +8,13 @@ import '../../../../core/errors/exceptions.dart';
 
 
 abstract class VendorRemoteDataSource {
-  Future<VendorStatsModel> getDashboardStats();
+  Future<VendorStats> getDashboardStats();
   Future<List<OrderModel>> getActiveOrders();
   Future<void> fulfillOrder(String pickupCode);
   Future<void> updateShopStatus(bool isOpen);
   Future<void> updateLocation(double lat, double lng);
   Future<List<DealModel>> getMyDeals();
+  Future<Map<String, dynamic>> getCurrentVendorProfile();
 }
 
 class VendorRemoteDataSourceImpl implements VendorRemoteDataSource {
@@ -176,6 +177,26 @@ class VendorRemoteDataSourceImpl implements VendorRemoteDataSource {
           .toList();
     } catch (e) {
       throw ServerException(message: 'Failed to fetch your deals: $e');
+    }
+  }
+
+  @override
+  Future<Map<String, dynamic>> getCurrentVendorProfile() async {
+    try {
+      final userId = _currentUserId;
+      if (userId == null) {
+        throw const ServerException(message: 'User not logged in');
+      }
+
+      final response = await supabaseClient
+          .from('vendors')
+          .select('id, business_name, address, latitude, longitude')
+          .eq('owner_id', userId)
+          .single();
+
+      return response;
+    } catch (e) {
+      throw ServerException(message: 'Failed to fetch vendor profile: $e');
     }
   }
 }

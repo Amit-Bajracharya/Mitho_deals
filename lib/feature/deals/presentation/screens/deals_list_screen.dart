@@ -5,6 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mitho_deals/core/dependency_injection/service_locator.dart';
 import 'package:mitho_deals/feature/deals/domain/entitiy/deal_entity.dart';
 import 'package:mitho_deals/feature/deals/presentation/bloc/deals_bloc.dart';
+import 'package:mitho_deals/feature/deals/presentation/bloc/deals_event.dart';
+import 'package:mitho_deals/feature/deals/presentation/bloc/deals_state.dart';
 import 'package:mitho_deals/feature/deals/presentation/widgets/deals_app_bar.dart';
 import 'package:mitho_deals/feature/deals/presentation/widgets/deals_search_bar.dart';
 import 'package:mitho_deals/feature/deals/presentation/widgets/deals_category_list.dart';
