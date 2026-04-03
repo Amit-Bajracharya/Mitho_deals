@@ -1,7 +1,4 @@
-import 'dart:io';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:mitho_deals/feature/deals/domain/entitiy/deal_entity.dart';
 import 'package:mitho_deals/feature/deals/domain/repo/deal_repository.dart';
 import 'package:mitho_deals/feature/deals/domain/usecases/add_deals.dart';
 import 'package:mitho_deals/feature/deals/domain/usecases/get_available_deals.dart';

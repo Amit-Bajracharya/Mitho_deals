@@ -7,8 +7,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:mitho_deals/feature/deals/domain/entitiy/deal_entity.dart';
 import 'package:mitho_deals/feature/deals/presentation/bloc/deals_bloc.dart';
-import 'package:mitho_deals/feature/deals/presentation/bloc/deals_state.dart';
 import 'package:mitho_deals/feature/deals/presentation/bloc/deals_event.dart';
+import 'package:mitho_deals/feature/deals/presentation/bloc/deals_state.dart';
 
 class AddDealScreen extends StatefulWidget {
   const AddDealScreen({super.key});
@@ -91,14 +91,14 @@ class _AddDealScreenState extends State<AddDealScreen> {
       pickupStartTime: _pickupStartTime!,
       pickupEndTime: _pickupEndTime!,
       imageUrl: '', // Will be set by repository
-      vendorName: '', // TODO: Get from vendor profile
-      vendorAddress: '', // TODO: Get from vendor profile
-      latitude: 0.0, // TODO: Get from vendor profile
-      longitude: 0.0, // TODO: Get from vendor profile
       isAvailable: true,
+      vendorName: '', // Will be set by backend/repository
+      vendorAddress: '', // Will be set by backend/repository
+      latitude: 0.0, // Will be set by backend/repository
+      longitude: 0.0, // Will be set by backend/repository
     );
 
-    context.read<DealsBloc>().add(AddDeal(
+    context.read<DealsBloc>().add(DealsEvent.addDeal(
       deal: deal,
       imageFile: _selectedImage,
     ));

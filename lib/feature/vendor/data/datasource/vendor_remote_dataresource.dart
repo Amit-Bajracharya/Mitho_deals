@@ -8,7 +8,7 @@ import '../../../../core/errors/exceptions.dart';
 
 
 abstract class VendorRemoteDataSource {
-  Future<VendorStats> getDashboardStats();
+  Future<VendorStatsModel> getDashboardStats();
   Future<List<OrderModel>> getActiveOrders();
   Future<void> fulfillOrder(String pickupCode);
   Future<void> updateShopStatus(bool isOpen);
@@ -70,7 +70,7 @@ class VendorRemoteDataSourceImpl implements VendorRemoteDataSource {
           .eq('status', 'reserved')
           .count(CountOption.exact);
 
-      final activeOrdersCount = activeResponse.count ?? 0;
+      final activeOrdersCount = activeResponse.count;
 
       return VendorStatsModel(
         todayRevenue: todayRevenue,
