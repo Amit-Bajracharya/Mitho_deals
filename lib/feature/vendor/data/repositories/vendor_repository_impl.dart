@@ -84,4 +84,16 @@ class VendorRepositoryImpl implements VendorRepository {
       return Left(ServerFailure('Unexpected error: $e'));
     }
   }
+
+  @override
+  Future<Either<Failure, Map<String, dynamic>>> getCurrentVendorProfile() async {
+    try {
+      final profile = await remoteDataSource.getCurrentVendorProfile();
+      return Right(profile);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      return Left(ServerFailure('Unexpected error: $e'));
+    }
+  }
 }

@@ -38,6 +38,10 @@ class DealsRemoteDataSourceImpl implements DealsRemoteDataSource {
         dealData['image_url'] = imageUrl;
       }
 
+      // Clean up unneeded/invalid keys before insertion
+      dealData.remove('id'); // DB will generate UUID
+      dealData.remove('vendors'); // Joined column, not present in the deals table itself
+      
       await supabaseClient.from('deals').insert(dealData);
     } catch (e) {
       throw ServerException(message: "Failed to add deal: $e");

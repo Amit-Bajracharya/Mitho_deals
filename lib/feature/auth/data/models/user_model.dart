@@ -35,7 +35,7 @@ abstract class UserModel with _$UserModel {
       phoneNumber: user.phone,
       isEmailVerified: user.emailConfirmedAt != null,
       isPhoneVerified: user.phoneConfirmedAt != null,
-      createdAt: user.createdAt != null ? DateTime.parse(user.createdAt) : null,
+      createdAt: DateTime.parse(user.createdAt),
       lastLoginAt: user.lastSignInAt != null ? DateTime.parse(user.lastSignInAt!) : null, 
     );
   }
