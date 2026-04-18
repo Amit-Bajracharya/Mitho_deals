@@ -16,6 +16,24 @@ class DealsRemoteDataSourceImpl implements DealsRemoteDataSource {
   @override
   Future<void> addDeal(DealModel deal, File? imageFile) async {
     try {
+      // Get current user and lookup vendor ID
+      final currentUser = supabaseClient.auth.currentUser;
+      if (currentUser == null) {
+        throw const ServerException(message: 'User must be logged in to add a deal');
+      }
+
+      final vendorResponse = await supabaseClient
+          .from('vendors')
+          .select('id')
+          .eq('owner_id', currentUser.id)
+          .maybeSingle();
+
+      if (vendorResponse == null) {
+        throw const ServerException(message: 'Vendor profile not found. Please complete vendor registration.');
+      }
+
+      final vendorId = vendorResponse['id'] as String;
+
       String? imageUrl;
       
       // Upload image to Supabase Storage if provided
@@ -23,24 +41,25 @@ class DealsRemoteDataSourceImpl implements DealsRemoteDataSource {
         final fileName = 'deals/${DateTime.now().millisecondsSinceEpoch}_${deal.foodName.replaceAll(' ', '_')}.jpg';
         
         await supabaseClient.storage
-            .from('deal-images')
+            .from('Images')
             .upload(fileName, imageFile);
         
         // Get public URL
         imageUrl = supabaseClient.storage
-            .from('deal-images')
+            .from('Images')
             .getPublicUrl(fileName);
       }
 
-      // Insert deal with image URL
+      // Insert deal with image URL and correct vendor_id
       final dealData = deal.toJson();
+      dealData['vendor_id'] = vendorId;
       if (imageUrl != null) {
         dealData['image_url'] = imageUrl;
       }
 
       // Clean up unneeded/invalid keys before insertion
-      dealData.remove('id'); // DB will generate UUID
-      dealData.remove('vendors'); // Joined column, not present in the deals table itself
+      dealData.remove('id');
+      dealData.remove('vendors');
       
       await supabaseClient.from('deals').insert(dealData);
     } catch (e) {
