@@ -5,6 +5,7 @@ abstract class DealRepository {
   Future<List<DealEntity>> getAvailableDeals();
   Future<void> addDeal(DealEntity deal, File imageFile);
   Future<void> claimDeal(String dealId, int quantity); 
+  Future<List<DealEntity>> getVendorDeals();
 }
 
 /* 

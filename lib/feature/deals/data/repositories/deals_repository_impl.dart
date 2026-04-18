@@ -37,4 +37,14 @@ class DealsRepositoryImpl implements DealRepository {
       throw Exception(e.message);
     }
   }
+
+ @override
+Future<List<DealEntity>> getVendorDeals() async {
+  try {
+    final models = await _dataSource.getVendorDeals();
+    return models.map((m) => m.toEntity()).toList();
+  } on ServerException catch (e) {
+    throw Exception(e.message);
+  }
+}
 }
