@@ -7,6 +7,7 @@ abstract class DealsRemoteDataSource {
   Future<List<DealModel>> getAvailableDeals();
   Future<void> addDeal(DealModel deal, File? imageFile);
   Future<void> claimDeal(String dealId, int quantity);
+  Future<List<DealModel>> getVendorDeals();
 }
 
 class DealsRemoteDataSourceImpl implements DealsRemoteDataSource {
@@ -137,6 +138,35 @@ class DealsRemoteDataSourceImpl implements DealsRemoteDataSource {
           .toList();
     } catch (e) {
       throw ServerException(message: "Failed to featch deal");
+    }
+  }
+  
+  @override
+  Future<List<DealModel>> getVendorDeals()  async {
+    try{
+        final currentUser = supabaseClient.auth.currentUser;
+        if(currentUser == null){
+          throw const ServerException(message: 'User not logged in');
+        }
+
+        final vendorResponse = await supabaseClient.from('Vendors').select('id').eq('owner_id', currentUser.id).maybeSingle();
+
+    if(vendorResponse == null){
+      throw const ServerException(message: 'Vendor not found');
+    }
+
+    final vendorid = vendorResponse['id'] as String;
+
+     final response = await supabaseClient
+        .from('deals')
+        .select('*, vendors(*)')
+        .eq('vendor_id', vendorid)
+        .order('created_at', ascending: false);
+         return (response as List)
+        .map((json) => DealModel.fromJson(json as Map<String, dynamic>))
+        .toList();
+    }catch(e){
+ throw ServerException(message: "Failed to fetch vendor deals: $e");
     }
   }
 }
