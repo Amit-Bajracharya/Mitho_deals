@@ -55,7 +55,7 @@ extension DealsStatePatterns on DealsState {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Initial value)?  initial,TResult Function( _Loading value)?  loading,TResult Function( _Loaded value)?  loaded,TResult Function( _Error value)?  error,TResult Function( _AddingDeal value)?  addingDeal,TResult Function( _AddDealSuccess value)?  addDealSuccess,TResult Function( _AddDealError value)?  addDealError,TResult Function( _ClaimedSuccess value)?  claimedSuccess,TResult Function( _ClaimedError value)?  claimedError,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Initial value)?  initial,TResult Function( _Loading value)?  loading,TResult Function( _Loaded value)?  loaded,TResult Function( _Error value)?  error,TResult Function( _AddingDeal value)?  addingDeal,TResult Function( _AddDealSuccess value)?  addDealSuccess,TResult Function( _AddDealError value)?  addDealError,TResult Function( _ClaimedSuccess value)?  claimedSuccess,TResult Function( _ClaimedError value)?  claimedError,TResult Function( _VendorDealsLoading value)?  vendorDealsLoading,TResult Function( _VendorDealsLoaded value)?  vendorDealsLoaded,TResult Function( _VendorDealsError value)?  vendorDealsError,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
@@ -67,7 +67,10 @@ return addingDeal(_that);case _AddDealSuccess() when addDealSuccess != null:
 return addDealSuccess(_that);case _AddDealError() when addDealError != null:
 return addDealError(_that);case _ClaimedSuccess() when claimedSuccess != null:
 return claimedSuccess(_that);case _ClaimedError() when claimedError != null:
-return claimedError(_that);case _:
+return claimedError(_that);case _VendorDealsLoading() when vendorDealsLoading != null:
+return vendorDealsLoading(_that);case _VendorDealsLoaded() when vendorDealsLoaded != null:
+return vendorDealsLoaded(_that);case _VendorDealsError() when vendorDealsError != null:
+return vendorDealsError(_that);case _:
   return orElse();
 
 }
@@ -85,7 +88,7 @@ return claimedError(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Initial value)  initial,required TResult Function( _Loading value)  loading,required TResult Function( _Loaded value)  loaded,required TResult Function( _Error value)  error,required TResult Function( _AddingDeal value)  addingDeal,required TResult Function( _AddDealSuccess value)  addDealSuccess,required TResult Function( _AddDealError value)  addDealError,required TResult Function( _ClaimedSuccess value)  claimedSuccess,required TResult Function( _ClaimedError value)  claimedError,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Initial value)  initial,required TResult Function( _Loading value)  loading,required TResult Function( _Loaded value)  loaded,required TResult Function( _Error value)  error,required TResult Function( _AddingDeal value)  addingDeal,required TResult Function( _AddDealSuccess value)  addDealSuccess,required TResult Function( _AddDealError value)  addDealError,required TResult Function( _ClaimedSuccess value)  claimedSuccess,required TResult Function( _ClaimedError value)  claimedError,required TResult Function( _VendorDealsLoading value)  vendorDealsLoading,required TResult Function( _VendorDealsLoaded value)  vendorDealsLoaded,required TResult Function( _VendorDealsError value)  vendorDealsError,}){
 final _that = this;
 switch (_that) {
 case _Initial():
@@ -97,7 +100,10 @@ return addingDeal(_that);case _AddDealSuccess():
 return addDealSuccess(_that);case _AddDealError():
 return addDealError(_that);case _ClaimedSuccess():
 return claimedSuccess(_that);case _ClaimedError():
-return claimedError(_that);case _:
+return claimedError(_that);case _VendorDealsLoading():
+return vendorDealsLoading(_that);case _VendorDealsLoaded():
+return vendorDealsLoaded(_that);case _VendorDealsError():
+return vendorDealsError(_that);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -114,7 +120,7 @@ return claimedError(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Initial value)?  initial,TResult? Function( _Loading value)?  loading,TResult? Function( _Loaded value)?  loaded,TResult? Function( _Error value)?  error,TResult? Function( _AddingDeal value)?  addingDeal,TResult? Function( _AddDealSuccess value)?  addDealSuccess,TResult? Function( _AddDealError value)?  addDealError,TResult? Function( _ClaimedSuccess value)?  claimedSuccess,TResult? Function( _ClaimedError value)?  claimedError,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Initial value)?  initial,TResult? Function( _Loading value)?  loading,TResult? Function( _Loaded value)?  loaded,TResult? Function( _Error value)?  error,TResult? Function( _AddingDeal value)?  addingDeal,TResult? Function( _AddDealSuccess value)?  addDealSuccess,TResult? Function( _AddDealError value)?  addDealError,TResult? Function( _ClaimedSuccess value)?  claimedSuccess,TResult? Function( _ClaimedError value)?  claimedError,TResult? Function( _VendorDealsLoading value)?  vendorDealsLoading,TResult? Function( _VendorDealsLoaded value)?  vendorDealsLoaded,TResult? Function( _VendorDealsError value)?  vendorDealsError,}){
 final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
@@ -126,7 +132,10 @@ return addingDeal(_that);case _AddDealSuccess() when addDealSuccess != null:
 return addDealSuccess(_that);case _AddDealError() when addDealError != null:
 return addDealError(_that);case _ClaimedSuccess() when claimedSuccess != null:
 return claimedSuccess(_that);case _ClaimedError() when claimedError != null:
-return claimedError(_that);case _:
+return claimedError(_that);case _VendorDealsLoading() when vendorDealsLoading != null:
+return vendorDealsLoading(_that);case _VendorDealsLoaded() when vendorDealsLoaded != null:
+return vendorDealsLoaded(_that);case _VendorDealsError() when vendorDealsError != null:
+return vendorDealsError(_that);case _:
   return null;
 
 }
@@ -143,7 +152,7 @@ return claimedError(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( List<DealEntity> deals)?  loaded,TResult Function( String message)?  error,TResult Function()?  addingDeal,TResult Function()?  addDealSuccess,TResult Function( String message)?  addDealError,TResult Function()?  claimedSuccess,TResult Function( String message)?  claimedError,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( List<DealEntity> deals)?  loaded,TResult Function( String message)?  error,TResult Function()?  addingDeal,TResult Function()?  addDealSuccess,TResult Function( String message)?  addDealError,TResult Function()?  claimedSuccess,TResult Function( String message)?  claimedError,TResult Function()?  vendorDealsLoading,TResult Function( List<DealEntity> deals)?  vendorDealsLoaded,TResult Function( String message)?  vendorDealsError,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case _Loading() when loading != null:
@@ -154,7 +163,10 @@ return addingDeal();case _AddDealSuccess() when addDealSuccess != null:
 return addDealSuccess();case _AddDealError() when addDealError != null:
 return addDealError(_that.message);case _ClaimedSuccess() when claimedSuccess != null:
 return claimedSuccess();case _ClaimedError() when claimedError != null:
-return claimedError(_that.message);case _:
+return claimedError(_that.message);case _VendorDealsLoading() when vendorDealsLoading != null:
+return vendorDealsLoading();case _VendorDealsLoaded() when vendorDealsLoaded != null:
+return vendorDealsLoaded(_that.deals);case _VendorDealsError() when vendorDealsError != null:
+return vendorDealsError(_that.message);case _:
   return orElse();
 
 }
@@ -172,7 +184,7 @@ return claimedError(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( List<DealEntity> deals)  loaded,required TResult Function( String message)  error,required TResult Function()  addingDeal,required TResult Function()  addDealSuccess,required TResult Function( String message)  addDealError,required TResult Function()  claimedSuccess,required TResult Function( String message)  claimedError,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( List<DealEntity> deals)  loaded,required TResult Function( String message)  error,required TResult Function()  addingDeal,required TResult Function()  addDealSuccess,required TResult Function( String message)  addDealError,required TResult Function()  claimedSuccess,required TResult Function( String message)  claimedError,required TResult Function()  vendorDealsLoading,required TResult Function( List<DealEntity> deals)  vendorDealsLoaded,required TResult Function( String message)  vendorDealsError,}) {final _that = this;
 switch (_that) {
 case _Initial():
 return initial();case _Loading():
@@ -183,7 +195,10 @@ return addingDeal();case _AddDealSuccess():
 return addDealSuccess();case _AddDealError():
 return addDealError(_that.message);case _ClaimedSuccess():
 return claimedSuccess();case _ClaimedError():
-return claimedError(_that.message);case _:
+return claimedError(_that.message);case _VendorDealsLoading():
+return vendorDealsLoading();case _VendorDealsLoaded():
+return vendorDealsLoaded(_that.deals);case _VendorDealsError():
+return vendorDealsError(_that.message);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -200,7 +215,7 @@ return claimedError(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( List<DealEntity> deals)?  loaded,TResult? Function( String message)?  error,TResult? Function()?  addingDeal,TResult? Function()?  addDealSuccess,TResult? Function( String message)?  addDealError,TResult? Function()?  claimedSuccess,TResult? Function( String message)?  claimedError,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( List<DealEntity> deals)?  loaded,TResult? Function( String message)?  error,TResult? Function()?  addingDeal,TResult? Function()?  addDealSuccess,TResult? Function( String message)?  addDealError,TResult? Function()?  claimedSuccess,TResult? Function( String message)?  claimedError,TResult? Function()?  vendorDealsLoading,TResult? Function( List<DealEntity> deals)?  vendorDealsLoaded,TResult? Function( String message)?  vendorDealsError,}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case _Loading() when loading != null:
@@ -211,7 +226,10 @@ return addingDeal();case _AddDealSuccess() when addDealSuccess != null:
 return addDealSuccess();case _AddDealError() when addDealError != null:
 return addDealError(_that.message);case _ClaimedSuccess() when claimedSuccess != null:
 return claimedSuccess();case _ClaimedError() when claimedError != null:
-return claimedError(_that.message);case _:
+return claimedError(_that.message);case _VendorDealsLoading() when vendorDealsLoading != null:
+return vendorDealsLoading();case _VendorDealsLoaded() when vendorDealsLoaded != null:
+return vendorDealsLoaded(_that.deals);case _VendorDealsError() when vendorDealsError != null:
+return vendorDealsError(_that.message);case _:
   return null;
 
 }
@@ -641,6 +659,176 @@ class __$ClaimedErrorCopyWithImpl<$Res>
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') $Res call({Object? message = null,}) {
   return _then(_ClaimedError(
+null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class _VendorDealsLoading implements DealsState {
+  const _VendorDealsLoading();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _VendorDealsLoading);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'DealsState.vendorDealsLoading()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class _VendorDealsLoaded implements DealsState {
+  const _VendorDealsLoaded(final  List<DealEntity> deals): _deals = deals;
+  
+
+ final  List<DealEntity> _deals;
+ List<DealEntity> get deals {
+  if (_deals is EqualUnmodifiableListView) return _deals;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_deals);
+}
+
+
+/// Create a copy of DealsState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$VendorDealsLoadedCopyWith<_VendorDealsLoaded> get copyWith => __$VendorDealsLoadedCopyWithImpl<_VendorDealsLoaded>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _VendorDealsLoaded&&const DeepCollectionEquality().equals(other._deals, _deals));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_deals));
+
+@override
+String toString() {
+  return 'DealsState.vendorDealsLoaded(deals: $deals)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$VendorDealsLoadedCopyWith<$Res> implements $DealsStateCopyWith<$Res> {
+  factory _$VendorDealsLoadedCopyWith(_VendorDealsLoaded value, $Res Function(_VendorDealsLoaded) _then) = __$VendorDealsLoadedCopyWithImpl;
+@useResult
+$Res call({
+ List<DealEntity> deals
+});
+
+
+
+
+}
+/// @nodoc
+class __$VendorDealsLoadedCopyWithImpl<$Res>
+    implements _$VendorDealsLoadedCopyWith<$Res> {
+  __$VendorDealsLoadedCopyWithImpl(this._self, this._then);
+
+  final _VendorDealsLoaded _self;
+  final $Res Function(_VendorDealsLoaded) _then;
+
+/// Create a copy of DealsState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? deals = null,}) {
+  return _then(_VendorDealsLoaded(
+null == deals ? _self._deals : deals // ignore: cast_nullable_to_non_nullable
+as List<DealEntity>,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class _VendorDealsError implements DealsState {
+  const _VendorDealsError(this.message);
+  
+
+ final  String message;
+
+/// Create a copy of DealsState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$VendorDealsErrorCopyWith<_VendorDealsError> get copyWith => __$VendorDealsErrorCopyWithImpl<_VendorDealsError>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _VendorDealsError&&(identical(other.message, message) || other.message == message));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,message);
+
+@override
+String toString() {
+  return 'DealsState.vendorDealsError(message: $message)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$VendorDealsErrorCopyWith<$Res> implements $DealsStateCopyWith<$Res> {
+  factory _$VendorDealsErrorCopyWith(_VendorDealsError value, $Res Function(_VendorDealsError) _then) = __$VendorDealsErrorCopyWithImpl;
+@useResult
+$Res call({
+ String message
+});
+
+
+
+
+}
+/// @nodoc
+class __$VendorDealsErrorCopyWithImpl<$Res>
+    implements _$VendorDealsErrorCopyWith<$Res> {
+  __$VendorDealsErrorCopyWithImpl(this._self, this._then);
+
+  final _VendorDealsError _self;
+  final $Res Function(_VendorDealsError) _then;
+
+/// Create a copy of DealsState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? message = null,}) {
+  return _then(_VendorDealsError(
 null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String,
   ));

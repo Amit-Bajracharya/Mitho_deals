@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get_it/get_it.dart';
 import 'package:mitho_deals/app/router.dart';
 import 'package:mitho_deals/core/dependency_injection/auth_dependencies.dart';
 import 'package:mitho_deals/core/dependency_injection/deals_dependencies.dart';
@@ -15,6 +16,11 @@ void main()  async {
   await dotenv.load(fileName: ".env");
 
   await Supabase.initialize(url: dotenv.env['PROJECT_URL']!, anonKey: dotenv.env['API_KEY']!);
+
+  // Register SupabaseClient in GetIt
+  final sl = GetIt.instance;
+  sl.registerLazySingleton<SupabaseClient>(() => Supabase.instance.client);
+
   setupAuthDependencies();
   setupDealsDependencies();
   setupOrdersDependencies();

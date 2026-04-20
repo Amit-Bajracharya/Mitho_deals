@@ -17,4 +17,6 @@ class DealsEvent with _$DealsEvent {
     required String dealId,
     required int quantity,
   }) = ClaimDeal;
+
+  const factory DealsEvent.loadVendorDeals() = LoadVendorDeals;
 }
