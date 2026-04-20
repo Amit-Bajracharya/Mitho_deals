@@ -89,7 +89,7 @@ class VendorRemoteDataSourceImpl implements VendorRemoteDataSource {
 
       final response = await supabaseClient
           .from('orders')
-          .select('*, deals(*), users:user_id(*)')
+          .select('*, deals(*), vendors(name)')
           .eq('vendor_id', vendorId)
           .eq('status', 'reserved')
           .order('order_placed_time', ascending: false);

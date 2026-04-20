@@ -5,6 +5,7 @@ import 'package:mitho_deals/feature/deals/data/repositories/deals_repository_imp
 import 'package:mitho_deals/feature/deals/domain/repo/deal_repository.dart';
 import 'package:mitho_deals/feature/deals/domain/usecases/add_deals.dart';
 import 'package:mitho_deals/feature/deals/domain/usecases/get_available_deals.dart';
+import 'package:mitho_deals/feature/deals/domain/usecases/get_vendor_deals.dart';
 import 'package:mitho_deals/feature/deals/presentation/bloc/deals_bloc.dart';
 
 void setupDealsDependencies() {
@@ -24,10 +25,15 @@ void setupDealsDependencies() {
     AddDealUseCase(ServiceLocator.get<DealRepository>()),
   );
 
+  ServiceLocator.register<GetVendorDealsUseCase>(
+    GetVendorDealsUseCase(ServiceLocator.get<DealRepository>()),
+  );
+
   ServiceLocator.register<DealsBloc>(
     DealsBloc(
       getAvailableDealsUseCase: ServiceLocator.get<GetAvailableDealsUseCase>(),
       addDealUseCase: ServiceLocator.get<AddDealUseCase>(),
+      getVendorDealsUseCase: ServiceLocator.get<GetVendorDealsUseCase>(),
       dealRepository: ServiceLocator.get<DealRepository>(),
     ),
   );

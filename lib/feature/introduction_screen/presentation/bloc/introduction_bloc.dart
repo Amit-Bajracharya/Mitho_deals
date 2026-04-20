@@ -11,13 +11,13 @@ class IntroductionBloc extends Bloc<IntroductionEvent, IntroductionState> {
     on<IntroductionEvent>(_onEvent);
   }
 
-  void _onEvent(IntroductionEvent event, Emitter<IntroductionState> emit) {
-    event.map(
-      loadPages: (_) => _onLoadPages(emit),
-      nextPage: (_) => _onNextPage(emit),
-      previousPage: (_) => _onPreviousPage(emit),
-      pageChanged: (e) => _onPageChanged(e.page, emit),
-      skip: (_) => _onSkipIntroduction(emit),
+  Future<void> _onEvent(IntroductionEvent event, Emitter<IntroductionState> emit) async {
+    await event.map(
+      loadPages: (_) async => _onLoadPages(emit),
+      nextPage: (_) async => _onNextPage(emit),
+      previousPage: (_) async => _onPreviousPage(emit),
+      pageChanged: (e) async => _onPageChanged(e.page, emit),
+      skip: (_) async => _onSkipIntroduction(emit),
       complete: (_) async => _onCompleteIntroduction(emit),
     );
   }

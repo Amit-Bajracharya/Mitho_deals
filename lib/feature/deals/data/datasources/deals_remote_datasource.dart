@@ -39,11 +39,17 @@ class DealsRemoteDataSourceImpl implements DealsRemoteDataSource {
       
       // Upload image to Supabase Storage if provided
       if (imageFile != null) {
-        final fileName = 'deals/${DateTime.now().millisecondsSinceEpoch}_${deal.foodName.replaceAll(' ', '_')}.jpg';
+        // Safe file name with no special characters inside the name and no subfolders
+        final safeName = deal.foodName.replaceAll(RegExp(r'[^a-zA-Z0-9]'), '_');
+        final fileName = '${DateTime.now().millisecondsSinceEpoch}_$safeName.jpg';
         
         await supabaseClient.storage
             .from('Images')
-            .upload(fileName, imageFile);
+            .upload(
+              fileName, 
+              imageFile,
+              fileOptions: const FileOptions(contentType: 'image/jpeg', upsert: true),
+            );
         
         // Get public URL
         imageUrl = supabaseClient.storage

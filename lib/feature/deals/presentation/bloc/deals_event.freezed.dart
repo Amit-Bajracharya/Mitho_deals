@@ -55,13 +55,14 @@ extension DealsEventPatterns on DealsEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( LoadDeals value)?  loadDeals,TResult Function( AddDeal value)?  addDeal,TResult Function( ClaimDeal value)?  claimDeal,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( LoadDeals value)?  loadDeals,TResult Function( AddDeal value)?  addDeal,TResult Function( ClaimDeal value)?  claimDeal,TResult Function( LoadVendorDeals value)?  loadVendorDeals,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case LoadDeals() when loadDeals != null:
 return loadDeals(_that);case AddDeal() when addDeal != null:
 return addDeal(_that);case ClaimDeal() when claimDeal != null:
-return claimDeal(_that);case _:
+return claimDeal(_that);case LoadVendorDeals() when loadVendorDeals != null:
+return loadVendorDeals(_that);case _:
   return orElse();
 
 }
@@ -79,13 +80,14 @@ return claimDeal(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( LoadDeals value)  loadDeals,required TResult Function( AddDeal value)  addDeal,required TResult Function( ClaimDeal value)  claimDeal,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( LoadDeals value)  loadDeals,required TResult Function( AddDeal value)  addDeal,required TResult Function( ClaimDeal value)  claimDeal,required TResult Function( LoadVendorDeals value)  loadVendorDeals,}){
 final _that = this;
 switch (_that) {
 case LoadDeals():
 return loadDeals(_that);case AddDeal():
 return addDeal(_that);case ClaimDeal():
-return claimDeal(_that);case _:
+return claimDeal(_that);case LoadVendorDeals():
+return loadVendorDeals(_that);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -102,13 +104,14 @@ return claimDeal(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( LoadDeals value)?  loadDeals,TResult? Function( AddDeal value)?  addDeal,TResult? Function( ClaimDeal value)?  claimDeal,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( LoadDeals value)?  loadDeals,TResult? Function( AddDeal value)?  addDeal,TResult? Function( ClaimDeal value)?  claimDeal,TResult? Function( LoadVendorDeals value)?  loadVendorDeals,}){
 final _that = this;
 switch (_that) {
 case LoadDeals() when loadDeals != null:
 return loadDeals(_that);case AddDeal() when addDeal != null:
 return addDeal(_that);case ClaimDeal() when claimDeal != null:
-return claimDeal(_that);case _:
+return claimDeal(_that);case LoadVendorDeals() when loadVendorDeals != null:
+return loadVendorDeals(_that);case _:
   return null;
 
 }
@@ -125,12 +128,13 @@ return claimDeal(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  loadDeals,TResult Function( DealEntity deal,  File? imageFile)?  addDeal,TResult Function( String dealId,  int quantity)?  claimDeal,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  loadDeals,TResult Function( DealEntity deal,  File? imageFile)?  addDeal,TResult Function( String dealId,  int quantity)?  claimDeal,TResult Function()?  loadVendorDeals,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case LoadDeals() when loadDeals != null:
 return loadDeals();case AddDeal() when addDeal != null:
 return addDeal(_that.deal,_that.imageFile);case ClaimDeal() when claimDeal != null:
-return claimDeal(_that.dealId,_that.quantity);case _:
+return claimDeal(_that.dealId,_that.quantity);case LoadVendorDeals() when loadVendorDeals != null:
+return loadVendorDeals();case _:
   return orElse();
 
 }
@@ -148,12 +152,13 @@ return claimDeal(_that.dealId,_that.quantity);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  loadDeals,required TResult Function( DealEntity deal,  File? imageFile)  addDeal,required TResult Function( String dealId,  int quantity)  claimDeal,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  loadDeals,required TResult Function( DealEntity deal,  File? imageFile)  addDeal,required TResult Function( String dealId,  int quantity)  claimDeal,required TResult Function()  loadVendorDeals,}) {final _that = this;
 switch (_that) {
 case LoadDeals():
 return loadDeals();case AddDeal():
 return addDeal(_that.deal,_that.imageFile);case ClaimDeal():
-return claimDeal(_that.dealId,_that.quantity);case _:
+return claimDeal(_that.dealId,_that.quantity);case LoadVendorDeals():
+return loadVendorDeals();case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -170,12 +175,13 @@ return claimDeal(_that.dealId,_that.quantity);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  loadDeals,TResult? Function( DealEntity deal,  File? imageFile)?  addDeal,TResult? Function( String dealId,  int quantity)?  claimDeal,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  loadDeals,TResult? Function( DealEntity deal,  File? imageFile)?  addDeal,TResult? Function( String dealId,  int quantity)?  claimDeal,TResult? Function()?  loadVendorDeals,}) {final _that = this;
 switch (_that) {
 case LoadDeals() when loadDeals != null:
 return loadDeals();case AddDeal() when addDeal != null:
 return addDeal(_that.deal,_that.imageFile);case ClaimDeal() when claimDeal != null:
-return claimDeal(_that.dealId,_that.quantity);case _:
+return claimDeal(_that.dealId,_that.quantity);case LoadVendorDeals() when loadVendorDeals != null:
+return loadVendorDeals();case _:
   return null;
 
 }
@@ -359,5 +365,37 @@ as int,
 
 
 }
+
+/// @nodoc
+
+
+class LoadVendorDeals implements DealsEvent {
+  const LoadVendorDeals();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoadVendorDeals);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'DealsEvent.loadVendorDeals()';
+}
+
+
+}
+
+
+
 
 // dart format on

@@ -18,4 +18,9 @@ class DealsState with _$DealsState {
   // Claim states
   const factory DealsState.claimedSuccess() = _ClaimedSuccess;
   const factory DealsState.claimedError(String message) = _ClaimedError;
+
+  // Vendor deals states
+  const factory DealsState.vendorDealsLoading() = _VendorDealsLoading;
+  const factory DealsState.vendorDealsLoaded(List<DealEntity> deals) = _VendorDealsLoaded;
+  const factory DealsState.vendorDealsError(String message) = _VendorDealsError;
 }

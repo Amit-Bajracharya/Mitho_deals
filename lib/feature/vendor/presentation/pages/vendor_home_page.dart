@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mitho_deals/feature/vendor/domain/entities/vendor_stats.dart';
+import 'package:mitho_deals/feature/vendor/presentation/pages/vendor_inventory_page.dart';
 import '../bloc/vendor_bloc.dart';
 import '../../../../core/dependency_injection/vendor_dependencies.dart';
 
@@ -14,16 +15,24 @@ class VendorHomePage extends StatefulWidget {
 }
 
 class _VendorHomePageState extends State<VendorHomePage> {
-  @override
-  void initState() {
-    super.initState();
-    context.read<VendorBloc>().add(const VendorEvent.loadDashboard());
+  int _currentIndex = 0;
+
+  void _onNavTapped(int index) {
+    if (index == 2) return; // QR button space - handled separately
+    setState(() {
+      _currentIndex = index;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => sl<VendorBloc>(),
+      create: (context) {
+        final bloc = sl<VendorBloc>();
+        // Load dashboard when bloc is created
+        bloc.add(const VendorEvent.loadDashboard());
+        return bloc;
+      },
       child: Scaffold(
         backgroundColor: const Color(0xFFF9FAFB),
         appBar: _buildAppBar(),
@@ -507,30 +516,38 @@ class _VendorHomePageState extends State<VendorHomePage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              _buildNavItem(Icons.grid_view_rounded, 'Home', true),
-              _buildNavItem(Icons.receipt_long_rounded, 'Orders', false),
+              _buildNavItem(Icons.grid_view_rounded, 'Home', 0),
+              _buildNavItem(Icons.receipt_long_rounded, 'Orders', 1),
               SizedBox(width: 40.w), // Space for centered QR button
-              _buildNavItem(Icons.restaurant_rounded, 'Inventory', false),
-              _buildNavItem(Icons.person_rounded, 'Profile', false),
+              _buildNavItem(Icons.restaurant_rounded, 'Inventory', 3),
+              _buildNavItem(Icons.person_rounded, 'Profile', 4),
             ],
           ),
           Positioned(
             top: -25.h,
-            child: Container(
-              width: 60.w,
-              height: 60.w,
-              decoration: BoxDecoration(
-                color: const Color(0xFFFF6B35),
-                shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                    color: const Color(0xFFFF6B35).withOpacity(0.4),
-                    blurRadius: 15,
-                    offset: const Offset(0, 5),
-                  ),
-                ],
+            child: GestureDetector(
+              onTap: () {
+                // TODO: Open QR scanner
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('QR Scanner coming soon!')),
+                );
+              },
+              child: Container(
+                width: 60.w,
+                height: 60.w,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFFF6B35),
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFFFF6B35).withOpacity(0.4),
+                      blurRadius: 15,
+                      offset: const Offset(0, 5),
+                    ),
+                  ],
+                ),
+                child: Icon(Icons.qr_code_scanner_rounded, color: Colors.white, size: 28.sp),
               ),
-              child: Icon(Icons.qr_code_scanner_rounded, color: Colors.white, size: 28.sp),
             ),
           ),
         ],
@@ -538,25 +555,39 @@ class _VendorHomePageState extends State<VendorHomePage> {
     );
   }
 
-  Widget _buildNavItem(IconData icon, String label, bool isActive) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(
-          icon,
-          size: 24.sp,
-          color: isActive ? const Color(0xFFFF6B35) : Colors.grey[400],
-        ),
-        SizedBox(height: 4.h),
-        Text(
-          label,
-          style: GoogleFonts.poppins(
-            fontSize: 11.sp,
-            fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
-            color: isActive ? const Color(0xFFFF6B35) : Colors.grey,
+  Widget _buildNavItem(IconData icon, String label, int index) {
+    final isActive = _currentIndex == index;
+    return GestureDetector(
+      onTap: () {
+        if (index == 3) {
+          // Navigate to Inventory Page
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const VendorInventoryPage()),
+          );
+        } else {
+          _onNavTapped(index);
+        }
+      },
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            icon,
+            size: 24.sp,
+            color: isActive ? const Color(0xFFFF6B35) : Colors.grey[400],
           ),
-        ),
-      ],
+          SizedBox(height: 4.h),
+          Text(
+            label,
+            style: GoogleFonts.poppins(
+              fontSize: 11.sp,
+              fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
+              color: isActive ? const Color(0xFFFF6B35) : Colors.grey,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
