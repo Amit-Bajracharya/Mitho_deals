@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class DealsAppBar extends StatelessWidget {
@@ -34,11 +35,26 @@ class DealsAppBar extends StatelessWidget {
             ],
           ),
           
-          // Right Side: Notification Icon
-          Icon(
-            Icons.notifications,
-            color: const Color(0xFF1F2937),
-            size: 24.sp,
+          // Right Side: Cart & Notification Icons
+          Row(
+            children: [
+              // Cart Icon
+              GestureDetector(
+                onTap: () => context.push('/cart'),
+                child: Icon(
+                  Icons.shopping_cart_outlined,
+                  color: const Color(0xFF1F2937),
+                  size: 24.sp,
+                ),
+              ),
+              SizedBox(width: 16.w),
+              // Notification Icon
+              Icon(
+                Icons.notifications,
+                color: const Color(0xFF1F2937),
+                size: 24.sp,
+              ),
+            ],
           ),
         ],
       ),

@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mitho_deals/app/router.dart';
 import 'package:mitho_deals/core/dependency_injection/auth_dependencies.dart';
+import 'package:mitho_deals/core/dependency_injection/cart_dependencies.dart';
 import 'package:mitho_deals/core/dependency_injection/deals_dependencies.dart';
 import 'package:mitho_deals/core/dependency_injection/orders_dependencies.dart';
 import 'package:mitho_deals/core/dependency_injection/vendor_dependencies.dart';
@@ -26,6 +27,7 @@ void main()  async {
   ));
 
   setupAuthDependencies();
+  setupCartDependencies();
   setupDealsDependencies();
   setupOrdersDependencies();
   setupVendorDependencies();

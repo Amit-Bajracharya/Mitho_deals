@@ -8,4 +8,5 @@ class RouteConstants {
   static const String vendorHome = '/vendor-home';
   static const String dealsList = '/deals';
   static const String dealDetails = '/deal-details';
+  static const String cart = '/cart';
 }
