@@ -17,9 +17,13 @@ void main()  async {
 
   await Supabase.initialize(url: dotenv.env['PROJECT_URL']!, anonKey: dotenv.env['API_KEY']!);
 
-  // Register SupabaseClient in GetIt
+  // Register SupabaseClient in GetIt with explicit storage URL for v3 protocol
   final sl = GetIt.instance;
-  sl.registerLazySingleton<SupabaseClient>(() => Supabase.instance.client);
+  sl.registerLazySingleton<SupabaseClient>(() => SupabaseClient(
+    dotenv.env['PROJECT_URL']!,
+    dotenv.env['API_KEY']!,
+   // storageUrl: 'https://phwaysewexzldtnmcavo.storage.supabase.co/storage/v1',
+  ));
 
   setupAuthDependencies();
   setupDealsDependencies();
