@@ -30,54 +30,39 @@ class VendorRegisterPage extends StatelessWidget {
         value: authBloc,
         child: BlocListener<AuthBloc, AuthState>(
           listener: (context, state) {
-            state.when(
-              initial: () {},
+            state.maybeWhen(
               loading: () {
                 ScaffoldMessenger.of(context).hideCurrentSnackBar();
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Row(
                       children: [
-                        SizedBox(
-                          width: 18.w,
-                          height: 18.h,
-                          child: const CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
-                        ),
-                        SizedBox(width: 16.w),
-                        Text('Processing...', style: GoogleFonts.poppins(fontSize: 13.sp)),
+                        SizedBox(width: 16.w, height: 16.h, child: const CircularProgressIndicator(color: Colors.white, strokeWidth: 1.5)),
+                        SizedBox(width: 12.w),
+                        Text('Processing...', style: GoogleFonts.poppins(fontSize: 11.sp)),
                       ],
                     ),
                   ),
                 );
               },
-              authenticated: (user) {
+              authenticated: (_) {
                 ScaffoldMessenger.of(context).hideCurrentSnackBar();
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('Profile created! Please login.', style: GoogleFonts.poppins(fontSize: 13.sp)),
-                    backgroundColor: Colors.green,
-                  ),
+                  SnackBar(content: Text('Profile created! Please login.', style: GoogleFonts.poppins(fontSize: 11.sp)), backgroundColor: Colors.green),
                 );
                 context.go('/login');
               },
-              unauthenticated: () {},
               error: (message) {
                 ScaffoldMessenger.of(context).hideCurrentSnackBar();
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(message, style: GoogleFonts.poppins(fontSize: 13.sp)),
-                    backgroundColor: Colors.red,
-                  ),
+                  SnackBar(content: Text(message, style: GoogleFonts.poppins(fontSize: 11.sp)), backgroundColor: Colors.red),
                 );
               },
-              phoneCodeSent: (_, __) {},
-              phoneVerificationLoading: () {},
+              orElse: () {},
             );
           },
           child: BlocBuilder<AuthBloc, AuthState>(
-            builder: (context, state) {
-              return _buildForm(context, state);
-            },
+            builder: (context, state) => _buildForm(context, state),
           ),
         ),
       ),
@@ -85,10 +70,7 @@ class VendorRegisterPage extends StatelessWidget {
   }
 
   Widget _buildForm(BuildContext context, AuthState state) {
-    final isLoading = state.maybeWhen(
-      loading: () => true,
-      orElse: () => false,
-    );
+    final isLoading = state.maybeWhen(loading: () => true, orElse: () => false);
 
     return SafeArea(
       child: SingleChildScrollView(
@@ -98,67 +80,26 @@ class VendorRegisterPage extends StatelessWidget {
             key: _formKey,
             child: Column(
               children: [
-                SizedBox(height: 32.h),
+                SizedBox(height: 24.h),
                 const AuthHeaderWidget(
                   title: 'Partner with Mitho',
-                  subtitle: 'Register your restaurant and start rescuing food',
+                  subtitle: 'Start rescuing food today',
                 ),
-                SizedBox(height: 24.h),
-                _buildField(
-                  controller: _restaurantNameController,
-                  label: 'Restaurant Name',
-                  hint: 'Enter your restaurant name',
-                  icon: Icons.store_rounded,
-                  isLoading: isLoading,
-                ),
-                SizedBox(height: 14.h),
-                _buildField(
-                  controller: _emailController,
-                  label: 'Business Email',
-                  hint: 'Enter your business email',
-                  icon: Icons.email_outlined,
-                  isLoading: isLoading,
-                  keyboardType: TextInputType.emailAddress,
-                ),
-                SizedBox(height: 14.h),
-                _buildField(
-                  controller: _passwordController,
-                  label: 'Password',
-                  hint: 'Create a password',
-                  icon: Icons.lock_outline_rounded,
-                  isLoading: isLoading,
-                  obscureText: true,
-                ),
-                SizedBox(height: 14.h),
-                _buildField(
-                  controller: _descriptionController,
-                  label: 'Description',
-                  hint: 'Tell us about your restaurant',
-                  icon: Icons.description_outlined,
-                  isLoading: isLoading,
-                  maxLines: 2,
-                ),
-                SizedBox(height: 14.h),
-                _buildField(
-                  controller: _addressController,
-                  label: 'Store Address',
-                  hint: 'Where should customers pick up food?',
-                  icon: Icons.location_on_outlined,
-                  isLoading: isLoading,
-                ),
-                SizedBox(height: 24.h),
-                _buildRegisterButton(context, isLoading),
                 SizedBox(height: 20.h),
+                _buildField(controller: _restaurantNameController, label: 'Restaurant Name', hint: 'Name', icon: Icons.store_rounded, isLoading: isLoading),
+                SizedBox(height: 10.h),
+                _buildField(controller: _emailController, label: 'Email', hint: 'Business email', icon: Icons.email_outlined, isLoading: isLoading, keyboardType: TextInputType.emailAddress),
+                SizedBox(height: 10.h),
+                _buildField(controller: _passwordController, label: 'Password', hint: 'Password', icon: Icons.lock_outline_rounded, isLoading: isLoading, obscureText: true),
+                SizedBox(height: 10.h),
+                _buildField(controller: _descriptionController, label: 'Description', hint: 'About you', icon: Icons.description_outlined, isLoading: isLoading, maxLines: 2),
+                SizedBox(height: 10.h),
+                _buildField(controller: _addressController, label: 'Store Address', hint: 'Location', icon: Icons.location_on_outlined, isLoading: isLoading),
+                SizedBox(height: 20.h),
+                _buildRegisterButton(context, isLoading),
                 TextButton(
                   onPressed: () => context.go('/login'),
-                  child: Text(
-                    'Back to Login',
-                    style: GoogleFonts.poppins(
-                      fontSize: 13.sp,
-                      color: const Color(0xFFFF6B35),
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
+                  child: Text('Back to Login', style: GoogleFonts.poppins(fontSize: 11.sp, color: const Color(0xFFFF6B35), fontWeight: FontWeight.w600)),
                 ),
                 SizedBox(height: 20.h),
               ],
@@ -169,42 +110,25 @@ class VendorRegisterPage extends StatelessWidget {
     );
   }
 
-  Widget _buildField({
-    required TextEditingController controller,
-    required String label,
-    required String hint,
-    required IconData icon,
-    required bool isLoading,
-    bool obscureText = false,
-    int maxLines = 1,
-    TextInputType? keyboardType,
-  }) {
+  Widget _buildField({required TextEditingController controller, required String label, required String hint, required IconData icon, required bool isLoading, bool obscureText = false, int maxLines = 1, TextInputType? keyboardType}) {
     return TextFormField(
       controller: controller,
       enabled: !isLoading,
       obscureText: obscureText,
       maxLines: maxLines,
       keyboardType: keyboardType,
-      style: GoogleFonts.poppins(fontSize: 13.sp),
+      style: GoogleFonts.poppins(fontSize: 11.sp),
       decoration: InputDecoration(
         labelText: label,
         hintText: hint,
-        prefixIcon: Icon(icon, size: 18.sp),
-        contentPadding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12.r),
-          borderSide: const BorderSide(color: Color(0xFFF1F2F6)),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12.r),
-          borderSide: const BorderSide(color: Color(0xFFF1F2F6)),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12.r),
-          borderSide: const BorderSide(color: Color(0xFFFF6B35), width: 1.5),
-        ),
-        labelStyle: GoogleFonts.poppins(fontSize: 12.sp, color: const Color(0xFF636E72)),
-        hintStyle: GoogleFonts.poppins(fontSize: 11.sp, color: Colors.grey[400]),
+        isDense: true,
+        prefixIcon: Icon(icon, size: 16.sp),
+        contentPadding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 12.w),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.r), borderSide: const BorderSide(color: Color(0xFFF1F2F6))),
+        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.r), borderSide: const BorderSide(color: Color(0xFFF1F2F6))),
+        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.r), borderSide: const BorderSide(color: Color(0xFFFF6B35), width: 1.2)),
+        labelStyle: GoogleFonts.poppins(fontSize: 9.sp, color: const Color(0xFF636E72)),
+        hintStyle: GoogleFonts.poppins(fontSize: 9.sp, color: Colors.grey[400]),
       ),
       validator: (val) => (val == null || val.isEmpty) ? 'Required' : null,
     );
@@ -213,26 +137,13 @@ class VendorRegisterPage extends StatelessWidget {
   Widget _buildRegisterButton(BuildContext context, bool isLoading) {
     return SizedBox(
       width: double.infinity,
-      height: 48.h,
+      height: 40.h,
       child: ElevatedButton(
         onPressed: isLoading ? null : () => _onRegister(context),
-        style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFFFF6B35),
-          foregroundColor: Colors.white,
-          elevation: 0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12.r),
-          ),
-        ),
+        style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFFFF6B35), foregroundColor: Colors.white, elevation: 0, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r))),
         child: isLoading
-            ? SizedBox(width: 20.w, height: 20.h, child: const CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
-            : Text(
-                'Register Restaurant',
-                style: GoogleFonts.poppins(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
+            ? SizedBox(width: 16.w, height: 16.h, child: const CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
+            : Text('Register Restaurant', style: GoogleFonts.poppins(fontSize: 12.sp, fontWeight: FontWeight.w600)),
       ),
     );
   }

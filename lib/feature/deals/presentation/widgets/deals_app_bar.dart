@@ -19,14 +19,14 @@ class DealsAppBar extends StatelessWidget {
               // Logo Icon
               Icon(
                 Icons.restaurant,
-                color: const Color(0xFFF97316), // Orange
-                size: 28.sp,
+                color: const Color(0xFFF97316),
+                size: 20.sp, // Smaller icon
               ),
-              SizedBox(width: 8.w),
+              SizedBox(width: 6.w),
               Text(
                 'Mitho Deals',
                 style: GoogleFonts.poppins(
-                  fontSize: 20.sp,
+                  fontSize: 16.sp, // Title at 16sp
                   fontWeight: FontWeight.w700,
                   color: const Color(0xFF1F2937),
                   letterSpacing: -0.5,
@@ -35,24 +35,22 @@ class DealsAppBar extends StatelessWidget {
             ],
           ),
           
-          // Right Side: Cart & Notification Icons
+          // Right Side: Cart & Notification
           Row(
             children: [
-              // Cart Icon
               GestureDetector(
                 onTap: () => context.push('/cart'),
                 child: Icon(
                   Icons.shopping_cart_outlined,
                   color: const Color(0xFF1F2937),
-                  size: 24.sp,
+                  size: 20.sp, // Smaller icon
                 ),
               ),
-              SizedBox(width: 16.w),
-              // Notification Icon
+              SizedBox(width: 12.w),
               Icon(
-                Icons.notifications,
+                Icons.notifications_none_outlined,
                 color: const Color(0xFF1F2937),
-                size: 24.sp,
+                size: 20.sp, // Smaller icon
               ),
             ],
           ),

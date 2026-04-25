@@ -6,61 +6,56 @@ class AuthHeaderWidget extends StatelessWidget {
   final String title;
   final String subtitle;
   
-  
   const AuthHeaderWidget({
     super.key,
     required this.title,
     required this.subtitle,
-    
   });
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // Logo
         Container(
-          width: 64.w,
-          height: 64.h,
+          width: 48.w, // Slimmer logo
+          height: 48.h,
           decoration: BoxDecoration(
-            color: Colors.white, // Orange color
-            borderRadius: BorderRadius.circular(16.r),
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12.r),
             boxShadow: [
               BoxShadow(
-                color: const Color(0xFFFF6B35).withOpacity(0.2),
-                blurRadius: 8,
-                offset: const Offset(0, 4),
+                color: const Color(0xFFFF6B35).withOpacity(0.15),
+                blurRadius: 6,
+                offset: const Offset(0, 3),
               ),
             ],
           ),
           child: Padding(
-            padding: EdgeInsets.all(12.w),
+            padding: EdgeInsets.all(8.w),
             child: Image.asset('assets/images/main_logo.png', fit: BoxFit.contain,),
           )
         ),
         
-        SizedBox(height: 20.h),
+        SizedBox(height: 16.h),
         
-        // Title
         Text(
           title,
           textAlign: TextAlign.center,
           style: GoogleFonts.poppins(
-            fontSize: 20.sp,
+            fontSize: 16.sp, // Title at 16sp
             fontWeight: FontWeight.bold,
             color: const Color(0xFF2D3436),
-            letterSpacing: -0.5,
+            letterSpacing: -0.4,
           ),
         ),
         
-        SizedBox(height: 6.h),
+        SizedBox(height: 4.h),
         
-        // Subtitle
         Text(
           subtitle,
           textAlign: TextAlign.center,
           style: GoogleFonts.poppins(
-            fontSize: 12.sp,
+            fontSize: 9.sp, // Normal text at 9sp
             color: const Color(0xFF636E72),
             fontWeight: FontWeight.w400,
           ),

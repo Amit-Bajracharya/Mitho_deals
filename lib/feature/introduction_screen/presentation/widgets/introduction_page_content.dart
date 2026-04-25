@@ -39,7 +39,7 @@ class IntroductionPageContent extends StatelessWidget {
             page.description,
             textAlign: TextAlign.center,
             style: GoogleFonts.poppins(
-              fontSize: 12.sp,
+              fontSize: 9.sp, // Normal text at 9sp
               fontWeight: FontWeight.normal,
               color: AppTheme.textSecondary,
               height: 1.5,
@@ -164,7 +164,7 @@ class IntroductionPageContent extends StatelessWidget {
           TextSpan(
             text: page.title,
             style: GoogleFonts.poppins(
-              fontSize: 20.sp,
+              fontSize: 16.sp, // Title at 16sp
               fontWeight: FontWeight.bold,
               color: AppTheme.textPrimary,
               height: 1.3,
@@ -174,7 +174,7 @@ class IntroductionPageContent extends StatelessWidget {
             TextSpan(
               text: '\n${page.highlight}',
               style: GoogleFonts.poppins(
-                fontSize: 20.sp,
+                fontSize: 16.sp, // Highlight title at 16sp
                 fontWeight: FontWeight.bold,
                 color: AppTheme.primaryOrange,
                 height: 1.3,

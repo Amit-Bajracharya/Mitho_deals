@@ -84,7 +84,7 @@ class _DealsListScreenState extends State<DealsListScreen> {
                               Text(
                                 'Active Deals',
                                 style: GoogleFonts.poppins(
-                                  fontSize: 18.sp,
+                                  fontSize: 14.sp, // Slim title
                                   fontWeight: FontWeight.w700,
                                   color: const Color(0xFF1F2937),
                                 ),
@@ -92,7 +92,7 @@ class _DealsListScreenState extends State<DealsListScreen> {
                               Text(
                                 'View All',
                                 style: GoogleFonts.poppins(
-                                  fontSize: 14.sp,
+                                  fontSize: 10.sp, // Slim text
                                   fontWeight: FontWeight.w600,
                                   color: const Color(0xFFF97316),
                                 ),
@@ -101,7 +101,7 @@ class _DealsListScreenState extends State<DealsListScreen> {
                           ),
                         ),
                         
-                        SizedBox(height: 16.h),
+                        SizedBox(height: 12.h),
                         
                         // List of Deals
                         BlocConsumer<DealsBloc, DealsState>(
@@ -210,11 +210,11 @@ class _DealsListScreenState extends State<DealsListScreen> {
                   Text(
                     'Reserve ${deal.foodName}',
                     style: GoogleFonts.poppins(
-                      fontSize: 18.sp,
+                      fontSize: 14.sp,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 16.h),
+                  SizedBox(height: 12.h),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -222,31 +222,31 @@ class _DealsListScreenState extends State<DealsListScreen> {
                         onPressed: quantity > 1
                             ? () => setState(() => quantity--)
                             : null,
-                        icon: Icon(Icons.remove_circle_outline, size: 32.sp),
+                        icon: Icon(Icons.remove_circle_outline, size: 24.sp),
                         color: const Color(0xFFF97316),
                       ),
-                      SizedBox(width: 16.w),
+                      SizedBox(width: 12.w),
                       Text(
                         quantity.toString(),
                         style: GoogleFonts.poppins(
-                          fontSize: 24.sp,
+                          fontSize: 18.sp,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(width: 16.w),
+                      SizedBox(width: 12.w),
                       IconButton(
                         onPressed: quantity < deal.availablePortions
                             ? () => setState(() => quantity++)
                             : null,
-                        icon: Icon(Icons.add_circle_outline, size: 32.sp),
+                        icon: Icon(Icons.add_circle_outline, size: 24.sp),
                         color: const Color(0xFFF97316),
                       ),
                     ],
                   ),
-                  SizedBox(height: 24.h),
+                  SizedBox(height: 16.h),
                   SizedBox(
                     width: double.infinity,
-                    height: 50.h,
+                    height: 40.h,
                     child: ElevatedButton(
                       onPressed: () {
                         Navigator.pop(bottomSheetContext);
@@ -258,13 +258,13 @@ class _DealsListScreenState extends State<DealsListScreen> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFFF97316),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12.r),
+                          borderRadius: BorderRadius.circular(8.r),
                         ),
                       ),
                       child: Text(
                         'Confirm • NPR ${(deal.discountedPrice * quantity).toStringAsFixed(0)}',
                         style: GoogleFonts.poppins(
-                          fontSize: 16.sp,
+                          fontSize: 12.sp,
                           fontWeight: FontWeight.w600,
                           color: Colors.white,
                         ),

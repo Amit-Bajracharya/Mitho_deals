@@ -8,34 +8,36 @@ class DealsSearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 16.h),
+      padding: EdgeInsets.only(bottom: 12.h),
       child: Container(
-        height: 48.h,
+        height: 36.h, // Slimmer search bar
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(24.r), // More rounded corners
+          borderRadius: BorderRadius.circular(10.r), // Less rounded for a cleaner look
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.03),
-              blurRadius: 10,
+              blurRadius: 8,
               offset: const Offset(0, 2),
             ),
           ],
         ),
         child: TextField(
+          style: GoogleFonts.poppins(fontSize: 10.sp),
           decoration: InputDecoration(
-            hintText: 'Search deals in Kathmandu...',
+            hintText: 'Search deals...',
             hintStyle: GoogleFonts.poppins(
               color: Colors.grey[400],
-              fontSize: 14.sp,
+              fontSize: 9.sp, // Normal text at 9sp
             ),
             prefixIcon: Icon(
               Icons.search,
               color: Colors.grey[400],
-              size: 22.sp,
+              size: 16.sp, // Smaller icon
             ),
             border: InputBorder.none,
-            contentPadding: EdgeInsets.symmetric(vertical: 14.h),
+            isDense: true,
+            contentPadding: EdgeInsets.symmetric(vertical: 8.h),
           ),
         ),
       ),
