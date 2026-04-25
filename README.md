@@ -62,34 +62,8 @@ PROJECT_URL=your_supabase_project_url
 API_KEY=your_supabase_anon_key
 ```
 
-### 3. Supabase Tables (SQL)
-Run the following SQL in your Supabase SQL Editor to set up the schema:
 
-```sql
--- Tables for vendors, deals, and orders
-CREATE TABLE vendors (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  name TEXT NOT NULL,
-  address TEXT NOT NULL,
-  latitude DOUBLE PRECISION NOT NULL,
-  longitude DOUBLE PRECISION NOT NULL,
-  owner_id UUID REFERENCES auth.users(id)
-);
-
-CREATE TABLE deals (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  vendor_id UUID REFERENCES vendors(id) ON DELETE CASCADE,
-  food_name TEXT NOT NULL,
-  original_price DOUBLE PRECISION NOT NULL,
-  discounted_price DOUBLE PRECISION NOT NULL,
-  available_portions INTEGER NOT NULL DEFAULT 1,
-  pickup_start_time TIMESTAMPTZ NOT NULL,
-  pickup_end_time TIMESTAMPTZ NOT NULL,
-  is_available BOOLEAN DEFAULT true
-);
-```
-
-### 4. Code Generation
+### 3. Code Generation
 If you modify models or events, run build_runner:
 ```bash
 dart run build_runner build --delete-conflicting-outputs
