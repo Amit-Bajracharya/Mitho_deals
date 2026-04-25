@@ -3,6 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mitho_deals/app/router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mitho_deals/core/dependency_injection/auth_dependencies.dart';
 import 'package:mitho_deals/core/dependency_injection/cart_dependencies.dart';
 import 'package:mitho_deals/core/dependency_injection/deals_dependencies.dart';
@@ -27,7 +28,10 @@ void main()  async {
   ));
 
   setupAuthDependencies();
-  setupCartDependencies();
+  
+  final sharedPreferences = await SharedPreferences.getInstance();
+  setupCartDependencies(sharedPreferences);
+  
   setupDealsDependencies();
   setupOrdersDependencies();
   setupVendorDependencies();

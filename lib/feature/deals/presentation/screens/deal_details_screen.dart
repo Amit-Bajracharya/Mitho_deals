@@ -150,7 +150,7 @@ class _DealDetailsScreenState extends State<DealDetailsScreen> {
               Text(
                 widget.deal.foodName,
                 style: GoogleFonts.poppins(
-                  fontSize: 20.sp,
+                  fontSize: 16.sp, // Title at 16sp
                   fontWeight: FontWeight.w700,
                   color: const Color(0xFF111827),
                 ),
@@ -159,7 +159,7 @@ class _DealDetailsScreenState extends State<DealDetailsScreen> {
               Text(
                 widget.deal.vendorName,
                 style: GoogleFonts.poppins(
-                  fontSize: 14.sp,
+                  fontSize: 11.sp,
                   fontWeight: FontWeight.w600,
                   color: const Color(0xFFF97316),
                 ),
@@ -274,7 +274,7 @@ class _DealDetailsScreenState extends State<DealDetailsScreen> {
         Text(
           widget.deal.description,
           style: GoogleFonts.poppins(
-            fontSize: 13.sp,
+            fontSize: 9.sp, // Normal text at 9sp
             color: const Color(0xFF4B5563),
             height: 1.5,
           ),
@@ -323,7 +323,7 @@ class _DealDetailsScreenState extends State<DealDetailsScreen> {
                     Text(
                       'Today, $startTime – $endTime',
                       style: GoogleFonts.poppins(
-                        fontSize: 13.sp,
+                        fontSize: 11.sp,
                         fontWeight: FontWeight.w700,
                         color: const Color(0xFF111827),
                       ),
@@ -331,7 +331,7 @@ class _DealDetailsScreenState extends State<DealDetailsScreen> {
                     Text(
                       'Arrive within this time window',
                       style: GoogleFonts.poppins(
-                        fontSize: 11.sp,
+                        fontSize: 9.sp, // Normal text at 9sp
                         color: const Color(0xFF6B7280),
                       ),
                     ),

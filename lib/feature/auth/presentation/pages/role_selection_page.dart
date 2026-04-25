@@ -17,10 +17,9 @@ class RoleSelectionPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Illustration or Icon
               Container(
-                width: 96.w,
-                height: 96.w,
+                width: 64.w, // Slimmer icon box
+                height: 64.w,
                 decoration: BoxDecoration(
                   color: const Color(0xFFFF6B35).withOpacity(0.08),
                   shape: BoxShape.circle,
@@ -28,70 +27,63 @@ class RoleSelectionPage extends StatelessWidget {
                 child: Center(
                   child: Icon(
                     Icons.restaurant_menu_rounded,
-                    size: 48.sp,
+                    size: 32.sp,
                     color: const Color(0xFFFF6B35),
                   ),
                 ),
               ),
               
-              SizedBox(height: 32.h),
+              SizedBox(height: 24.h),
               
               Text(
                 'Join Mitho Deals',
                 style: GoogleFonts.poppins(
-                  fontSize: 20.sp,
+                  fontSize: 16.sp, // Title at 16sp
                   fontWeight: FontWeight.w700,
                   color: const Color(0xFF2D3436),
                 ),
               ),
               
-              SizedBox(height: 8.h),
+              SizedBox(height: 6.h),
               
               Text(
-                'Help us reduce food waste or find\ndelicious deals near you!',
+                'Save money, reduce waste!',
                 textAlign: TextAlign.center,
                 style: GoogleFonts.poppins(
-                  fontSize: 12.sp,
+                  fontSize: 9.sp, // Normal text at 9sp
                   color: const Color(0xFF636E72),
                 ),
               ),
               
-              SizedBox(height: 48.h),
+              SizedBox(height: 40.h),
               
-              // Consumer Option
               _buildOptionCard(
                 title: "I'm a Food Saver",
-                subtitle: 'Find amazing food at discounted prices',
+                subtitle: 'Find amazing food deals',
                 icon: Icons.person_search_rounded,
                 color: const Color(0xFFFF6B35),
                 onTap: () => context.push('/register'),
               ),
               
-              SizedBox(height: 16.h),
+              SizedBox(height: 12.h),
               
-              // Vendor Option
               _buildOptionCard(
                 title: "I'm a Restaurant",
-                subtitle: 'Sell your surplus food and reduce waste',
+                subtitle: 'Sell your surplus food',
                 icon: Icons.storefront_rounded,
                 color: const Color(0xFF0984E3),
                 onTap: () => context.push('/vendor-register'),
               ),
               
-              SizedBox(height: 32.h),
+              SizedBox(height: 24.h),
               
               TextButton(
                 onPressed: () => context.go('/login'),
-                style: TextButton.styleFrom(
-                  padding: EdgeInsets.zero,
-                  minimumSize: Size.zero,
-                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                ),
                 child: Text(
                   'Already have an account? Login',
                   style: GoogleFonts.poppins(
-                    fontSize: 13.sp,
-                    fontWeight: FontWeight.w500,
+                    fontSize: 11.sp,
+                    fontWeight: FontWeight.w600,
                     color: const Color(0xFFFF6B35),
                   ),
                 ),
@@ -114,15 +106,15 @@ class RoleSelectionPage extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: double.infinity,
-        padding: EdgeInsets.all(16.w),
+        padding: EdgeInsets.all(12.w),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(16.r),
+          borderRadius: BorderRadius.circular(12.r),
           border: Border.all(color: const Color(0xFFF1F2F6)),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.02),
-              blurRadius: 8,
+              blurRadius: 6,
               offset: const Offset(0, 2),
             ),
           ],
@@ -130,14 +122,14 @@ class RoleSelectionPage extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              padding: EdgeInsets.all(10.w),
+              padding: EdgeInsets.all(8.w),
               decoration: BoxDecoration(
                 color: color.withOpacity(0.08),
-                borderRadius: BorderRadius.circular(12.r),
+                borderRadius: BorderRadius.circular(10.r),
               ),
-              child: Icon(icon, color: color, size: 24.sp),
+              child: Icon(icon, color: color, size: 20.sp),
             ),
-            SizedBox(width: 16.w),
+            SizedBox(width: 12.w),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -145,7 +137,7 @@ class RoleSelectionPage extends StatelessWidget {
                   Text(
                     title,
                     style: GoogleFonts.poppins(
-                      fontSize: 14.sp,
+                      fontSize: 13.sp,
                       fontWeight: FontWeight.w600,
                       color: const Color(0xFF2D3436),
                     ),
@@ -153,7 +145,7 @@ class RoleSelectionPage extends StatelessWidget {
                   Text(
                     subtitle,
                     style: GoogleFonts.poppins(
-                      fontSize: 11.sp,
+                      fontSize: 9.sp, // Normal text at 9sp
                       color: const Color(0xFF636E72),
                     ),
                   ),
@@ -162,7 +154,7 @@ class RoleSelectionPage extends StatelessWidget {
             ),
             Icon(
               Icons.arrow_forward_ios_rounded,
-              size: 14.sp,
+              size: 10.sp,
               color: const Color(0xFFB2BEC3),
             ),
           ],

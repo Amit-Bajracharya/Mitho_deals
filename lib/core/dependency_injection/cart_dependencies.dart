@@ -12,18 +12,15 @@ import '../../feature/cart/domain/usecases/remove_from_cart.dart';
 
 import '../../feature/cart/presentation/bloc/cart_bloc.dart';
 
-void setupCartDependencies() {
+void setupCartDependencies(SharedPreferences prefs) {
   final sl = GetIt.instance;
 
-  // SharedPreferences
-  sl.registerLazySingletonAsync<SharedPreferences>(() async {
-    return await SharedPreferences.getInstance();
-  });
+  // SharedPreferences - already initialized in main
+  sl.registerSingleton<SharedPreferences>(prefs);
 
-  // Wait for SharedPreferences to be ready
-  sl.registerSingletonWithDependencies<CartLocalDataSource>(
+  // DataSource
+  sl.registerLazySingleton<CartLocalDataSource>(
     () => CartLocalDataSourceImpl(sl<SharedPreferences>()),
-    dependsOn: [SharedPreferences],
   );
 
   // Repository

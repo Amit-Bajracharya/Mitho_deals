@@ -9,8 +9,23 @@ import '../bloc/cart_bloc.dart';
 import '../bloc/cart_event.dart';
 import '../bloc/cart_state.dart';
 
-class CartPage extends StatelessWidget {
+class CartPage extends StatefulWidget {
   const CartPage({super.key});
+
+  @override
+  State<CartPage> createState() => _CartPageState();
+}
+
+class _CartPageState extends State<CartPage> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        context.read<CartBloc>().add(const CartEvent.loadCart());
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,12 +42,17 @@ class CartPage extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Error: $message'),
+                  Text('Error: $message', style: GoogleFonts.poppins(fontSize: 11.sp)),
+                  SizedBox(height: 12.h),
                   ElevatedButton(
                     onPressed: () {
                       context.read<CartBloc>().add(const CartEvent.loadCart());
                     },
-                    child: const Text('Retry'),
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
+                    ),
+                    child: Text('Retry', style: GoogleFonts.poppins(fontSize: 12.sp)),
                   ),
                 ],
               ),
@@ -57,14 +77,17 @@ class CartPage extends StatelessWidget {
     return AppBar(
       backgroundColor: Colors.white,
       elevation: 0,
+      centerTitle: true,
+      leadingWidth: 48.w,
       leading: IconButton(
         onPressed: () => context.pop(),
-        icon: Icon(Icons.arrow_back_rounded, color: Colors.black, size: 24.sp),
+        icon: Icon(Icons.arrow_back_rounded, color: Colors.black, size: 20.sp),
+        padding: EdgeInsets.zero,
       ),
       title: Text(
         'My Cart',
         style: GoogleFonts.poppins(
-          fontSize: 20.sp,
+          fontSize: 16.sp, // Title at 16sp
           fontWeight: FontWeight.w700,
           color: Colors.black,
         ),
@@ -72,9 +95,7 @@ class CartPage extends StatelessWidget {
       actions: [
         BlocBuilder<CartBloc, CartState>(
           builder: (context, state) {
-            return state.when(
-              initial: () => const SizedBox.shrink(),
-              loading: () => const SizedBox.shrink(),
+            return state.maybeWhen(
               loaded: (items) => items.isNotEmpty
                   ? TextButton(
                       onPressed: () {
@@ -83,18 +104,18 @@ class CartPage extends StatelessWidget {
                       child: Text(
                         'Clear',
                         style: GoogleFonts.poppins(
-                          fontSize: 14.sp,
+                          fontSize: 12.sp,
                           fontWeight: FontWeight.w600,
                           color: const Color(0xFFFF6B35),
                         ),
                       ),
                     )
                   : const SizedBox.shrink(),
-              error: (message) => const SizedBox.shrink(),
+              orElse: () => const SizedBox.shrink(),
             );
           },
         ),
-        SizedBox(width: 8.w),
+        SizedBox(width: 4.w),
       ],
     );
   }
@@ -105,7 +126,7 @@ class CartPage extends StatelessWidget {
     }
 
     return ListView.builder(
-      padding: EdgeInsets.all(16.w),
+      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
       itemCount: items.length,
       itemBuilder: (context, index) {
         final item = items[index];
@@ -119,36 +140,36 @@ class CartPage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.shopping_cart_outlined, size: 80.sp, color: Colors.grey[300]),
-          SizedBox(height: 24.h),
+          Icon(Icons.shopping_cart_outlined, size: 60.sp, color: Colors.grey[300]),
+          SizedBox(height: 16.h),
           Text(
             'Your cart is empty',
             style: GoogleFonts.poppins(
-              fontSize: 18.sp,
+              fontSize: 14.sp,
               fontWeight: FontWeight.w600,
               color: Colors.grey[600],
             ),
           ),
-          SizedBox(height: 8.h),
+          SizedBox(height: 4.h),
           Text(
             'Add some delicious deals!',
             style: GoogleFonts.poppins(
-              fontSize: 14.sp,
+              fontSize: 9.sp, // Normal text at 9sp
               color: Colors.grey[400],
             ),
           ),
-          SizedBox(height: 32.h),
+          SizedBox(height: 24.h),
           ElevatedButton(
             onPressed: () => context.go('/'),
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFFFF6B35),
-              padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 16.h),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
+              padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
             ),
             child: Text(
               'Browse Deals',
               style: GoogleFonts.poppins(
-                fontSize: 14.sp,
+                fontSize: 12.sp,
                 fontWeight: FontWeight.w600,
                 color: Colors.white,
               ),
@@ -163,53 +184,48 @@ class CartPage extends StatelessWidget {
     final currencyFormat = NumberFormat.currency(symbol: 'Rs. ', decimalDigits: 0);
 
     return Container(
-      margin: EdgeInsets.only(bottom: 16.h),
+      margin: EdgeInsets.only(bottom: 12.h),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(20.r),
+        borderRadius: BorderRadius.circular(12.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
+            color: Colors.black.withOpacity(0.04),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
           ),
         ],
       ),
       child: Column(
         children: [
-          // Image and basic info
           Padding(
-            padding: EdgeInsets.all(16.w),
+            padding: EdgeInsets.all(12.w),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Image
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(12.r),
+                  borderRadius: BorderRadius.circular(8.r),
                   child: item.imageUrl.isNotEmpty
                       ? Image.network(
                           item.imageUrl,
-                          width: 80.w,
-                          height: 80.w,
+                          width: 60.w, // Smaller box
+                          height: 60.w,
                           fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) {
-                            return Container(
-                              width: 80.w,
-                              height: 80.w,
-                              color: Colors.grey[200],
-                              child: Icon(Icons.fastfood, color: Colors.grey),
-                            );
-                          },
+                          errorBuilder: (context, error, stackTrace) => Container(
+                                width: 60.w,
+                                height: 60.w,
+                                color: Colors.grey[100],
+                                child: Icon(Icons.fastfood, color: Colors.grey[300], size: 24.sp),
+                              ),
                         )
                       : Container(
-                          width: 80.w,
-                          height: 80.w,
-                          color: Colors.grey[200],
-                          child: Icon(Icons.fastfood, color: Colors.grey),
+                          width: 60.w,
+                          height: 60.w,
+                          color: Colors.grey[100],
+                          child: Icon(Icons.fastfood, color: Colors.grey[300], size: 24.sp),
                         ),
                 ),
-                SizedBox(width: 16.w),
-                // Info
+                SizedBox(width: 12.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -217,23 +233,27 @@ class CartPage extends StatelessWidget {
                       Text(
                         item.foodName,
                         style: GoogleFonts.poppins(
-                          fontSize: 16.sp,
+                          fontSize: 13.sp,
                           fontWeight: FontWeight.w700,
+                          color: const Color(0xFF1F2937),
                         ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      SizedBox(height: 4.h),
+                      SizedBox(height: 2.h),
                       Text(
                         item.vendorName,
                         style: GoogleFonts.poppins(
-                          fontSize: 12.sp,
-                          color: Colors.grey[600],
+                          fontSize: 9.sp, // Normal text at 9sp
+                          color: Colors.grey[500],
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
-                      SizedBox(height: 8.h),
+                      SizedBox(height: 6.h),
                       Text(
                         currencyFormat.format(item.discountedPrice),
                         style: GoogleFonts.poppins(
-                          fontSize: 18.sp,
+                          fontSize: 14.sp,
                           fontWeight: FontWeight.w700,
                           color: const Color(0xFFFF6B35),
                         ),
@@ -241,81 +261,57 @@ class CartPage extends StatelessWidget {
                     ],
                   ),
                 ),
-                // Delete button
                 IconButton(
-                  onPressed: () {
-                    context.read<CartBloc>().add(CartEvent.removeFromCart(item.dealId));
-                  },
-                  icon: Icon(Icons.delete_outline, color: Colors.red[400], size: 24.sp),
+                  onPressed: () => context.read<CartBloc>().add(CartEvent.removeFromCart(item.dealId)),
+                  icon: Icon(Icons.delete_outline, color: Colors.red[300], size: 18.sp),
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
                 ),
               ],
             ),
           ),
-          // Quantity and pickup time
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
             decoration: BoxDecoration(
-              color: Colors.grey[50],
-              borderRadius: BorderRadius.vertical(bottom: Radius.circular(20.r)),
+              color: const Color(0xFFF9FAFB),
+              borderRadius: BorderRadius.vertical(bottom: Radius.circular(12.r)),
             ),
             child: Row(
               children: [
-                // Quantity selector
                 Container(
+                  padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(8.r),
-                    border: Border.all(color: Colors.grey[300]!),
+                    borderRadius: BorderRadius.circular(6.r),
+                    border: Border.all(color: Colors.grey[200]!),
                   ),
                   child: Row(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      IconButton(
-                        onPressed: item.quantity > 1
-                            ? () {
-                                context.read<CartBloc>().add(
-                                  CartEvent.updateQuantity(item.dealId, item.quantity - 1),
-                                );
-                              }
-                            : null,
-                        icon: Icon(Icons.remove, size: 18.sp),
-                        padding: EdgeInsets.zero,
-                        constraints: const BoxConstraints(),
-                      ),
+                      _buildQtyBtn(Icons.remove, item.quantity > 1 ? () {
+                         context.read<CartBloc>().add(CartEvent.updateQuantity(item.dealId, item.quantity - 1));
+                      } : null),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 12.w),
+                        padding: EdgeInsets.symmetric(horizontal: 8.w),
                         child: Text(
                           '${item.quantity}',
-                          style: GoogleFonts.poppins(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w600,
-                          ),
+                          style: GoogleFonts.poppins(fontSize: 11.sp, fontWeight: FontWeight.w700),
                         ),
                       ),
-                      IconButton(
-                        onPressed: () {
-                          context.read<CartBloc>().add(
-                            CartEvent.updateQuantity(item.dealId, item.quantity + 1),
-                          );
-                        },
-                        icon: Icon(Icons.add, size: 18.sp),
-                        padding: EdgeInsets.zero,
-                        constraints: const BoxConstraints(),
-                      ),
+                      _buildQtyBtn(Icons.add, () {
+                         context.read<CartBloc>().add(CartEvent.updateQuantity(item.dealId, item.quantity + 1));
+                      }),
                     ],
                   ),
                 ),
                 const Spacer(),
-                // Pickup time
                 Row(
                   children: [
-                    Icon(Icons.access_time, size: 14.sp, color: Colors.grey),
+                    Icon(Icons.access_time_rounded, size: 10.sp, color: Colors.grey[400]),
                     SizedBox(width: 4.w),
                     Text(
                       'Pickup: ${DateFormat('h:mm a').format(item.pickupStartTime)}',
-                      style: GoogleFonts.poppins(
-                        fontSize: 11.sp,
-                        color: Colors.grey[600],
-                      ),
+                      style: GoogleFonts.poppins(fontSize: 8.sp, color: Colors.grey[500], fontWeight: FontWeight.w500),
                     ),
                   ],
                 ),
@@ -327,17 +323,27 @@ class CartPage extends StatelessWidget {
     );
   }
 
+  Widget _buildQtyBtn(IconData icon, VoidCallback? onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: EdgeInsets.all(4.w),
+        child: Icon(icon, size: 14.sp, color: onTap == null ? Colors.grey[300] : const Color(0xFFFF6B35)),
+      ),
+    );
+  }
+
   Widget _buildCheckoutBar(BuildContext context, List<CartItem> items) {
     final total = items.fold<double>(0, (sum, item) => sum + (item.discountedPrice * item.quantity));
     final currencyFormat = NumberFormat.currency(symbol: 'Rs. ', decimalDigits: 0);
 
     return Container(
-      padding: EdgeInsets.all(16.w),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withOpacity(0.06),
             blurRadius: 10,
             offset: const Offset(0, -4),
           ),
@@ -352,16 +358,13 @@ class CartPage extends StatelessWidget {
               children: [
                 Text(
                   'Total (${items.length} items)',
-                  style: GoogleFonts.poppins(
-                    fontSize: 12.sp,
-                    color: Colors.grey[600],
-                  ),
+                  style: GoogleFonts.poppins(fontSize: 9.sp, color: Colors.grey[500], fontWeight: FontWeight.w500),
                 ),
                 Text(
                   currencyFormat.format(total),
                   style: GoogleFonts.poppins(
-                    fontSize: 20.sp,
-                    fontWeight: FontWeight.w700,
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w800,
                     color: const Color(0xFFFF6B35),
                   ),
                 ),
@@ -370,21 +373,21 @@ class CartPage extends StatelessWidget {
             const Spacer(),
             ElevatedButton(
               onPressed: () {
-                // TODO: Navigate to checkout
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Checkout coming soon!')),
+                  const SnackBar(content: Text('Checkout feature coming soon!')),
                 );
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFFFF6B35),
-                padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 16.h),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
+                padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
+                elevation: 0,
               ),
               child: Text(
                 'Checkout',
                 style: GoogleFonts.poppins(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w600,
+                  fontSize: 13.sp,
+                  fontWeight: FontWeight.w700,
                   color: Colors.white,
                 ),
               ),

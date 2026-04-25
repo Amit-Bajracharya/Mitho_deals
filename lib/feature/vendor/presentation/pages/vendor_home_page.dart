@@ -18,10 +18,8 @@ class _VendorHomePageState extends State<VendorHomePage> {
   int _currentIndex = 0;
 
   void _onNavTapped(int index) {
-    if (index == 2) return; // QR button space - handled separately
-    setState(() {
-      _currentIndex = index;
-    });
+    if (index == 2) return;
+    setState(() => _currentIndex = index);
   }
 
   @override
@@ -29,7 +27,6 @@ class _VendorHomePageState extends State<VendorHomePage> {
     return BlocProvider(
       create: (context) {
         final bloc = sl<VendorBloc>();
-        // Load dashboard when bloc is created
         bloc.add(const VendorEvent.loadDashboard());
         return bloc;
       },
@@ -40,22 +37,9 @@ class _VendorHomePageState extends State<VendorHomePage> {
           builder: (context, state) {
             return state.when(
               initial: () => const Center(child: Text('Initializing...')),
-              loading: () => const Center(child: CircularProgressIndicator()),
+              loading: () => const Center(child: CircularProgressIndicator(strokeWidth: 2)),
               loaded: (stats, orders) => _buildContent(stats, orders),
-              error: (message) => Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('Error: $message'),
-                    ElevatedButton(
-                      onPressed: () {
-                        context.read<VendorBloc>().add(const VendorEvent.loadDashboard());
-                      },
-                      child: const Text('Retry'),
-                    ),
-                  ],
-                ),
-              ),
+              error: (message) => Center(child: Text('Error: $message')),
             );
           },
         ),
@@ -66,38 +50,26 @@ class _VendorHomePageState extends State<VendorHomePage> {
 
   Widget _buildContent(VendorStats stats, List orders) {
     return SingleChildScrollView(
-      padding: EdgeInsets.all(24.w),
+      padding: EdgeInsets.all(16.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildStatsSection(stats),
-          SizedBox(height: 24.h),
-          _buildScanButton(),
-          SizedBox(height: 32.h),
-          _buildCurrentPickupsHeader(orders.length),
           SizedBox(height: 16.h),
+          _buildScanButton(),
+          SizedBox(height: 24.h),
+          _buildSectionHeader('Current Pickups', orders.length),
+          SizedBox(height: 12.h),
           ...orders.map((order) => _buildOrderCard(
             orderId: order.id,
-            items: order.dealId, // You might want to enhance this with deal details
-            customer: "Customer", // You might want to add customer info to order
-            arrivalTime: "12:00", // You might want to add pickup time to order
+            items: order.dealId,
+            customer: "Customer",
+            arrivalTime: "12:00",
           )).toList(),
-          if (orders.isEmpty) 
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 32.h),
-              child: Center(
-                child: Text(
-                  'No active pickups',
-                  style: GoogleFonts.poppins(
-                    fontSize: 16.sp,
-                    color: Colors.grey[600],
-                  ),
-                ),
-              ),
-            ),
-          SizedBox(height: 32.h),
-          _buildRecentReviewsHeader(),
-          SizedBox(height: 16.h),
+          if (orders.isEmpty) _buildEmptyState('No active pickups'),
+          SizedBox(height: 24.h),
+          _buildSectionHeader('Recent Reviews', null),
+          SizedBox(height: 12.h),
           _buildReviewCard(),
         ],
       ),
@@ -106,58 +78,23 @@ class _VendorHomePageState extends State<VendorHomePage> {
 
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.white,
       elevation: 0,
       title: Row(
         children: [
-          CircleAvatar(
-            radius: 20.r,
-            backgroundColor: const Color(0xFFFFEAD1),
-            child: Icon(Icons.bakery_dining, color: Colors.brown, size: 24.sp),
-          ),
-          SizedBox(width: 12.w),
+          CircleAvatar(radius: 16.r, backgroundColor: const Color(0xFFFFEAD1), child: Icon(Icons.bakery_dining, color: Colors.brown, size: 18.sp)),
+          SizedBox(width: 10.w),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Mitho Bakery',
-                style: GoogleFonts.poppins(
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.black,
-                ),
-              ),
-              Text(
-                'VERIFIED VENDOR',
-                style: GoogleFonts.poppins(
-                  fontSize: 10.sp,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.grey,
-                  letterSpacing: 0.5,
-                ),
-              ),
+              Text('Mitho Bakery', style: GoogleFonts.poppins(fontSize: 16.sp, fontWeight: FontWeight.w700, color: Colors.black)),
+              Text('VERIFIED', style: GoogleFonts.poppins(fontSize: 8.sp, fontWeight: FontWeight.w600, color: Colors.grey)),
             ],
           ),
         ],
       ),
       actions: [
-        IconButton(
-          onPressed: () {},
-          icon: Container(
-            padding: EdgeInsets.all(8.w),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              shape: BoxShape.circle,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
-                  blurRadius: 10,
-                ),
-              ],
-            ),
-            child: Icon(Icons.notifications_none_rounded, color: Colors.blueGrey[800], size: 22.sp),
-          ),
-        ),
+        IconButton(onPressed: () {}, icon: Icon(Icons.notifications_none_rounded, color: Colors.black, size: 20.sp)),
         SizedBox(width: 8.w),
       ],
     );
@@ -166,88 +103,35 @@ class _VendorHomePageState extends State<VendorHomePage> {
   Widget _buildStatsSection(VendorStats stats) {
     return Row(
       children: [
-        Expanded(
-          child: _buildStatCard(
-            title: "TODAY'S REVENUE",
-            value: "Rs. ${stats.todayRevenue.toStringAsFixed(0)}",
-            trend: "+14%",
-            icon: Icons.account_balance_wallet_outlined,
-            color: const Color(0xFFFF6B35),
-          ),
-        ),
-        SizedBox(width: 16.w),
-        Expanded(
-          child: _buildStatCard(
-            title: "ITEMS SAVED",
-            value: "${stats.totalItemsSaved}",
-            trend: "+${stats.totalItemsSaved}",
-            icon: Icons.eco_outlined,
-            color: Colors.green,
-          ),
-        ),
+        Expanded(child: _buildStatCard(title: "REVENUE", value: "Rs.${stats.todayRevenue.toFixed(0)}", trend: "+14%", icon: Icons.wallet_outlined, color: const Color(0xFFFF6B35))),
+        SizedBox(width: 12.w),
+        Expanded(child: _buildStatCard(title: "SAVED", value: "${stats.totalItemsSaved}", trend: "+${stats.totalItemsSaved}", icon: Icons.eco_outlined, color: Colors.green)),
       ],
     );
   }
 
-  Widget _buildStatCard({
-    required String title,
-    required String value,
-    required String trend,
-    required IconData icon,
-    required Color color,
-  }) {
+  Widget _buildStatCard({required String title, required String value, required String trend, required IconData icon, required Color color}) {
     return Container(
-      padding: EdgeInsets.all(16.w),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20.r),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.02),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
+      padding: EdgeInsets.all(12.w),
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12.r), boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.02), blurRadius: 8)]),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                title,
-                style: GoogleFonts.poppins(
-                  fontSize: 9.sp,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.grey,
-                ),
-              ),
-              Icon(icon, color: color.withOpacity(0.5), size: 14.sp),
+              Text(title, style: GoogleFonts.poppins(fontSize: 8.sp, fontWeight: FontWeight.w600, color: Colors.grey)),
+              Icon(icon, color: color.withOpacity(0.4), size: 12.sp),
             ],
           ),
-          SizedBox(height: 12.h),
+          SizedBox(height: 8.h),
           Row(
             crossAxisAlignment: CrossAxisAlignment.baseline,
             textBaseline: TextBaseline.alphabetic,
             children: [
-              Text(
-                value,
-                style: GoogleFonts.poppins(
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.black,
-                ),
-              ),
+              Text(value, style: GoogleFonts.poppins(fontSize: 14.sp, fontWeight: FontWeight.w700)),
               SizedBox(width: 4.w),
-              Text(
-                trend,
-                style: GoogleFonts.poppins(
-                  fontSize: 10.sp,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.green,
-                ),
-              ),
+              Text(trend, style: GoogleFonts.poppins(fontSize: 9.sp, fontWeight: FontWeight.w600, color: Colors.green)),
             ],
           ),
         ],
@@ -258,239 +142,83 @@ class _VendorHomePageState extends State<VendorHomePage> {
   Widget _buildScanButton() {
     return Container(
       width: double.infinity,
-      height: 70.h,
+      height: 50.h, // Slimmer btn
       decoration: BoxDecoration(
         color: const Color(0xFFFF6B35),
-        borderRadius: BorderRadius.circular(20.r),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFFFF6B35).withOpacity(0.3),
-            blurRadius: 15,
-            offset: const Offset(0, 8),
-          ),
-        ],
+        borderRadius: BorderRadius.circular(12.r),
+        boxShadow: [BoxShadow(color: const Color(0xFFFF6B35).withOpacity(0.2), blurRadius: 10, offset: const Offset(0, 4))],
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.qr_code_scanner_rounded, color: Colors.white, size: 28.sp),
-          SizedBox(width: 12.w),
-          Text(
-            'Scan QR for Pickup',
-            style: GoogleFonts.poppins(
-              fontSize: 18.sp,
-              fontWeight: FontWeight.w600,
-              color: Colors.white,
-            ),
-          ),
+          Icon(Icons.qr_code_scanner_rounded, color: Colors.white, size: 20.sp),
+          SizedBox(width: 8.w),
+          Text('Scan for Pickup', style: GoogleFonts.poppins(fontSize: 14.sp, fontWeight: FontWeight.w600, color: Colors.white)),
         ],
       ),
     );
   }
 
-  Widget _buildCurrentPickupsHeader(int orderCount) {
+  Widget _buildSectionHeader(String title, int? count) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          'Current Pickups',
-          style: GoogleFonts.poppins(
-            fontSize: 20.sp,
-            fontWeight: FontWeight.w700,
-            color: const Color(0xFF2D3436),
-          ),
-        ),
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
-          decoration: BoxDecoration(
-            color: const Color(0xFFFFEAD1),
-            borderRadius: BorderRadius.circular(10.r),
-          ),
-          child: Text(
-            '$orderCount ACTIVE',
-            style: GoogleFonts.poppins(
-              fontSize: 10.sp,
-              fontWeight: FontWeight.w700,
-              color: const Color(0xFFFF6B35),
-            ),
-          ),
-        ),
+        Text(title, style: GoogleFonts.poppins(fontSize: 15.sp, fontWeight: FontWeight.w700, color: const Color(0xFF2D3436))),
+        if (count != null) Text('$count ACTIVE', style: GoogleFonts.poppins(fontSize: 8.sp, fontWeight: FontWeight.w700, color: const Color(0xFFFF6B35))),
       ],
     );
   }
 
-  Widget _buildOrderCard({
-    required String orderId,
-    required String items,
-    required String customer,
-    required String arrivalTime,
-  }) {
+  Widget _buildOrderCard({required String orderId, required String items, required String customer, required String arrivalTime}) {
     return Container(
-      padding: EdgeInsets.all(20.w),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(24.r),
-        border: Border.all(color: Colors.blue.withOpacity(0.1)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.02),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Order #$orderId',
-                style: GoogleFonts.poppins(
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              Row(
-                children: [
-                  Icon(Icons.access_time_filled_rounded, color: const Color(0xFFFF6B35).withOpacity(0.6), size: 16.sp),
-                  SizedBox(width: 4.w),
-                  Text(
-                    arrivalTime,
-                    style: GoogleFonts.poppins(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Text(
-                'EST. ARRIVAL',
-                style: GoogleFonts.poppins(fontSize: 8.sp, color: Colors.grey, fontWeight: FontWeight.w600),
-              ),
-            ],
-          ),
-          SizedBox(height: 8.h),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              items,
-              style: GoogleFonts.poppins(fontSize: 14.sp, color: Colors.grey[600]),
-            ),
-          ),
-          SizedBox(height: 20.h),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  CircleAvatar(
-                    radius: 12.r,
-                    backgroundColor: Colors.blueGrey[50],
-                    child: Icon(Icons.person, size: 14.sp, color: Colors.blueGrey),
-                  ),
-                  SizedBox(width: 8.w),
-                  Text(
-                    customer,
-                    style: GoogleFonts.poppins(fontSize: 13.sp, fontWeight: FontWeight.w500),
-                  ),
-                ],
-              ),
-              OutlinedButton(
-                onPressed: () {},
-                style: OutlinedButton.styleFrom(
-                  side: BorderSide(color: const Color(0xFFFF6B35).withOpacity(0.5)),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
-                  padding: EdgeInsets.symmetric(horizontal: 16.w),
-                ),
-                child: Text(
-                  'View Details',
-                  style: GoogleFonts.poppins(
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w600,
-                    color: const Color(0xFFFF6B35),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildRecentReviewsHeader() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          'Recent Reviews',
-          style: GoogleFonts.poppins(
-            fontSize: 20.sp,
-            fontWeight: FontWeight.w700,
-            color: const Color(0xFF2D3436),
-          ),
-        ),
-        Text(
-          'See All',
-          style: GoogleFonts.poppins(
-            fontSize: 14.sp,
-            fontWeight: FontWeight.w600,
-            color: const Color(0xFFFF6B35),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildReviewCard() {
-    return Container(
-      padding: EdgeInsets.all(20.w),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20.r),
-      ),
+      margin: EdgeInsets.only(bottom: 12.h),
+      padding: EdgeInsets.all(12.w),
+      decoration: BoxDecoration(color: Colors.white, border: Border.all(color: Colors.grey[200]!), borderRadius: BorderRadius.circular(12.r)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: List.generate(
-                  5,
-                  (i) => Icon(Icons.star_rounded, color: Colors.amber, size: 18.sp),
-                ),
-              ),
-              Text(
-                'Yesterday',
-                style: GoogleFonts.poppins(fontSize: 11.sp, color: Colors.grey),
-              ),
+              Text('#$orderId', style: GoogleFonts.poppins(fontSize: 13.sp, fontWeight: FontWeight.w700)),
+              Row(children: [
+                Icon(Icons.access_time_filled_rounded, color: Colors.orange[400], size: 14.sp),
+                SizedBox(width: 4.w),
+                Text(arrivalTime, style: GoogleFonts.poppins(fontSize: 12.sp, fontWeight: FontWeight.w700)),
+              ]),
             ],
           ),
+          SizedBox(height: 4.h),
+          Text(items, style: GoogleFonts.poppins(fontSize: 11.sp, color: Colors.grey[600])),
           SizedBox(height: 12.h),
-          Text(
-            '"Love that I could save these delicious pastries from being wasted! Great deal."',
-            style: GoogleFonts.poppins(
-              fontSize: 14.sp,
-              fontStyle: FontStyle.italic,
-              color: Colors.blueGrey[800],
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(customer, style: GoogleFonts.poppins(fontSize: 11.sp, fontWeight: FontWeight.w500)),
+              TextButton(onPressed: () {}, child: Text('Details', style: GoogleFonts.poppins(fontSize: 11.sp, color: const Color(0xFFFF6B35)))),
+            ],
           ),
-          SizedBox(height: 12.h),
-          Text(
-            '- ROHAN P.',
-            style: GoogleFonts.poppins(
-              fontSize: 11.sp,
-              fontWeight: FontWeight.w700,
-              color: Colors.grey,
-            ),
-          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildEmptyState(String msg) {
+    return Center(child: Text(msg, style: GoogleFonts.poppins(fontSize: 12.sp, color: Colors.grey)));
+  }
+
+  Widget _buildReviewCard() {
+    return Container(
+      padding: EdgeInsets.all(12.w),
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12.r)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(children: List.generate(5, (i) => Icon(Icons.star_rounded, color: Colors.amber, size: 14.sp))),
+          SizedBox(height: 8.h),
+          Text('"Delicious deals!"', style: GoogleFonts.poppins(fontSize: 11.sp, fontStyle: FontStyle.italic)),
+          SizedBox(height: 4.h),
+          Text('- ROHAN', style: GoogleFonts.poppins(fontSize: 8.sp, fontWeight: FontWeight.w700, color: Colors.grey)),
         ],
       ),
     );
@@ -498,58 +226,15 @@ class _VendorHomePageState extends State<VendorHomePage> {
 
   Widget _buildBottomNav() {
     return Container(
-      height: 90.h,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 20,
-            offset: const Offset(0, -5),
-          ),
-        ],
-      ),
-      child: Stack(
-        alignment: Alignment.center,
-        clipBehavior: Clip.none,
+      height: 64.h, // Slimmer nav
+      decoration: BoxDecoration(color: Colors.white, boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 10, offset: const Offset(0, -2))]),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              _buildNavItem(Icons.grid_view_rounded, 'Home', 0),
-              _buildNavItem(Icons.receipt_long_rounded, 'Orders', 1),
-              SizedBox(width: 40.w), // Space for centered QR button
-              _buildNavItem(Icons.restaurant_rounded, 'Inventory', 3),
-              _buildNavItem(Icons.person_rounded, 'Profile', 4),
-            ],
-          ),
-          Positioned(
-            top: -25.h,
-            child: GestureDetector(
-              onTap: () {
-                // TODO: Open QR scanner
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('QR Scanner coming soon!')),
-                );
-              },
-              child: Container(
-                width: 60.w,
-                height: 60.w,
-                decoration: BoxDecoration(
-                  color: const Color(0xFFFF6B35),
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: const Color(0xFFFF6B35).withOpacity(0.4),
-                      blurRadius: 15,
-                      offset: const Offset(0, 5),
-                    ),
-                  ],
-                ),
-                child: Icon(Icons.qr_code_scanner_rounded, color: Colors.white, size: 28.sp),
-              ),
-            ),
-          ),
+          _buildNavItem(Icons.grid_view_rounded, 'Home', 0),
+          _buildNavItem(Icons.receipt_long_rounded, 'Orders', 1),
+          _buildNavItem(Icons.inventory_2_rounded, 'Inv', 3), // Shorter label
+          _buildNavItem(Icons.person_rounded, 'Me', 4), // Shorter label
         ],
       ),
     );
@@ -558,36 +243,16 @@ class _VendorHomePageState extends State<VendorHomePage> {
   Widget _buildNavItem(IconData icon, String label, int index) {
     final isActive = _currentIndex == index;
     return GestureDetector(
-      onTap: () {
-        if (index == 3) {
-          // Navigate to Inventory Page
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const VendorInventoryPage()),
-          );
-        } else {
-          _onNavTapped(index);
-        }
-      },
+      onTap: () => index == 3 ? Navigator.push(context, MaterialPageRoute(builder: (_) => const VendorInventoryPage())) : _onNavTapped(index),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            icon,
-            size: 24.sp,
-            color: isActive ? const Color(0xFFFF6B35) : Colors.grey[400],
-          ),
-          SizedBox(height: 4.h),
-          Text(
-            label,
-            style: GoogleFonts.poppins(
-              fontSize: 11.sp,
-              fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
-              color: isActive ? const Color(0xFFFF6B35) : Colors.grey,
-            ),
-          ),
+          Icon(icon, size: 20.sp, color: isActive ? const Color(0xFFFF6B35) : Colors.grey[400]),
+          Text(label, style: GoogleFonts.poppins(fontSize: 9.sp, fontWeight: isActive ? FontWeight.w600 : FontWeight.w500, color: isActive ? const Color(0xFFFF6B35) : Colors.grey)),
         ],
       ),
     );
   }
 }
+
+extension DoubleExt on double { String toFixed(int d) => toStringAsFixed(d); }
