@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mitho_deals/core/dependency_injection/service_locator.dart';
-import 'package:mitho_deals/feature/auth/presentation/bloc/auth_bloc.dart';
-import 'package:mitho_deals/feature/auth/presentation/bloc/auth_state.dart';
+import 'package:mitho_deals/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:mitho_deals/features/auth/presentation/bloc/auth_state.dart';
 
 class AuthGuard {
   // LOGIC 1: Check if user is authenticated

@@ -1,14 +1,14 @@
 import 'package:mitho_deals/core/dependency_injection/service_locator.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../feature/auth/data/source/auth_remote_datasource.dart';
-import '../../feature/auth/data/repositories/auth_repository_impl.dart';
-import '../../feature/auth/domain/repositories/auth_repository.dart';
-import '../../feature/auth/domain/usecases/login_usecase.dart';
-import '../../feature/auth/domain/usecases/register_usecase.dart';
-import '../../feature/auth/domain/usecases/register_vendor_usecase.dart';
-import '../../feature/auth/domain/usecases/phone_auth_usecase.dart';
-import '../../feature/auth/presentation/bloc/auth_bloc.dart';
+import '../../features/auth/data/datasource/auth_remote_datasource.dart';
+import '../../features/auth/data/repositories/auth_repository_impl.dart';
+import '../../features/auth/domain/repositories/auth_repository.dart';
+import '../../features/auth/domain/usecases/login_usecase.dart';
+import '../../features/auth/domain/usecases/register_usecase.dart';
+import '../../features/auth/domain/usecases/register_vendor_usecase.dart';
+import '../../features/auth/domain/usecases/phone_auth_usecase.dart';
+import '../../features/auth/presentation/bloc/auth_bloc.dart';
 
 /// Setup all auth dependencies in Service Locator
 void setupAuthDependencies() {

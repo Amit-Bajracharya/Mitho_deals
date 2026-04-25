@@ -1,13 +1,13 @@
 import 'package:get_it/get_it.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../../feature/vendor/data/datasource/vendor_remote_dataresource.dart';
-import '../../feature/vendor/data/repositories/vendor_repository_impl.dart';
-import '../../feature/vendor/domain/repository/vendor_repository.dart';
-import '../../feature/vendor/domain/usecases/get_vendor_dashboard_stats.dart';
-import '../../feature/vendor/domain/usecases/vendor_orders_usecase.dart';
-import '../../feature/vendor/domain/usecases/confirm_pickup_usecase.dart';
-import '../../feature/vendor/domain/usecases/update_shop_status_usecase.dart';
-import '../../feature/vendor/presentation/bloc/vendor_bloc.dart';
+import '../../features/vendor/data/datasource/vendor_remote_dataresource.dart';
+import '../../features/vendor/data/repositories/vendor_repository_impl.dart';
+import '../../features/vendor/domain/repository/vendor_repository.dart';
+import '../../features/vendor/domain/usecases/get_vendor_dashboard_stats.dart';
+import '../../features/vendor/domain/usecases/vendor_orders_usecase.dart';
+import '../../features/vendor/domain/usecases/confirm_pickup_usecase.dart';
+import '../../features/vendor/domain/usecases/update_shop_status_usecase.dart';
+import '../../features/vendor/presentation/bloc/vendor_bloc.dart';
 
 final sl = GetIt.instance;
 
