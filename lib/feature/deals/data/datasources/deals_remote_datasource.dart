@@ -39,22 +39,32 @@ class DealsRemoteDataSourceImpl implements DealsRemoteDataSource {
       
       // Upload image to Supabase Storage if provided
       if (imageFile != null) {
-        // Safe file name with no special characters inside the name and no subfolders
+        // Safe file name with no special characters
         final safeName = deal.foodName.replaceAll(RegExp(r'[^a-zA-Z0-9]'), '_');
         final fileName = '${DateTime.now().millisecondsSinceEpoch}_$safeName.jpg';
+        final filePath = 'deals/$fileName';
+        const bucketName = 'deals';
+
+        final imageBytes = await imageFile.readAsBytes();
         
+        // Upload to Supabase Storage
         await supabaseClient.storage
-            .from('Images')
-            .upload(
-              fileName, 
-              imageFile,
-              fileOptions: const FileOptions(contentType: 'image/jpeg', upsert: true),
+            .from(bucketName)
+            .uploadBinary(
+              filePath, 
+              imageBytes,
+              fileOptions: const FileOptions(
+                contentType: 'image/jpeg',
+                upsert: true,
+              ),
             );
         
         // Get public URL
         imageUrl = supabaseClient.storage
-            .from('Images')
-            .getPublicUrl(fileName);
+            .from(bucketName)
+            .getPublicUrl(filePath);
+            
+        print('DEBUG: Image uploaded successfully to $imageUrl');
       }
 
       // Insert deal with image URL and correct vendor_id
@@ -155,7 +165,7 @@ class DealsRemoteDataSourceImpl implements DealsRemoteDataSource {
           throw const ServerException(message: 'User not logged in');
         }
 
-        final vendorResponse = await supabaseClient.from('Vendors').select('id').eq('owner_id', currentUser.id).maybeSingle();
+        final vendorResponse = await supabaseClient.from('vendors').select('id').eq('owner_id', currentUser.id).maybeSingle();
 
     if(vendorResponse == null){
       throw const ServerException(message: 'Vendor not found');
