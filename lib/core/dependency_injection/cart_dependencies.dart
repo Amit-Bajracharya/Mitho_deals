@@ -1,16 +1,16 @@
 import 'package:get_it/get_it.dart';
-import 'package:mitho_deals/feature/cart/data/datasource/cart_local_datasource.dart';
-import 'package:mitho_deals/feature/cart/data/repository/cart_repository_impl.dart';
-import 'package:mitho_deals/feature/cart/domain/usecases/update_cart.dart';
+import 'package:mitho_deals/features/cart/data/datasource/cart_local_datasource.dart';
+import 'package:mitho_deals/features/cart/data/repository/cart_repository_impl.dart';
+import 'package:mitho_deals/features/cart/domain/usecases/update_cart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../feature/cart/domain/repository/cart_repository.dart';
-import '../../feature/cart/domain/usecases/add_to_cart.dart';
-import '../../feature/cart/domain/usecases/clear_cart.dart';
-import '../../feature/cart/domain/usecases/get_cart.dart';
-import '../../feature/cart/domain/usecases/remove_from_cart.dart';
+import '../../features/cart/domain/repository/cart_repository.dart';
+import '../../features/cart/domain/usecases/add_to_cart.dart';
+import '../../features/cart/domain/usecases/clear_cart.dart';
+import '../../features/cart/domain/usecases/get_cart.dart';
+import '../../features/cart/domain/usecases/remove_from_cart.dart';
 
-import '../../feature/cart/presentation/bloc/cart_bloc.dart';
+import '../../features/cart/presentation/bloc/cart_bloc.dart';
 
 void setupCartDependencies(SharedPreferences prefs) {
   final sl = GetIt.instance;
