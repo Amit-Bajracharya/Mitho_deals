@@ -1,9 +1,15 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:mitho_deals/core/dependency_injection/service_locator.dart';
+import 'package:get_it/get_it.dart';
+import 'package:mitho_deals/feature/cart/domain/entity/cart_item.dart';
+import 'package:mitho_deals/feature/cart/presentation/bloc/cart_bloc.dart';
+import 'package:mitho_deals/feature/cart/presentation/bloc/cart_event.dart';
 import 'package:mitho_deals/feature/deals/domain/entitiy/deal_entity.dart';
 import 'package:mitho_deals/feature/deals/presentation/bloc/deals_bloc.dart';
 import 'package:mitho_deals/feature/deals/presentation/bloc/deals_event.dart';
@@ -426,6 +432,20 @@ class _DealDetailsScreenState extends State<DealDetailsScreen> {
               ],
             ),
             SizedBox(width: 20.w),
+            // Add to Cart Button
+            Expanded(
+              child: OutlinedButton(
+                onPressed: () => _showAddToCartSelector(),
+                style: OutlinedButton.styleFrom(
+                  side: const BorderSide(color: Color(0xFFF97316)),
+                  padding: EdgeInsets.symmetric(vertical: 14.h),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
+                ),
+                child: Text('Add to Cart', style: GoogleFonts.poppins(fontSize: 14.sp, fontWeight: FontWeight.w700, color: const Color(0xFFF97316))),
+              ),
+            ),
+            SizedBox(width: 12.w),
+            // Reserve Now Button
             Expanded(
               child: ElevatedButton(
                 onPressed: () => _showQuantitySelector(),
@@ -477,6 +497,79 @@ class _DealDetailsScreenState extends State<DealDetailsScreen> {
                       },
                       style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFFF97316), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r))),
                       child: Text('Confirm', style: GoogleFonts.poppins(fontSize: 14.sp, fontWeight: FontWeight.w600, color: Colors.white)),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  void _showAddToCartSelector() {
+    int quantity = 1;
+    final cartBloc = GetIt.instance<CartBloc>();
+    showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(16.r))),
+      builder: (bottomSheetContext) {
+        return StatefulBuilder(
+          builder: (context, setModalState) {
+            return Container(
+              padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 20.h),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text('Add to Cart', style: GoogleFonts.poppins(fontSize: 16.sp, fontWeight: FontWeight.bold)),
+                  SizedBox(height: 8.h),
+                  Text(widget.deal.foodName, style: GoogleFonts.poppins(fontSize: 14.sp, color: Colors.grey[600])),
+                  SizedBox(height: 16.h),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(onPressed: quantity > 1 ? () => setModalState(() => quantity--) : null, iconSize: 24.sp, icon: const Icon(Icons.remove_circle_outline, color: Color(0xFFF97316))),
+                      SizedBox(width: 16.w),
+                      Text(quantity.toString(), style: GoogleFonts.poppins(fontSize: 20.sp, fontWeight: FontWeight.bold)),
+                      SizedBox(width: 16.w),
+                      IconButton(onPressed: quantity < widget.deal.availablePortions ? () => setModalState(() => quantity++) : null, iconSize: 24.sp, icon: const Icon(Icons.add_circle_outline, color: Color(0xFFF97316))),
+                    ],
+                  ),
+                  SizedBox(height: 20.h),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 48.h,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        final cartItem = CartItem(
+                          dealId: widget.deal.id,
+                          foodName: widget.deal.foodName,
+                          imageUrl: widget.deal.imageUrl,
+                          discountedPrice: widget.deal.discountedPrice,
+                          quantity: quantity,
+                          vendorId: widget.deal.vendorId,
+                          vendorName: widget.deal.vendorName,
+                          pickupStartTime: widget.deal.pickupStartTime,
+                          pickupEndTime: widget.deal.pickupEndTime,
+                        );
+                        cartBloc.add(CartEvent.addToCart(cartItem));
+                        Navigator.pop(bottomSheetContext);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Added to cart!', style: GoogleFonts.poppins(fontSize: 13.sp)),
+                            backgroundColor: Colors.green,
+                            duration: const Duration(seconds: 2),
+                            action: SnackBarAction(
+                              label: 'View Cart',
+                              textColor: Colors.white,
+                              onPressed: () => context.push('/cart'),
+                            ),
+                          ),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFFF97316), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r))),
+                      child: Text('Add to Cart', style: GoogleFonts.poppins(fontSize: 14.sp, fontWeight: FontWeight.w600, color: Colors.white)),
                     ),
                   ),
                 ],

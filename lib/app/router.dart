@@ -17,6 +17,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mitho_deals/core/dependency_injection/service_locator.dart';
 import 'package:mitho_deals/feature/deals/presentation/bloc/deals_bloc.dart';
 import 'package:mitho_deals/feature/home/presentation/pages/home_page.dart';
+import 'package:mitho_deals/feature/cart/presentation/pages/cart_page.dart';
+import 'package:mitho_deals/feature/cart/presentation/bloc/cart_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:mitho_deals/feature/introduction_screen/presentation/pages/introduction_page.dart';
 import 'package:mitho_deals/splash_screen.dart';
 
@@ -91,6 +94,17 @@ class MyAppRouter {
             child: BlocProvider.value(
               value: ServiceLocator.get<DealsBloc>(),
               child: const AddDealScreen(),
+            ),
+          );
+        }
+      ),
+      GoRoute(
+        path: RouteConstants.cart,
+        pageBuilder:(context, state) {
+          return MaterialPage(
+            child: BlocProvider(
+              create: (_) => GetIt.instance<CartBloc>(),
+              child: const CartPage(),
             ),
           );
         }
