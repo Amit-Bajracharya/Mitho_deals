@@ -8,7 +8,8 @@ import 'package:mitho_deals/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:mitho_deals/features/auth/presentation/bloc/auth_event.dart';
 import 'package:mitho_deals/features/auth/presentation/bloc/auth_state.dart';
 import 'package:mitho_deals/features/deals/presentation/screens/deals_list_screen.dart';
-import 'package:mitho_deals/features/orders/presentation/pages/orders_screen.dart';
+
+import 'package:mitho_deals/features/orders/presentation/screens/orders_screen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
