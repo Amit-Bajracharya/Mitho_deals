@@ -3,7 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mitho_deals/features/vendor/domain/entities/vendor_stats.dart';
-import 'package:mitho_deals/features/vendor/presentation/pages/vendor_inventory_page.dart';
+import 'package:mitho_deals/features/vendor/presentation/screens/vendor_inventory_page.dart';
+
 import '../bloc/vendor_bloc.dart';
 import '../../../../core/dependency_injection/vendor_dependencies.dart';
 
@@ -234,7 +235,7 @@ class _VendorHomePageState extends State<VendorHomePage> {
           _buildNavItem(Icons.grid_view_rounded, 'Home', 0),
           _buildNavItem(Icons.receipt_long_rounded, 'Orders', 1),
           _buildNavItem(Icons.inventory_2_rounded, 'Inv', 3), // Shorter label
-          _buildNavItem(Icons.person_rounded, 'Me', 4), // Shorter label
+          _buildNavItem(Icons.person_rounded, 'Me', 4), // Shorter labelE
         ],
       ),
     );
