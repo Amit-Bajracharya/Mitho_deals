@@ -140,12 +140,12 @@ return error(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String email,  String password)?  loginRequested,TResult Function( String name,  String email,  String password)?  registerRequested,TResult Function( String restaurantName,  String email,  String password,  String description,  String address)?  registerVendorRequested,TResult Function( String phoneNumber)?  phoneVerificationRequested,TResult Function( String verificationId,  String smsCode)?  phoneCodeVerified,TResult Function()?  logoutRequested,TResult Function()?  authStateChecked,TResult Function( String message)?  error,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String email,  String password)?  loginRequested,TResult Function( String name,  String email,  String password)?  registerRequested,TResult Function( String restaurantName,  String email,  String password,  String description,  String address,  double latitude,  double longitude)?  registerVendorRequested,TResult Function( String phoneNumber)?  phoneVerificationRequested,TResult Function( String verificationId,  String smsCode)?  phoneCodeVerified,TResult Function()?  logoutRequested,TResult Function()?  authStateChecked,TResult Function( String message)?  error,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case LoginRequested() when loginRequested != null:
 return loginRequested(_that.email,_that.password);case RegisterRequested() when registerRequested != null:
 return registerRequested(_that.name,_that.email,_that.password);case RegisterVendorRequested() when registerVendorRequested != null:
-return registerVendorRequested(_that.restaurantName,_that.email,_that.password,_that.description,_that.address);case PhoneVerificationRequested() when phoneVerificationRequested != null:
+return registerVendorRequested(_that.restaurantName,_that.email,_that.password,_that.description,_that.address,_that.latitude,_that.longitude);case PhoneVerificationRequested() when phoneVerificationRequested != null:
 return phoneVerificationRequested(_that.phoneNumber);case PhoneCodeVerified() when phoneCodeVerified != null:
 return phoneCodeVerified(_that.verificationId,_that.smsCode);case LogoutRequested() when logoutRequested != null:
 return logoutRequested();case AuthStateChecked() when authStateChecked != null:
@@ -168,12 +168,12 @@ return error(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String email,  String password)  loginRequested,required TResult Function( String name,  String email,  String password)  registerRequested,required TResult Function( String restaurantName,  String email,  String password,  String description,  String address)  registerVendorRequested,required TResult Function( String phoneNumber)  phoneVerificationRequested,required TResult Function( String verificationId,  String smsCode)  phoneCodeVerified,required TResult Function()  logoutRequested,required TResult Function()  authStateChecked,required TResult Function( String message)  error,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String email,  String password)  loginRequested,required TResult Function( String name,  String email,  String password)  registerRequested,required TResult Function( String restaurantName,  String email,  String password,  String description,  String address,  double latitude,  double longitude)  registerVendorRequested,required TResult Function( String phoneNumber)  phoneVerificationRequested,required TResult Function( String verificationId,  String smsCode)  phoneCodeVerified,required TResult Function()  logoutRequested,required TResult Function()  authStateChecked,required TResult Function( String message)  error,}) {final _that = this;
 switch (_that) {
 case LoginRequested():
 return loginRequested(_that.email,_that.password);case RegisterRequested():
 return registerRequested(_that.name,_that.email,_that.password);case RegisterVendorRequested():
-return registerVendorRequested(_that.restaurantName,_that.email,_that.password,_that.description,_that.address);case PhoneVerificationRequested():
+return registerVendorRequested(_that.restaurantName,_that.email,_that.password,_that.description,_that.address,_that.latitude,_that.longitude);case PhoneVerificationRequested():
 return phoneVerificationRequested(_that.phoneNumber);case PhoneCodeVerified():
 return phoneCodeVerified(_that.verificationId,_that.smsCode);case LogoutRequested():
 return logoutRequested();case AuthStateChecked():
@@ -195,12 +195,12 @@ return error(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String email,  String password)?  loginRequested,TResult? Function( String name,  String email,  String password)?  registerRequested,TResult? Function( String restaurantName,  String email,  String password,  String description,  String address)?  registerVendorRequested,TResult? Function( String phoneNumber)?  phoneVerificationRequested,TResult? Function( String verificationId,  String smsCode)?  phoneCodeVerified,TResult? Function()?  logoutRequested,TResult? Function()?  authStateChecked,TResult? Function( String message)?  error,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String email,  String password)?  loginRequested,TResult? Function( String name,  String email,  String password)?  registerRequested,TResult? Function( String restaurantName,  String email,  String password,  String description,  String address,  double latitude,  double longitude)?  registerVendorRequested,TResult? Function( String phoneNumber)?  phoneVerificationRequested,TResult? Function( String verificationId,  String smsCode)?  phoneCodeVerified,TResult? Function()?  logoutRequested,TResult? Function()?  authStateChecked,TResult? Function( String message)?  error,}) {final _that = this;
 switch (_that) {
 case LoginRequested() when loginRequested != null:
 return loginRequested(_that.email,_that.password);case RegisterRequested() when registerRequested != null:
 return registerRequested(_that.name,_that.email,_that.password);case RegisterVendorRequested() when registerVendorRequested != null:
-return registerVendorRequested(_that.restaurantName,_that.email,_that.password,_that.description,_that.address);case PhoneVerificationRequested() when phoneVerificationRequested != null:
+return registerVendorRequested(_that.restaurantName,_that.email,_that.password,_that.description,_that.address,_that.latitude,_that.longitude);case PhoneVerificationRequested() when phoneVerificationRequested != null:
 return phoneVerificationRequested(_that.phoneNumber);case PhoneCodeVerified() when phoneCodeVerified != null:
 return phoneCodeVerified(_that.verificationId,_that.smsCode);case LogoutRequested() when logoutRequested != null:
 return logoutRequested();case AuthStateChecked() when authStateChecked != null:
@@ -355,7 +355,7 @@ as String,
 
 
 class RegisterVendorRequested implements AuthEvent {
-  const RegisterVendorRequested({required this.restaurantName, required this.email, required this.password, required this.description, required this.address});
+  const RegisterVendorRequested({required this.restaurantName, required this.email, required this.password, required this.description, required this.address, required this.latitude, required this.longitude});
   
 
  final  String restaurantName;
@@ -363,6 +363,8 @@ class RegisterVendorRequested implements AuthEvent {
  final  String password;
  final  String description;
  final  String address;
+ final  double latitude;
+ final  double longitude;
 
 /// Create a copy of AuthEvent
 /// with the given fields replaced by the non-null parameter values.
@@ -374,16 +376,16 @@ $RegisterVendorRequestedCopyWith<RegisterVendorRequested> get copyWith => _$Regi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is RegisterVendorRequested&&(identical(other.restaurantName, restaurantName) || other.restaurantName == restaurantName)&&(identical(other.email, email) || other.email == email)&&(identical(other.password, password) || other.password == password)&&(identical(other.description, description) || other.description == description)&&(identical(other.address, address) || other.address == address));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RegisterVendorRequested&&(identical(other.restaurantName, restaurantName) || other.restaurantName == restaurantName)&&(identical(other.email, email) || other.email == email)&&(identical(other.password, password) || other.password == password)&&(identical(other.description, description) || other.description == description)&&(identical(other.address, address) || other.address == address)&&(identical(other.latitude, latitude) || other.latitude == latitude)&&(identical(other.longitude, longitude) || other.longitude == longitude));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,restaurantName,email,password,description,address);
+int get hashCode => Object.hash(runtimeType,restaurantName,email,password,description,address,latitude,longitude);
 
 @override
 String toString() {
-  return 'AuthEvent.registerVendorRequested(restaurantName: $restaurantName, email: $email, password: $password, description: $description, address: $address)';
+  return 'AuthEvent.registerVendorRequested(restaurantName: $restaurantName, email: $email, password: $password, description: $description, address: $address, latitude: $latitude, longitude: $longitude)';
 }
 
 
@@ -394,7 +396,7 @@ abstract mixin class $RegisterVendorRequestedCopyWith<$Res> implements $AuthEven
   factory $RegisterVendorRequestedCopyWith(RegisterVendorRequested value, $Res Function(RegisterVendorRequested) _then) = _$RegisterVendorRequestedCopyWithImpl;
 @useResult
 $Res call({
- String restaurantName, String email, String password, String description, String address
+ String restaurantName, String email, String password, String description, String address, double latitude, double longitude
 });
 
 
@@ -411,14 +413,16 @@ class _$RegisterVendorRequestedCopyWithImpl<$Res>
 
 /// Create a copy of AuthEvent
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? restaurantName = null,Object? email = null,Object? password = null,Object? description = null,Object? address = null,}) {
+@pragma('vm:prefer-inline') $Res call({Object? restaurantName = null,Object? email = null,Object? password = null,Object? description = null,Object? address = null,Object? latitude = null,Object? longitude = null,}) {
   return _then(RegisterVendorRequested(
 restaurantName: null == restaurantName ? _self.restaurantName : restaurantName // ignore: cast_nullable_to_non_nullable
 as String,email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
 as String,password: null == password ? _self.password : password // ignore: cast_nullable_to_non_nullable
 as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
 as String,address: null == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
-as String,
+as String,latitude: null == latitude ? _self.latitude : latitude // ignore: cast_nullable_to_non_nullable
+as double,longitude: null == longitude ? _self.longitude : longitude // ignore: cast_nullable_to_non_nullable
+as double,
   ));
 }
 

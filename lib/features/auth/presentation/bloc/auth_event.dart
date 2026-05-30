@@ -21,6 +21,8 @@ class AuthEvent with _$AuthEvent {
     required String password,
     required String description,
     required String address,
+    required double latitude,
+    required double longitude,
   }) = RegisterVendorRequested;
 
   const factory AuthEvent.phoneVerificationRequested({

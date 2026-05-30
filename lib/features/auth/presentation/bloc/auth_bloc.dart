@@ -34,8 +34,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     await event.when(
       loginRequested: (email, password) async => _onLoginRequested(email, password, emit),
       registerRequested: (name, email, password) async => _onRegisterRequested(email, password, name, emit),
-      registerVendorRequested: (name, email, password, desc, addr) async => 
-          _onRegisterVendorRequested(name, email, password, desc, addr, emit),
+      registerVendorRequested: (name, email, password, desc, addr, lat, lng) async => 
+          _onRegisterVendorRequested(name, email, password, desc, addr, lat, lng, emit),
       phoneVerificationRequested: (phoneNumber) async => _onPhoneVerificationRequested(phoneNumber, emit),
       phoneCodeVerified: (verificationId, smsCode) async => _onPhoneCodeVerified(verificationId, smsCode, emit),
       logoutRequested: () async => _onLogoutRequested(emit),
@@ -84,6 +84,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     String password,
     String description,
     String address,
+    double latitude,
+    double longitude,
     Emitter<AuthState> emit,
   ) async {
     emit(const AuthState.loading());
@@ -95,6 +97,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         password: password,
         description: description,
         address: address,
+        latitude: latitude,
+        longitude: longitude,
       );
 
       if (result is AuthSuccess) {

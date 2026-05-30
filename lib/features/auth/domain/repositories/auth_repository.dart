@@ -12,6 +12,8 @@ abstract class AuthRepository {
     required String restaurantName,
     required String description,
     required String address,
+    required double latitude,
+    required double longitude,
   });
 
   //Phone Auth
