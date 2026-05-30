@@ -51,6 +51,9 @@ dependencies:
   equatable: ^2.0.8
   get_it: ^8.0.0
   image_picker: ^1.1.2
+  maplibre_gl: ^0.26.1
+  geolocator: ^13.0.1
+  permission_handler: ^12.0.1
 
 dev_dependencies:
   flutter_test:

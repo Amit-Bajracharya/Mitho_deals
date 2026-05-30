@@ -90,7 +90,7 @@ class _IntroductionViewState extends State<IntroductionView> {
     return Column(
       children: [
         _buildHeader(state),
-        
+         SizedBox(height: 55.h),
         Expanded(
           child: PageView.builder(
             controller: _pageController,

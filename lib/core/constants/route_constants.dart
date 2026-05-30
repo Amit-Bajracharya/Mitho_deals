@@ -9,4 +9,6 @@ class RouteConstants {
   static const String dealsList = '/deals';
   static const String dealDetails = '/deal-details';
   static const String cart = '/cart';
+  static const String fullScreenDealMap = '/full-screen-deal-map';
+  static const String mapPicker = '/map-picker';
 }

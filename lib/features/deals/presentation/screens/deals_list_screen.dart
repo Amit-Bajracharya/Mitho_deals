@@ -70,9 +70,23 @@ class _DealsListScreenState extends State<DealsListScreen> {
                         ),
                         
                         // Map Section
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 16.w),
-                          child: const DealMapWidget(),
+                        BlocBuilder<DealsBloc, DealsState>(
+                          builder: (context, state) {
+                            return state.maybeWhen(
+                              loaded: (deals) {
+                                return Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                                  child: DealMapWidget(deals: deals),
+                                );
+                              },
+                              orElse: () {
+                                return Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                                  child: const DealMapWidget(deals: []),
+                                );
+                              },
+                            );
+                          },
                         ),
                         
                         // Section Title: Active Deals

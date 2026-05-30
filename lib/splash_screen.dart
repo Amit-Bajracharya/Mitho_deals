@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mitho_deals/core/constants/route_constants.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:geolocator/geolocator.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -17,7 +19,28 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   _navigateToHome() async {
-    await Future.delayed(const Duration(seconds: 3), () {});
+    final startTime = DateTime.now();
+
+    // Request location permission on app start
+    final status = await Permission.locationWhenInUse.request();
+    if (status.isGranted) {
+      try {
+        await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high,
+          timeLimit: const Duration(seconds: 5),
+        );
+      } catch (e) {
+        debugPrint("Error getting initial location: $e");
+      }
+    }
+
+    // Ensure the splash screen shows for at least 3 seconds
+    final elapsed = DateTime.now().difference(startTime);
+    final remaining = const Duration(seconds: 3) - elapsed;
+    if (remaining > Duration.zero) {
+      await Future.delayed(remaining);
+    }
+
     if (mounted) {
       context.pushReplacement(RouteConstants.intro);
     }

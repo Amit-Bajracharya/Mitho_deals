@@ -10,19 +10,19 @@ import '../../features/auth/domain/usecases/register_vendor_usecase.dart';
 import '../../features/auth/domain/usecases/phone_auth_usecase.dart';
 import '../../features/auth/presentation/bloc/auth_bloc.dart';
 
-/// Setup all auth dependencies in Service Locator
+
 void setupAuthDependencies() {
   // 1. Supabase Data Source
   ServiceLocator.register<SupabaseAuthDataSource>(
     SupabaseAuthDataSourceImpl(Supabase.instance.client),
   );
   
-  // 2. Repository (depends on data source)
+
   ServiceLocator.register<AuthRepository>(
     AuthRepositoryImpl(ServiceLocator.get<SupabaseAuthDataSource>()),
   );
   
-  // 3. Use Cases (depend on repository)
+
   ServiceLocator.register<LoginUseCase>(
     LoginUseCase(ServiceLocator.get<AuthRepository>()),
   );
@@ -39,7 +39,7 @@ void setupAuthDependencies() {
     PhoneAuthUseCase(ServiceLocator.get<AuthRepository>()),
   );
   
-  // 4. BLoC (depends on all use cases)
+ 
   ServiceLocator.register<AuthBloc>(
     AuthBloc(
       repository: ServiceLocator.get<AuthRepository>(),
