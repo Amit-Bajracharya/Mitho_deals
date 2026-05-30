@@ -1,9 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:maplibre_gl/maplibre_gl.dart';
+import 'package:mitho_deals/features/deals/domain/entitiy/deal_entity.dart';
+import 'package:go_router/go_router.dart';
+import 'package:mitho_deals/core/constants/route_constants.dart';
 
-class DealMapWidget extends StatelessWidget {
-  const DealMapWidget({super.key});
+class DealMapWidget extends StatefulWidget {
+  final List<DealEntity> deals;
+
+  const DealMapWidget({
+    super.key,
+    required this.deals,
+  });
+
+  @override
+  State<DealMapWidget> createState() => _DealMapWidgetState();
+}
+
+class _DealMapWidgetState extends State<DealMapWidget> {
+  MapLibreMapController? _mapController;
+  static const String _styleUrl = 'https://map-init.gallimap.com/styles/light/style.json';
 
   @override
   Widget build(BuildContext context) {
@@ -23,85 +40,134 @@ class DealMapWidget extends StatelessWidget {
             ),
           ],
         ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(16.r),
-          child: Stack(
-            children: [
-              // Dummy Map Image Background
-              Container(
-                width: double.infinity,
-                height: double.infinity,
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/map_placeholder.png'),
-                    fit: BoxFit.cover,
+        child: GestureDetector(
+          onTap: () {
+            context.push(RouteConstants.fullScreenDealMap, extra: widget.deals);
+          },
+          child: AbsorbPointer(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16.r),
+              child: Stack(
+                children: [
+                  MapLibreMap(
+                    initialCameraPosition: const CameraPosition(
+                      target: LatLng(27.7172, 85.3240), // Kathmandu center
+                      zoom: 12.0,
+                    ),
+                    styleString: _styleUrl,
+                    onMapCreated: _onMapCreated,
+                   onStyleLoadedCallback: _onStyleLoaded,
+                   myLocationEnabled: true,
+                   myLocationRenderMode: MyLocationRenderMode.normal,
                   ),
-                ),
-                child: Image.asset(
-                  'assets/images/map_placeholder.png', // Or use a network map placeholder if asset doesn't exist
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    // Fallback if image asset is not loaded yet
-                    return Container(
-                      color: const Color(0xFFE8F5E8),
-                      child: Stack(
-                        children: [
-                          Center(
-                            child: Icon(Icons.map_outlined, size: 60.sp, color: Colors.grey[400]),
+
+                  // Bottom Left Pill
+                  Positioned(
+                    bottom: 12.h,
+                    left: 12.w,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20.r),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 8,
+                            offset: const Offset(0, 2),
                           ),
-                          // Simulated map markers
-                          Positioned(top: 40.h, left: 80.w, child: Icon(Icons.location_on, color: Colors.orange, size: 24.sp)),
-                          Positioned(top: 80.h, right: 60.w, child: Icon(Icons.location_on, color: Colors.red, size: 24.sp)),
-                          Positioned(bottom: 30.h, left: 150.w, child: Icon(Icons.location_on, color: Colors.blue, size: 24.sp)),
                         ],
                       ),
-                    );
-                  },
-                ),
-              ),
-
-              // Bottom Left Pill
-              Positioned(
-                bottom: 12.h,
-                left: 12.w,
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20.r),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
-                        blurRadius: 8,
-                        offset: const Offset(0, 2),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.navigation,
+                            size: 14.sp,
+                            color: const Color(0xFFF97316),
+                          ),
+                          SizedBox(width: 6.w),
+                          Text(
+                            '${widget.deals.length} Deals Near You',
+                            style: GoogleFonts.poppins(
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w600,
+                              color: const Color(0xFF1F2937),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        Icons.navigation, // Small arrow pointer
-                        size: 14.sp,
-                        color: const Color(0xFFF97316),
-                      ),
-                      SizedBox(width: 6.w),
-                      Text(
-                        '12 Deals Near Jhamsikhel',
-                        style: GoogleFonts.poppins(
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w600,
-                          color: const Color(0xFF1F2937),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),
     );
+  }
+
+  void _onMapCreated(MapLibreMapController controller) {
+    _mapController = controller;
+  }
+
+  void _onStyleLoaded() async {
+    if (_mapController == null) return;
+
+    // Add markers for each deal
+    for (final deal in widget.deals) {
+      await _addMarker(deal);
+    }
+
+    // Fit camera to show all markers
+    if (widget.deals.isNotEmpty) {
+      await _fitCameraToDeals();
+    }
+  }
+
+  Future<void> _addMarker(DealEntity deal) async {
+    if (_mapController == null) return;
+
+    // Create a symbol for the marker
+    await _mapController!.addSymbol(
+      SymbolOptions(
+        geometry: LatLng(deal.latitude, deal.longitude),
+        iconImage: 'custom-marker',
+        iconSize: 0.1,
+        iconAnchor: 'bottom',
+      ),
+    );
+  }
+
+  Future<void> _fitCameraToDeals() async {
+    if (_mapController == null || widget.deals.isEmpty) return;
+
+    final latitudes = widget.deals.map((d) => d.latitude).toList();
+    final longitudes = widget.deals.map((d) => d.longitude).toList();
+
+    final minLat = latitudes.reduce((a, b) => a < b ? a : b);
+    final maxLat = latitudes.reduce((a, b) => a > b ? a : b);
+    final minLng = longitudes.reduce((a, b) => a < b ? a : b);
+    final maxLng = longitudes.reduce((a, b) => a > b ? a : b);
+
+    final southWest = LatLng(minLat, minLng);
+    final northEast = LatLng(maxLat, maxLng);
+
+    await _mapController!.animateCamera(
+      CameraUpdate.newLatLngBounds(
+       LatLngBounds(southwest: southWest, northeast: northEast),
+        left: 50,
+        right: 50,
+        top: 50,
+        bottom: 50,
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _mapController?.dispose();
+    super.dispose();
   }
 }
