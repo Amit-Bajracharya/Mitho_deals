@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:mitho_deals/shared/theme/app_theme.dart';
+import 'package:mitho_deals/shared/widgets/shared_widgets.dart';
 
 class DealsAppBar extends StatelessWidget {
   const DealsAppBar({super.key});
@@ -13,45 +14,21 @@ class DealsAppBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // Left Side: App Logo & Name
           Row(
             children: [
-              // Logo Icon
-              Icon(
-                Icons.restaurant,
-                color: const Color(0xFFF97316),
-                size: 20.sp, // Smaller icon
-              ),
+              Icon(Icons.restaurant, color: AppTheme.primaryOrange, size: 20.sp),
               SizedBox(width: 6.w),
-              Text(
-                'Mitho Deals',
-                style: GoogleFonts.poppins(
-                  fontSize: 16.sp, // Title at 16sp
-                  fontWeight: FontWeight.w700,
-                  color: const Color(0xFF1F2937),
-                  letterSpacing: -0.5,
-                ),
-              ),
+              AppText.headline('Mitho Deals', fontWeight: FontWeight.w700, color: const Color(0xFF1F2937)),
             ],
           ),
-          
-          // Right Side: Cart & Notification
           Row(
             children: [
               GestureDetector(
                 onTap: () => context.push('/cart'),
-                child: Icon(
-                  Icons.shopping_cart_outlined,
-                  color: const Color(0xFF1F2937),
-                  size: 20.sp, // Smaller icon
-                ),
+                child: Icon(Icons.shopping_cart_outlined, color: const Color(0xFF1F2937), size: 20.sp),
               ),
               SizedBox(width: 12.w),
-              Icon(
-                Icons.notifications_none_outlined,
-                color: const Color(0xFF1F2937),
-                size: 20.sp, // Smaller icon
-              ),
+              Icon(Icons.notifications_none_outlined, color: const Color(0xFF1F2937), size: 20.sp),
             ],
           ),
         ],

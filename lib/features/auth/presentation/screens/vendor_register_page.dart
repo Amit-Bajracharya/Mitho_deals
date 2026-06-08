@@ -2,23 +2,41 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:mitho_deals/core/dependency_injection/service_locator.dart';
+import 'package:mitho_deals/shared/widgets/shared_widgets.dart';
 
 import '../bloc/auth_bloc.dart';
 import '../bloc/auth_event.dart';
 import '../bloc/auth_state.dart';
 import '../widgets/auth_header_widget.dart';
+import '../widgets/vendor_map_picker_widget.dart';
 
-class VendorRegisterPage extends StatelessWidget {
-  VendorRegisterPage({super.key});
+class VendorRegisterPage extends StatefulWidget {
+  const VendorRegisterPage({super.key});
 
+  @override
+  State<VendorRegisterPage> createState() => _VendorRegisterPageState();
+}
+
+class _VendorRegisterPageState extends State<VendorRegisterPage> {
   final _restaurantNameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _addressController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+
+  dynamic _selectedLocation;
+
+  @override
+  void dispose() {
+    _restaurantNameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _descriptionController.dispose();
+    _addressController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,33 +49,12 @@ class VendorRegisterPage extends StatelessWidget {
         child: BlocListener<AuthBloc, AuthState>(
           listener: (context, state) {
             state.maybeWhen(
-              loading: () {
-                ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Row(
-                      children: [
-                        SizedBox(width: 16.w, height: 16.h, child: const CircularProgressIndicator(color: Colors.white, strokeWidth: 1.5)),
-                        SizedBox(width: 12.w),
-                        Text('Processing...', style: GoogleFonts.poppins(fontSize: 11.sp)),
-                      ],
-                    ),
-                  ),
-                );
-              },
+              loading: () => AppSnackBar.showLoading(context, message: 'Processing...'),
               authenticated: (_) {
-                ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Profile created! Please login.', style: GoogleFonts.poppins(fontSize: 11.sp)), backgroundColor: Colors.green),
-                );
+                AppSnackBar.showSuccess(context, 'Profile created! Please login.');
                 context.go('/login');
               },
-              error: (message) {
-                ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(message, style: GoogleFonts.poppins(fontSize: 11.sp)), backgroundColor: Colors.red),
-                );
-              },
+              error: (message) => AppSnackBar.showError(context, message),
               orElse: () {},
             );
           },
@@ -86,20 +83,31 @@ class VendorRegisterPage extends StatelessWidget {
                   subtitle: 'Start rescuing food today',
                 ),
                 SizedBox(height: 20.h),
-                _buildField(controller: _restaurantNameController, label: 'Restaurant Name', hint: 'Name', icon: Icons.store_rounded, isLoading: isLoading),
+                _field(controller: _restaurantNameController, label: 'Restaurant Name', hint: 'Name', icon: Icons.store_rounded, isLoading: isLoading),
                 SizedBox(height: 10.h),
-                _buildField(controller: _emailController, label: 'Email', hint: 'Business email', icon: Icons.email_outlined, isLoading: isLoading, keyboardType: TextInputType.emailAddress),
+                _field(controller: _emailController, label: 'Email', hint: 'Business email', icon: Icons.email_outlined, isLoading: isLoading, keyboardType: TextInputType.emailAddress),
                 SizedBox(height: 10.h),
-                _buildField(controller: _passwordController, label: 'Password', hint: 'Password', icon: Icons.lock_outline_rounded, isLoading: isLoading, obscureText: true),
+                _field(controller: _passwordController, label: 'Password', hint: 'Password', icon: Icons.lock_outline_rounded, isLoading: isLoading, obscureText: true),
                 SizedBox(height: 10.h),
-                _buildField(controller: _descriptionController, label: 'Description', hint: 'About you', icon: Icons.description_outlined, isLoading: isLoading, maxLines: 2),
+                _field(controller: _descriptionController, label: 'Description', hint: 'About you', icon: Icons.description_outlined, isLoading: isLoading, maxLines: 2),
                 SizedBox(height: 10.h),
-                _buildField(controller: _addressController, label: 'Store Address', hint: 'Location', icon: Icons.location_on_outlined, isLoading: isLoading),
+                _field(controller: _addressController, label: 'Store Address', hint: 'Location', icon: Icons.location_on_outlined, isLoading: isLoading),
+                SizedBox(height: 12.h),
+                VendorMapPickerWidget(
+                  selectedLocation: _selectedLocation,
+                  isLoading: isLoading,
+                  onPickLocation: () => _openMapPicker(context),
+                ),
                 SizedBox(height: 20.h),
-                _buildRegisterButton(context, isLoading),
-                TextButton(
+                AppButton(
+                  label: 'Register Restaurant',
+                  isLoading: isLoading,
+                  onPressed: () => _onRegister(context),
+                ),
+                AppButton(
+                  label: 'Back to Login',
+                  variant: AppButtonVariant.text,
                   onPressed: () => context.go('/login'),
-                  child: Text('Back to Login', style: GoogleFonts.poppins(fontSize: 11.sp, color: const Color(0xFFFF6B35), fontWeight: FontWeight.w600)),
                 ),
                 SizedBox(height: 20.h),
               ],
@@ -110,52 +118,51 @@ class VendorRegisterPage extends StatelessWidget {
     );
   }
 
-  Widget _buildField({required TextEditingController controller, required String label, required String hint, required IconData icon, required bool isLoading, bool obscureText = false, int maxLines = 1, TextInputType? keyboardType}) {
-    return TextFormField(
+  Widget _field({
+    required TextEditingController controller,
+    required String label,
+    required String hint,
+    required IconData icon,
+    required bool isLoading,
+    bool obscureText = false,
+    int maxLines = 1,
+    TextInputType? keyboardType,
+  }) {
+    return AppTextField(
       controller: controller,
-      enabled: !isLoading,
+      label: label,
+      hint: hint,
+      prefixIcon: icon,
       obscureText: obscureText,
       maxLines: maxLines,
+      enabled: !isLoading,
       keyboardType: keyboardType,
-      style: GoogleFonts.poppins(fontSize: 11.sp),
-      decoration: InputDecoration(
-        labelText: label,
-        hintText: hint,
-        isDense: true,
-        prefixIcon: Icon(icon, size: 16.sp),
-        contentPadding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 12.w),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.r), borderSide: const BorderSide(color: Color(0xFFF1F2F6))),
-        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.r), borderSide: const BorderSide(color: Color(0xFFF1F2F6))),
-        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.r), borderSide: const BorderSide(color: Color(0xFFFF6B35), width: 1.2)),
-        labelStyle: GoogleFonts.poppins(fontSize: 9.sp, color: const Color(0xFF636E72)),
-        hintStyle: GoogleFonts.poppins(fontSize: 9.sp, color: Colors.grey[400]),
-      ),
       validator: (val) => (val == null || val.isEmpty) ? 'Required' : null,
     );
   }
 
-  Widget _buildRegisterButton(BuildContext context, bool isLoading) {
-    return SizedBox(
-      width: double.infinity,
-      height: 40.h,
-      child: ElevatedButton(
-        onPressed: isLoading ? null : () => _onRegister(context),
-        style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFFFF6B35), foregroundColor: Colors.white, elevation: 0, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r))),
-        child: isLoading
-            ? SizedBox(width: 16.w, height: 16.h, child: const CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
-            : Text('Register Restaurant', style: GoogleFonts.poppins(fontSize: 12.sp, fontWeight: FontWeight.w600)),
-      ),
-    );
+  Future<void> _openMapPicker(BuildContext context) async {
+    final result = await context.push('/map-picker');
+    if (result != null) {
+      setState(() => _selectedLocation = result);
+    }
   }
 
   void _onRegister(BuildContext context) {
     if (_formKey.currentState!.validate()) {
+      if (_selectedLocation == null) {
+        AppSnackBar.showError(context, 'Please select your location on the map.');
+        return;
+      }
+
       ServiceLocator.get<AuthBloc>().add(AuthEvent.registerVendorRequested(
         restaurantName: _restaurantNameController.text.trim(),
         email: _emailController.text.trim(),
         password: _passwordController.text,
         description: _descriptionController.text.trim(),
         address: _addressController.text.trim(),
+        latitude: _selectedLocation!.latitude,
+        longitude: _selectedLocation!.longitude,
       ));
     }
   }

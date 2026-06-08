@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:mitho_deals/core/dependency_injection/service_locator.dart';
 import 'package:mitho_deals/features/deals/domain/entitiy/deal_entity.dart';
 import 'package:mitho_deals/features/deals/presentation/bloc/deals_bloc.dart';
 import 'package:mitho_deals/features/deals/presentation/bloc/deals_event.dart';
 import 'package:mitho_deals/features/deals/presentation/bloc/deals_state.dart';
-import 'package:mitho_deals/features/deals/presentation/widgets/deals_app_bar.dart';
-import 'package:mitho_deals/features/deals/presentation/widgets/deals_search_bar.dart';
-import 'package:mitho_deals/features/deals/presentation/widgets/deals_category_list.dart';
 import 'package:mitho_deals/features/deals/presentation/widgets/deal_card_widget.dart';
 import 'package:mitho_deals/features/deals/presentation/widgets/deal_map_widget.dart';
+import 'package:mitho_deals/features/deals/presentation/widgets/deals_app_bar.dart';
+import 'package:mitho_deals/features/deals/presentation/widgets/deals_category_list.dart';
+import 'package:mitho_deals/features/deals/presentation/widgets/deals_search_bar.dart';
+import 'package:mitho_deals/features/deals/presentation/widgets/deals_section_header.dart';
+import 'package:mitho_deals/shared/theme/app_theme.dart';
+import 'package:mitho_deals/shared/widgets/sheets/quantity_selector_sheet.dart';
+import 'package:mitho_deals/shared/widgets/shared_widgets.dart';
 
 class DealsListScreen extends StatefulWidget {
   const DealsListScreen({super.key});
@@ -35,12 +38,11 @@ class _DealsListScreenState extends State<DealsListScreen> {
     return BlocProvider.value(
       value: _dealsBloc,
       child: Scaffold(
-        backgroundColor: const Color(0xFFF9FAFB), // Very light grey background
+        backgroundColor: const Color(0xFFF9FAFB),
         body: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Fixed Header Section (App Bar, Search)
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
                 child: const Column(
@@ -50,11 +52,9 @@ class _DealsListScreenState extends State<DealsListScreen> {
                   ],
                 ),
               ),
-              
-              // Scrollable Content
               Expanded(
                 child: RefreshIndicator(
-                  color: const Color(0xFFF97316),
+                  color: AppTheme.primaryOrange,
                   onRefresh: () async {
                     _dealsBloc.add(const DealsEvent.loadDeals());
                   },
@@ -63,80 +63,29 @@ class _DealsListScreenState extends State<DealsListScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Categories List (Horizontal Scroll inside)
                         Padding(
                           padding: EdgeInsets.only(left: 16.w, right: 16.w),
                           child: const DealsCategoryList(),
                         ),
-                        
-                        // Map Section
                         BlocBuilder<DealsBloc, DealsState>(
                           builder: (context, state) {
-                            return state.maybeWhen(
-                              loaded: (deals) {
-                                return Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 16.w),
-                                  child: DealMapWidget(deals: deals),
-                                );
-                              },
-                              orElse: () {
-                                return Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 16.w),
-                                  child: const DealMapWidget(deals: []),
-                                );
-                              },
+                            final deals = state.maybeWhen(loaded: (d) => d, orElse: () => <DealEntity>[]);
+                            return Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16.w),
+                              child: DealMapWidget(deals: deals),
                             );
                           },
                         ),
-                        
-                        // Section Title: Active Deals
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 16.w),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Active Deals',
-                                style: GoogleFonts.poppins(
-                                  fontSize: 14.sp, // Slim title
-                                  fontWeight: FontWeight.w700,
-                                  color: const Color(0xFF1F2937),
-                                ),
-                              ),
-                              Text(
-                                'View All',
-                                style: GoogleFonts.poppins(
-                                  fontSize: 10.sp, // Slim text
-                                  fontWeight: FontWeight.w600,
-                                  color: const Color(0xFFF97316),
-                                ),
-                              ),
-                            ],
-                          ),
+                          child: const DealsSectionHeader(title: 'Active Deals', actionLabel: 'View All'),
                         ),
-                        
                         SizedBox(height: 12.h),
-                        
-                        // List of Deals
                         BlocConsumer<DealsBloc, DealsState>(
                           listener: (context, state) {
                             state.maybeWhen(
-                              claimedSuccess: () {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Meal Reserved Successfully! 🎉'),
-                                    backgroundColor: Colors.green,
-                                  ),
-                                );
-                              },
-                              claimedError: (message) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text('Failed: $message'),
-                                    backgroundColor: Colors.red,
-                                  ),
-                                );
-                              },
+                              claimedSuccess: () => AppSnackBar.showSuccess(context, 'Meal Reserved Successfully! 🎉'),
+                              claimedError: (message) => AppSnackBar.showError(context, 'Failed: $message'),
                               orElse: () {},
                             );
                           },
@@ -145,16 +94,13 @@ class _DealsListScreenState extends State<DealsListScreen> {
                               loading: () => const Center(
                                 child: Padding(
                                   padding: EdgeInsets.all(32.0),
-                                  child: CircularProgressIndicator(color: Color(0xFFF97316)),
+                                  child: CircularProgressIndicator(color: AppTheme.primaryOrange),
                                 ),
                               ),
                               error: (msg) => Center(
                                 child: Padding(
                                   padding: const EdgeInsets.all(32.0),
-                                  child: Text(
-                                    'Error: $msg',
-                                    style: const TextStyle(color: Colors.red),
-                                  ),
+                                  child: AppText.error('Error: $msg'),
                                 ),
                               ),
                               loaded: (deals) {
@@ -162,17 +108,14 @@ class _DealsListScreenState extends State<DealsListScreen> {
                                   return Center(
                                     child: Padding(
                                       padding: const EdgeInsets.all(32.0),
-                                      child: Text(
-                                        'No deals available right now 😢',
-                                        style: GoogleFonts.poppins(color: Colors.grey),
-                                      ),
+                                      child: AppText.body('No deals available right now 😢', color: Colors.grey),
                                     ),
                                   );
                                 }
                                 return ListView.builder(
                                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                                   shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(), // Important since it's inside a SingleChildScrollView
+                                  physics: const NeverScrollableScrollPhysics(),
                                   itemCount: deals.length,
                                   itemBuilder: (context, index) {
                                     final deal = deals[index];
@@ -186,7 +129,7 @@ class _DealsListScreenState extends State<DealsListScreen> {
                               orElse: () => const Center(
                                 child: Padding(
                                   padding: EdgeInsets.all(32.0),
-                                  child: CircularProgressIndicator(color: Color(0xFFF97316)),
+                                  child: CircularProgressIndicator(color: AppTheme.primaryOrange),
                                 ),
                               ),
                             );
@@ -204,92 +147,14 @@ class _DealsListScreenState extends State<DealsListScreen> {
     );
   }
 
-  // Dialog to confirm how many portions the user wants
   void _confirmClaim(BuildContext context, DealEntity deal) {
-    int quantity = 1;
-    
-    showModalBottomSheet(
-      context: context,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
-      ),
-      builder: (bottomSheetContext) {
-        return StatefulBuilder(
-          builder: (context, setState) {
-            return Container(
-              padding: EdgeInsets.all(24.w),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'Reserve ${deal.foodName}',
-                    style: GoogleFonts.poppins(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 12.h),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      IconButton(
-                        onPressed: quantity > 1
-                            ? () => setState(() => quantity--)
-                            : null,
-                        icon: Icon(Icons.remove_circle_outline, size: 24.sp),
-                        color: const Color(0xFFF97316),
-                      ),
-                      SizedBox(width: 12.w),
-                      Text(
-                        quantity.toString(),
-                        style: GoogleFonts.poppins(
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(width: 12.w),
-                      IconButton(
-                        onPressed: quantity < deal.availablePortions
-                            ? () => setState(() => quantity++)
-                            : null,
-                        icon: Icon(Icons.add_circle_outline, size: 24.sp),
-                        color: const Color(0xFFF97316),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 16.h),
-                  SizedBox(
-                    width: double.infinity,
-                    height: 40.h,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.pop(bottomSheetContext);
-                        _dealsBloc.add(DealsEvent.claimDeal(
-                          dealId: deal.id,
-                          quantity: quantity,
-                        ));
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFF97316),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                        ),
-                      ),
-                      child: Text(
-                        'Confirm • NPR ${(deal.discountedPrice * quantity).toStringAsFixed(0)}',
-                        style: GoogleFonts.poppins(
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            );
-          }
-        );
+    QuantitySelectorSheet.show(
+      context,
+      title: 'Reserve ${deal.foodName}',
+      maxQuantity: deal.availablePortions,
+      confirmLabel: 'Confirm • NPR ${deal.discountedPrice.toStringAsFixed(0)}',
+      onConfirm: (quantity) {
+        _dealsBloc.add(DealsEvent.claimDeal(dealId: deal.id, quantity: quantity));
       },
     );
   }

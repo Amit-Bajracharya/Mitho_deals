@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:mitho_deals/core/constants/route_constants.dart';
 import 'package:mitho_deals/features/deals/domain/entitiy/deal_entity.dart';
-import 'package:intl/intl.dart';
+import 'package:mitho_deals/shared/theme/app_theme.dart';
+import 'package:mitho_deals/shared/widgets/shared_widgets.dart';
 
 class DealCardWidget extends StatelessWidget {
   final DealEntity deal;
@@ -22,9 +23,9 @@ class DealCardWidget extends StatelessWidget {
     final startTimeString = timeFormat.format(deal.pickupStartTime.toLocal());
     final endTimeString = timeFormat.format(deal.pickupEndTime.toLocal());
     final pickupWindow = '$startTimeString - $endTimeString';
-    
+
     final isSoldOut = deal.availablePortions <= 0;
-    
+
     int savePercent = 0;
     if (deal.originalPrice > 0) {
       savePercent = (((deal.originalPrice - deal.discountedPrice) / deal.originalPrice) * 100).round();
@@ -33,11 +34,13 @@ class DealCardWidget extends StatelessWidget {
     const rating = '4.8';
 
     return GestureDetector(
-      onTap: isSoldOut ? null : () {
-        context.push(RouteConstants.dealDetails, extra: deal);
-      },
+      onTap: isSoldOut
+          ? null
+          : () {
+              context.push(RouteConstants.dealDetails, extra: deal);
+            },
       child: Container(
-        margin: EdgeInsets.only(bottom: 12.h), // Smaller margin
+        margin: EdgeInsets.only(bottom: 12.h),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12.r),
@@ -55,7 +58,7 @@ class DealCardWidget extends StatelessWidget {
             Stack(
               children: [
                 Container(
-                  height: 140.h, // Smaller box height
+                  height: 140.h,
                   width: double.infinity,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.vertical(top: Radius.circular(12.r)),
@@ -68,9 +71,7 @@ class DealCardWidget extends StatelessWidget {
                         : null,
                   ),
                   child: deal.imageUrl.isEmpty
-                      ? Center(
-                          child: Icon(Icons.fastfood, size: 32.sp, color: Colors.grey[200]),
-                        )
+                      ? Center(child: Icon(Icons.fastfood, size: 32.sp, color: Colors.grey[200]))
                       : null,
                 ),
                 Positioned(
@@ -79,16 +80,14 @@ class DealCardWidget extends StatelessWidget {
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFF97316),
+                      color: AppTheme.primaryOrange,
                       borderRadius: BorderRadius.circular(6.r),
                     ),
-                    child: Text(
+                    child: AppText.caption(
                       '$savePercent% OFF',
-                      style: GoogleFonts.poppins(
-                        color: Colors.white,
-                        fontSize: 8.sp, // Slim text
-                        fontWeight: FontWeight.w700,
-                      ),
+                      color: Colors.white,
+                      fontSize: 8.sp,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                 ),
@@ -104,15 +103,12 @@ class DealCardWidget extends StatelessWidget {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(Icons.local_fire_department, size: 10.sp, color: const Color(0xFFF97316)),
+                        Icon(Icons.local_fire_department, size: 10.sp, color: AppTheme.primaryOrange),
                         SizedBox(width: 3.w),
-                        Text(
+                        AppText.subtitle(
                           isSoldOut ? 'Sold' : '${deal.availablePortions} left',
-                          style: GoogleFonts.poppins(
-                            color: const Color(0xFFF97316),
-                            fontSize: 9.sp, // Slim text
-                            fontWeight: FontWeight.w600,
-                          ),
+                          color: AppTheme.primaryOrange,
+                          fontWeight: FontWeight.w600,
                         ),
                       ],
                     ),
@@ -121,7 +117,7 @@ class DealCardWidget extends StatelessWidget {
               ],
             ),
             Padding(
-              padding: EdgeInsets.all(10.w), // Smaller padding
+              padding: EdgeInsets.all(10.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -129,41 +125,27 @@ class DealCardWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Expanded(
-                        child: Text(
+                        child: AppText.body(
                           deal.vendorName,
-                          style: GoogleFonts.poppins(
-                            fontSize: 12.sp, // Smaller title
-                            fontWeight: FontWeight.w700,
-                            color: const Color(0xFF1F2937),
-                          ),
+                          fontWeight: FontWeight.w700,
+                          color: const Color(0xFF1F2937),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
                       Row(
                         children: [
-                          Icon(Icons.star, size: 10.sp, color: const Color(0xFFF97316)),
+                          Icon(Icons.star, size: 10.sp, color: AppTheme.primaryOrange),
                           SizedBox(width: 3.w),
-                          Text(
-                            rating,
-                            style: GoogleFonts.poppins(
-                              color: const Color(0xFFF97316),
-                              fontSize: 10.sp, // Slim text
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
+                          AppText.caption(rating, color: AppTheme.primaryOrange, fontWeight: FontWeight.w600),
                         ],
                       ),
                     ],
                   ),
                   SizedBox(height: 1.h),
-                  Text(
+                  AppText.subtitle(
                     deal.foodName,
-                    style: GoogleFonts.poppins(
-                      fontSize: 9.sp, // Normal text at 9sp
-                      color: Colors.grey[500],
-                      fontWeight: FontWeight.w500,
-                    ),
+                    fontWeight: FontWeight.w500,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -174,21 +156,17 @@ class DealCardWidget extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          AppText.caption(
                             'NPR ${deal.originalPrice.toStringAsFixed(0)}',
-                            style: GoogleFonts.poppins(
-                              fontSize: 8.sp,
-                              color: Colors.grey[400],
-                              decoration: TextDecoration.lineThrough,
-                            ),
+                            color: Colors.grey[400],
+                            fontSize: 8.sp,
+                            decoration: TextDecoration.lineThrough,
                           ),
-                          Text(
+                          AppText.body(
                             'NPR ${deal.discountedPrice.toStringAsFixed(0)}',
-                            style: GoogleFonts.poppins(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w800,
-                              color: const Color(0xFF111827),
-                            ),
+                            fontWeight: FontWeight.w800,
+                            color: const Color(0xFF111827),
+                            fontSize: 14.sp,
                           ),
                         ],
                       ),
@@ -200,22 +178,16 @@ class DealCardWidget extends StatelessWidget {
                         ),
                         child: Column(
                           children: [
-                            Text(
+                            AppText.caption(
                               'PICKUP',
-                              style: GoogleFonts.poppins(
-                                fontSize: 6.sp,
-                                fontWeight: FontWeight.w700,
-                                color: Colors.grey[500],
-                                letterSpacing: 0.5,
-                              ),
+                              fontSize: 6.sp,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.grey[500],
                             ),
-                            Text(
+                            AppText.subtitle(
                               pickupWindow,
-                              style: GoogleFonts.poppins(
-                                fontSize: 9.sp, // Normal text at 9sp
-                                fontWeight: FontWeight.w700,
-                                color: const Color(0xFF374151),
-                              ),
+                              fontWeight: FontWeight.w700,
+                              color: const Color(0xFF374151),
                             ),
                           ],
                         ),

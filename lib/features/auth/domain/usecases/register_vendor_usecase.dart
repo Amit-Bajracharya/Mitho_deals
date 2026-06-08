@@ -12,6 +12,8 @@ class RegisterVendorUseCase {
     required String password,
     required String description,
     required String address,
+    required double latitude,
+    required double longitude,
   }) async {
     if (restaurantName.isEmpty || email.isEmpty || password.isEmpty || description.isEmpty || address.isEmpty) {
       return const AuthResultEntity.failure("Please fill all the fields");
@@ -35,6 +37,8 @@ class RegisterVendorUseCase {
       restaurantName: restaurantName,
       description: description,
       address: address,
+      latitude: latitude,
+      longitude: longitude,
     );
   }
 

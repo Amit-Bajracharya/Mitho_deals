@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:mitho_deals/shared/theme/app_theme.dart';
+import 'package:mitho_deals/shared/widgets/shared_widgets.dart';
 
 class AuthHeaderWidget extends StatelessWidget {
   final String title;
   final String subtitle;
-  
+
   const AuthHeaderWidget({
     super.key,
     required this.title,
@@ -17,14 +18,14 @@ class AuthHeaderWidget extends StatelessWidget {
     return Column(
       children: [
         Container(
-          width: 48.w, // Slimmer logo
+          width: 48.w,
           height: 48.h,
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(12.r),
             boxShadow: [
               BoxShadow(
-                color: const Color(0xFFFF6B35).withOpacity(0.15),
+                color: AppTheme.primaryOrange.withOpacity(0.15),
                 blurRadius: 6,
                 offset: const Offset(0, 3),
               ),
@@ -32,34 +33,13 @@ class AuthHeaderWidget extends StatelessWidget {
           ),
           child: Padding(
             padding: EdgeInsets.all(8.w),
-            child: Image.asset('assets/images/main_logo.png', fit: BoxFit.contain,),
-          )
+            child: Image.asset('assets/images/main_logo.png', fit: BoxFit.contain),
+          ),
         ),
-        
         SizedBox(height: 16.h),
-        
-        Text(
-          title,
-          textAlign: TextAlign.center,
-          style: GoogleFonts.poppins(
-            fontSize: 16.sp, // Title at 16sp
-            fontWeight: FontWeight.bold,
-            color: const Color(0xFF2D3436),
-            letterSpacing: -0.4,
-          ),
-        ),
-        
+        AppText.headline(title, textAlign: TextAlign.center),
         SizedBox(height: 4.h),
-        
-        Text(
-          subtitle,
-          textAlign: TextAlign.center,
-          style: GoogleFonts.poppins(
-            fontSize: 9.sp, // Normal text at 9sp
-            color: const Color(0xFF636E72),
-            fontWeight: FontWeight.w400,
-          ),
-        ),
+        AppText.subtitle(subtitle, textAlign: TextAlign.center),
       ],
     );
   }

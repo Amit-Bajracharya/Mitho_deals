@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mitho_deals/shared/theme/app_theme.dart';
+import 'package:mitho_deals/shared/widgets/shared_widgets.dart';
+
+import '../widgets/role_option_card.dart';
 
 class RoleSelectionPage extends StatelessWidget {
   const RoleSelectionPage({super.key});
@@ -18,146 +21,44 @@ class RoleSelectionPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                width: 64.w, // Slimmer icon box
+                width: 64.w,
                 height: 64.w,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFFF6B35).withOpacity(0.08),
+                  color: AppTheme.primaryOrange.withOpacity(0.08),
                   shape: BoxShape.circle,
                 ),
                 child: Center(
-                  child: Icon(
-                    Icons.restaurant_menu_rounded,
-                    size: 32.sp,
-                    color: const Color(0xFFFF6B35),
-                  ),
+                  child: Icon(Icons.restaurant_menu_rounded, size: 32.sp, color: AppTheme.primaryOrange),
                 ),
               ),
-              
               SizedBox(height: 24.h),
-              
-              Text(
-                'Join Mitho Deals',
-                style: GoogleFonts.poppins(
-                  fontSize: 16.sp, // Title at 16sp
-                  fontWeight: FontWeight.w700,
-                  color: const Color(0xFF2D3436),
-                ),
-              ),
-              
+              const AppText.headline('Join Mitho Deals'),
               SizedBox(height: 6.h),
-              
-              Text(
-                'Save money, reduce waste!',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.poppins(
-                  fontSize: 9.sp, // Normal text at 9sp
-                  color: const Color(0xFF636E72),
-                ),
-              ),
-              
+              const AppText.subtitle('Save money, reduce waste!', textAlign: TextAlign.center),
               SizedBox(height: 40.h),
-              
-              _buildOptionCard(
+              RoleOptionCard(
                 title: "I'm a Food Saver",
                 subtitle: 'Find amazing food deals',
                 icon: Icons.person_search_rounded,
-                color: const Color(0xFFFF6B35),
+                color: AppTheme.primaryOrange,
                 onTap: () => context.push('/register'),
               ),
-              
               SizedBox(height: 12.h),
-              
-              _buildOptionCard(
+              RoleOptionCard(
                 title: "I'm a Restaurant",
                 subtitle: 'Sell your surplus food',
                 icon: Icons.storefront_rounded,
                 color: const Color(0xFF0984E3),
                 onTap: () => context.push('/vendor-register'),
               ),
-              
               SizedBox(height: 24.h),
-              
-              TextButton(
+              AppButton(
+                label: 'Already have an account? Login',
+                variant: AppButtonVariant.text,
                 onPressed: () => context.go('/login'),
-                child: Text(
-                  'Already have an account? Login',
-                  style: GoogleFonts.poppins(
-                    fontSize: 11.sp,
-                    fontWeight: FontWeight.w600,
-                    color: const Color(0xFFFF6B35),
-                  ),
-                ),
               ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildOptionCard({
-    required String title,
-    required String subtitle,
-    required IconData icon,
-    required Color color,
-    required VoidCallback onTap,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: double.infinity,
-        padding: EdgeInsets.all(12.w),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(12.r),
-          border: Border.all(color: const Color(0xFFF1F2F6)),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.02),
-              blurRadius: 6,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        child: Row(
-          children: [
-            Container(
-              padding: EdgeInsets.all(8.w),
-              decoration: BoxDecoration(
-                color: color.withOpacity(0.08),
-                borderRadius: BorderRadius.circular(10.r),
-              ),
-              child: Icon(icon, color: color, size: 20.sp),
-            ),
-            SizedBox(width: 12.w),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: GoogleFonts.poppins(
-                      fontSize: 13.sp,
-                      fontWeight: FontWeight.w600,
-                      color: const Color(0xFF2D3436),
-                    ),
-                  ),
-                  Text(
-                    subtitle,
-                    style: GoogleFonts.poppins(
-                      fontSize: 9.sp, // Normal text at 9sp
-                      color: const Color(0xFF636E72),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Icon(
-              Icons.arrow_forward_ios_rounded,
-              size: 10.sp,
-              color: const Color(0xFFB2BEC3),
-            ),
-          ],
         ),
       ),
     );

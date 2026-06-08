@@ -59,6 +59,8 @@ class AuthRepositoryImpl implements AuthRepository {
     required String restaurantName,
     required String description,
     required String address,
+    required double latitude,
+    required double longitude,
   }) async {
     try {
       final userModel = await _dataSource.registerVendorWithEmail(
@@ -67,6 +69,8 @@ class AuthRepositoryImpl implements AuthRepository {
         restaurantName: restaurantName,
         description: description,
         address: address,
+        latitude: latitude,
+        longitude: longitude,
       );
       return AuthResultEntity.success(userModel.toEntity());
     } catch (e) {

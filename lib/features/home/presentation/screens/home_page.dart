@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:mitho_deals/core/dependency_injection/service_locator.dart';
 import 'package:mitho_deals/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:mitho_deals/features/auth/presentation/bloc/auth_event.dart';
 import 'package:mitho_deals/features/auth/presentation/bloc/auth_state.dart';
 import 'package:mitho_deals/features/deals/presentation/screens/deals_list_screen.dart';
-
 import 'package:mitho_deals/features/orders/presentation/screens/orders_screen.dart';
+import 'package:mitho_deals/shared/theme/app_theme.dart';
+import 'package:mitho_deals/shared/widgets/shared_widgets.dart';
+
+import '../widgets/placeholder_screen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -24,8 +26,8 @@ class _HomePageState extends State<HomePage> {
   final List<Widget> _pages = [
     const DealsListScreen(),
     const OrdersScreen(),
-    _PlaceholderScreen('Saved'),
-    _PlaceholderScreen('Profile'),
+    const PlaceholderScreen('Saved'),
+    const PlaceholderScreen('Profile'),
   ];
 
   @override
@@ -37,17 +39,8 @@ class _HomePageState extends State<HomePage> {
       child: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
           state.whenOrNull(
-            unauthenticated: () {
-              context.go('/login');
-            },
-            error: (message) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(message, style: GoogleFonts.poppins(fontSize: 13.sp)),
-                  backgroundColor: Colors.red,
-                ),
-              );
-            },
+            unauthenticated: () => context.go('/login'),
+            error: (message) => AppSnackBar.showError(context, message),
           );
         },
         child: Scaffold(
@@ -61,7 +54,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildBottomNav() {
     return Container(
-      padding: EdgeInsets.only(top: 10.h, bottom: 24.h), // Adjusted for safe area / slimming
+      padding: EdgeInsets.only(top: 10.h, bottom: 24.h),
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
@@ -92,9 +85,7 @@ class _HomePageState extends State<HomePage> {
         if (index == 3) {
           _showProfileMenu(context);
         } else {
-          setState(() {
-            _currentIndex = index;
-          });
+          setState(() => _currentIndex = index);
         }
       },
       child: Container(
@@ -104,17 +95,14 @@ class _HomePageState extends State<HomePage> {
           children: [
             Icon(
               isActive ? solidIcon : outlineIcon,
-              size: 20.sp, // Reduced from 24sp
-              color: isActive ? const Color(0xFFF97316) : Colors.grey[400],
+              size: 20.sp,
+              color: isActive ? AppTheme.primaryOrange : Colors.grey[400],
             ),
             SizedBox(height: 4.h),
-            Text(
+            AppText.caption(
               label,
-              style: GoogleFonts.poppins(
-                fontSize: 10.sp,
-                fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
-                color: isActive ? const Color(0xFFF97316) : Colors.grey[400],
-              ),
+              fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
+              color: isActive ? AppTheme.primaryOrange : Colors.grey[400],
             ),
           ],
         ),
@@ -124,7 +112,7 @@ class _HomePageState extends State<HomePage> {
 
   void _showProfileMenu(BuildContext context) {
     final authBloc = ServiceLocator.get<AuthBloc>();
-    
+
     showModalBottomSheet(
       context: context,
       shape: RoundedRectangleBorder(
@@ -146,15 +134,12 @@ class _HomePageState extends State<HomePage> {
             SizedBox(height: 16.h),
             ListTile(
               leading: Icon(Icons.person_outline, size: 18.sp),
-              title: Text('My Profile', style: GoogleFonts.poppins(fontSize: 13.sp)),
+              title: const AppText.body('My Profile'),
               onTap: () => Navigator.pop(context),
             ),
             ListTile(
               leading: Icon(Icons.logout_rounded, size: 18.sp, color: Colors.redAccent),
-              title: Text(
-                'Logout',
-                style: GoogleFonts.poppins(fontSize: 13.sp, color: Colors.redAccent, fontWeight: FontWeight.w500),
-              ),
+              title: const AppText.body('Logout', color: Colors.redAccent, fontWeight: FontWeight.w500),
               onTap: () {
                 Navigator.pop(context);
                 authBloc.add(const AuthEvent.logoutRequested());
@@ -162,25 +147,6 @@ class _HomePageState extends State<HomePage> {
             ),
             SizedBox(height: 16.h),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class _PlaceholderScreen extends StatelessWidget {
-  final String title;
-  const _PlaceholderScreen(this.title);
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        '$title Screen\n(Coming Soon)',
-        textAlign: TextAlign.center,
-        style: GoogleFonts.poppins(
-          fontSize: 14.sp,
-          color: Colors.grey[400],
         ),
       ),
     );

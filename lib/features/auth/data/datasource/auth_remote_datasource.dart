@@ -13,6 +13,8 @@ abstract class SupabaseAuthDataSource {
     required String restaurantName,
     required String description,
     required String address,
+    required double latitude,
+    required double longitude,
   });
   Future<void> logout();
   Future<UserModel> verifyPhoneCode(String verificationId, String smsCode);
@@ -86,6 +88,8 @@ class SupabaseAuthDataSourceImpl implements SupabaseAuthDataSource {
     required String restaurantName,
     required String description,
     required String address,
+    required double latitude,
+    required double longitude,
   }) async {
     try {
       // 1. Sign up as a vendor in auth metadata
@@ -108,8 +112,8 @@ class SupabaseAuthDataSourceImpl implements SupabaseAuthDataSource {
         'name': restaurantName,
         'description': description,
         'address': address,
-        'latitude': 0.0,
-        'longitude': 0.0,
+        'latitude': latitude,
+        'longitude': longitude,
         'rating': 0.0,
         'is_open': false,
       });

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:mitho_deals/shared/widgets/shared_widgets.dart';
 
 class OtpTitleWidget extends StatelessWidget {
   final String phoneNumber;
@@ -15,24 +15,9 @@ class OtpTitleWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Verify OTP',
-          style: GoogleFonts.poppins(
-            fontSize: 24.sp,
-            fontWeight: FontWeight.w600,
-            color: const Color(0xFF2D3436),
-          ),
-        ),
-        
+        AppText.title('Verify OTP', fontSize: 24.sp),
         SizedBox(height: 8.h),
-        
-        Text(
-          'Enter the 6-digit code sent to $phoneNumber',
-          style: GoogleFonts.poppins(
-            fontSize: 14.sp,
-            color: const Color(0xFF636E72),
-          ),
-        ),
+        AppText.body('Enter the 6-digit code sent to $phoneNumber'),
       ],
     );
   }

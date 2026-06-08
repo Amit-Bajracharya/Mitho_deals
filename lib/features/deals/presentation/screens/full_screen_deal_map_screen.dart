@@ -56,7 +56,7 @@ class _FullScreenDealMapScreenState extends State<FullScreenDealMapScreen> {
       ),
       body: MapLibreMap(
         initialCameraPosition: const CameraPosition(
-          target: LatLng(27.7172, 85.3240), // Kathmandu center
+          target: LatLng(27.7172, 85.3240), 
           zoom: 12.0,
         ),
         styleString: _styleUrl,

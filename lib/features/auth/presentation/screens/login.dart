@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:mitho_deals/core/constants/route_constants.dart';
 import 'package:mitho_deals/core/dependency_injection/service_locator.dart';
+import 'package:mitho_deals/shared/widgets/shared_widgets.dart';
 
 import '../bloc/auth_bloc.dart';
 import '../bloc/auth_event.dart';
 import '../bloc/auth_state.dart';
 import '../widgets/auth_header_widget.dart';
-import '../widgets/form_fields_widget.dart';
 import '../widgets/bottom_links_widget.dart';
+import '../widgets/form_fields_widget.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
@@ -32,34 +32,9 @@ class LoginPage extends StatelessWidget {
           listener: (context, state) {
             state.when(
               initial: () {},
-              loading: () {
-                ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Row(
-                      children: [
-                        SizedBox(
-                          width: 20.w,
-                          height: 20.h,
-                          child: const CircularProgressIndicator(color: Colors.white, strokeWidth: 2,),
-                        ),
-                        SizedBox(width: 16.w),
-                        Text('Wait...', style: GoogleFonts.poppins(fontSize: 13.sp)),
-                      ],
-                    ),
-                    duration: const Duration(seconds: 1),
-                  ),
-                );
-              },
+              loading: () => AppSnackBar.showLoading(context),
               authenticated: (user) {
-                ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('Welcome back, ${user.name}!', style: GoogleFonts.poppins(fontSize: 13.sp)),
-                    backgroundColor: Colors.green,
-                  ),
-                );
-                
+                AppSnackBar.showSuccess(context, 'Welcome back, ${user.name}!');
                 if (user.role == 'vendor') {
                   context.go(RouteConstants.vendorHome);
                 } else {
@@ -69,23 +44,13 @@ class LoginPage extends StatelessWidget {
               unauthenticated: () {
                 ScaffoldMessenger.of(context).hideCurrentSnackBar();
               },
-              error: (message) {
-                ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(message, style: GoogleFonts.poppins(fontSize: 13.sp)),
-                    backgroundColor: Colors.red,
-                  ),
-                );
-              },
+              error: (message) => AppSnackBar.showError(context, message),
               phoneCodeSent: (verificationId, phoneNumber) {},
               phoneVerificationLoading: () {},
             );
           },
           child: BlocBuilder<AuthBloc, AuthState>(
-            builder: (context, state) {
-              return _buildLoginForm(context, state);
-            },
+            builder: (context, state) => _buildLoginForm(context, state),
           ),
         ),
       ),
@@ -93,10 +58,7 @@ class LoginPage extends StatelessWidget {
   }
 
   Widget _buildLoginForm(BuildContext context, AuthState state) {
-    final isLoading = state.maybeWhen(
-      loading: () => true,
-      orElse: () => false,
-    );
+    final isLoading = state.maybeWhen(loading: () => true, orElse: () => false);
 
     return SafeArea(
       child: SingleChildScrollView(
@@ -108,37 +70,22 @@ class LoginPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(height: 48.h),
-                
-                // Logo and Title - Using separated widget
-                AuthHeaderWidget(
+                const AuthHeaderWidget(
                   title: 'Mitho Deals',
                   subtitle: 'Save money, reduce food waste',
                 ),
-                
                 SizedBox(height: 40.h),
-                
-                // Login Form - Using separated widget
                 FormFieldsWidget(
                   emailController: _emailController,
                   passwordController: _passwordController,
                   isLoading: isLoading,
-                  onForgotPassword: () {
-                    // TODO: Implement forgot password
-                  },
+                  onForgotPassword: () {},
                   onLoginPressed: _onLoginPressed,
                 ),
-                
                 SizedBox(height: 24.h),
-                
-                // Bottom Links
                 BottomLinksWidget(
-                  onPhoneAuth: () {
-                    context.go(RouteConstants.phone_auth);
-                  },
-                  onRegister: () {
-                    context.push('/role-select');
-                  },
-                  showRegisterLink: true, // Show register link
+                  onPhoneAuth: () => context.go(RouteConstants.phone_auth),
+                  onRegister: () => context.push('/role-select'),
                 ),
               ],
             ),
@@ -150,8 +97,7 @@ class LoginPage extends StatelessWidget {
 
   void _onLoginPressed() {
     if (_formKey.currentState!.validate()) {
-      final authBloc = ServiceLocator.get<AuthBloc>();
-      authBloc.add(AuthEvent.loginRequested(
+      ServiceLocator.get<AuthBloc>().add(AuthEvent.loginRequested(
         email: _emailController.text.trim(),
         password: _passwordController.text,
       ));
