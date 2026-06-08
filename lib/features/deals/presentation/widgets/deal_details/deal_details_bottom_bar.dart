@@ -63,7 +63,6 @@ class DealDetailsBottomBar extends StatelessWidget {
               child: AppButton(
                 label: 'Add to Cart',
                 variant: AppButtonVariant.outlined,
-                size: AppButtonSize.compact,
                 onPressed: onAddToCart,
               ),
             ),
@@ -71,7 +70,6 @@ class DealDetailsBottomBar extends StatelessWidget {
             Expanded(
               child: AppButton(
                 label: 'Reserve Now',
-                size: AppButtonSize.compact,
                 onPressed: onReserve,
               ),
             ),

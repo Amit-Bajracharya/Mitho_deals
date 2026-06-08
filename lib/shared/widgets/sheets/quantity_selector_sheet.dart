@@ -83,7 +83,6 @@ class _QuantitySelectorSheetState extends State<QuantitySelectorSheet> {
           SizedBox(height: 20.h),
           AppButton(
             label: widget.confirmLabel,
-            size: AppButtonSize.compact,
             onPressed: () {
               Navigator.pop(context);
               widget.onConfirm(_quantity);

@@ -4,17 +4,25 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../theme/app_theme.dart';
 
 enum AppButtonVariant { primary, outlined, text }
-enum AppButtonSize { compact, normal, large }
+
+enum AppButtonWidth {
+  block,
+  inline,
+}
 
 class AppButton extends StatelessWidget {
+  static const double height = 48;
+  static const double radius = 12;
+  static const double fontSize = 14;
+  static const double hPadding = 20;
+
   final String label;
   final VoidCallback? onPressed;
   final bool isLoading;
   final AppButtonVariant variant;
-  final AppButtonSize size;
+  final AppButtonWidth buttonWidth;
   final IconData? icon;
   final bool iconTrailing;
-  final double? width;
   final Color? foregroundColor;
 
   const AppButton({
@@ -23,32 +31,18 @@ class AppButton extends StatelessWidget {
     this.onPressed,
     this.isLoading = false,
     this.variant = AppButtonVariant.primary,
-    this.size = AppButtonSize.normal,
+    this.buttonWidth = AppButtonWidth.block,
     this.icon,
     this.iconTrailing = false,
-    this.width,
     this.foregroundColor,
   });
 
   @override
   Widget build(BuildContext context) {
-    final height = switch (size) {
-      AppButtonSize.compact => 40.h,
-      AppButtonSize.normal => 50.h,
-      AppButtonSize.large => 56.h,
-    };
-
-    final fontSize = switch (size) {
-      AppButtonSize.compact => 12.sp,
-      AppButtonSize.normal => 14.sp,
-      AppButtonSize.large => 18.sp,
-    };
-
-    final borderRadius = switch (size) {
-      AppButtonSize.compact => 10.r,
-      AppButtonSize.normal => 12.r,
-      AppButtonSize.large => 16.r,
-    };
+    final h = height.h;
+    final r = radius.r;
+    final fs = fontSize.sp;
+    final padH = hPadding.w;
 
     final child = isLoading
         ? SizedBox(
@@ -59,47 +53,64 @@ class AppButton extends StatelessWidget {
               strokeWidth: 2,
             ),
           )
-        : _buildLabel(fontSize);
+        : _buildLabel(fs);
+
+    final shape = RoundedRectangleBorder(borderRadius: BorderRadius.circular(r));
+
+    final isFullWidth =
+        variant != AppButtonVariant.text && buttonWidth == AppButtonWidth.block;
+
+    final baseStyle = ButtonStyle(
+      minimumSize: WidgetStateProperty.all(Size(0, h)),
+      maximumSize: WidgetStateProperty.all(Size(double.infinity, h)),
+      padding: WidgetStateProperty.all(
+        EdgeInsets.symmetric(
+          horizontal: variant == AppButtonVariant.text ? 8.w : padH,
+        ),
+      ),
+      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      visualDensity: VisualDensity.standard,
+      shape: WidgetStateProperty.all(shape),
+    );
 
     final button = switch (variant) {
       AppButtonVariant.primary => ElevatedButton(
           onPressed: isLoading ? null : onPressed,
-          style: ElevatedButton.styleFrom(
-            backgroundColor: AppTheme.primaryOrange,
-            foregroundColor: AppTheme.textLight,
-            elevation: 0,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(borderRadius),
+          style: baseStyle.merge(
+            ElevatedButton.styleFrom(
+              backgroundColor: AppTheme.primaryOrange,
+              foregroundColor: AppTheme.textLight,
+              elevation: 0,
+              shadowColor: Colors.transparent,
             ),
           ),
           child: child,
         ),
       AppButtonVariant.outlined => OutlinedButton(
           onPressed: isLoading ? null : onPressed,
-          style: OutlinedButton.styleFrom(
-            foregroundColor: AppTheme.primaryOrange,
-            side: const BorderSide(color: AppTheme.primaryOrange),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(borderRadius),
+          style: baseStyle.merge(
+            OutlinedButton.styleFrom(
+              foregroundColor: AppTheme.primaryOrange,
+              side: const BorderSide(color: AppTheme.primaryOrange, width: 1.5),
             ),
           ),
           child: child,
         ),
       AppButtonVariant.text => TextButton(
           onPressed: isLoading ? null : onPressed,
-          style: TextButton.styleFrom(
-            foregroundColor: foregroundColor ?? AppTheme.primaryOrange,
-            padding: EdgeInsets.zero,
-            minimumSize: Size.zero,
-            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          style: baseStyle.merge(
+            TextButton.styleFrom(
+              foregroundColor: foregroundColor ?? AppTheme.primaryOrange,
+              backgroundColor: Colors.transparent,
+            ),
           ),
           child: child,
         ),
     };
 
     return SizedBox(
-      width: width ?? double.infinity,
-      height: variant == AppButtonVariant.text ? null : height,
+      width: isFullWidth ? double.infinity : null,
+      height: h,
       child: button,
     );
   }
@@ -124,8 +135,8 @@ class AppButton extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: iconTrailing
-          ? [text, SizedBox(width: 8.w), Icon(icon, size: fontSize + 4)]
-          : [Icon(icon, size: fontSize + 4), SizedBox(width: 8.w), text],
+          ? [text, SizedBox(width: 8.w), Icon(icon, size: fontSize + 2, color: textColor)]
+          : [Icon(icon, size: fontSize + 2, color: textColor), SizedBox(width: 8.w), text],
     );
   }
 }

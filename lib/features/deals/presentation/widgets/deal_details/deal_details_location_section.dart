@@ -21,7 +21,6 @@ class DealDetailsLocationSection extends StatelessWidget {
             AppButton(
               label: 'Get Directions',
               variant: AppButtonVariant.text,
-              width: null,
               onPressed: () {},
             ),
           ],

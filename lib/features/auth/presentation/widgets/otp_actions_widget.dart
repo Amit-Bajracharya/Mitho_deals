@@ -30,7 +30,6 @@ class OtpActionsWidget extends StatelessWidget {
           child: AppButton(
             label: 'Resend OTP',
             variant: AppButtonVariant.text,
-            width: null,
             onPressed: isLoading ? null : onResend,
           ),
         ),
@@ -39,7 +38,6 @@ class OtpActionsWidget extends StatelessWidget {
           child: AppButton(
             label: 'Change phone number',
             variant: AppButtonVariant.text,
-            width: null,
             foregroundColor: const Color(0xFF636E72),
             onPressed: onChangePhone,
           ),

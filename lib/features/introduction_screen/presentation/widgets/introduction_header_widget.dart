@@ -18,47 +18,19 @@ class IntroductionHeaderWidget extends StatelessWidget {
     final isLastPage = state.isLastPage;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          if (isFirstPage)
-            Row(
-              children: [
-                Container(
-                  width: 24.w,
-                  height: 24.h,
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(6.r)),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(6.r),
-                    child: Image.asset(
-                      'assets/images/app_icon.png',
-                      fit: BoxFit.contain,
-                      errorBuilder: (context, error, stackTrace) {
-                        return Container(
-                          color: AppTheme.primaryOrange,
-                          child: const Icon(Icons.restaurant, color: Colors.white),
-                        );
-                      },
-                    ),
-                  ),
-                ),
-                SizedBox(width: 10.w),
-                const AppText.headline('Mitho Deals'),
-              ],
-            )
-          else
-            IconButton(
-              onPressed: () {
-                context.read<IntroductionBloc>().add(const IntroductionEvent.previousPage());
-              },
-              icon: Icon(Icons.arrow_back_ios, color: AppTheme.primaryOrange, size: 18.sp),
+          Expanded(
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: isFirstPage ? _buildLogoRow() : _buildBackButton(context),
             ),
+          ),
           if (!isLastPage)
             AppButton(
               label: 'Skip',
               variant: AppButtonVariant.text,
-              width: null,
               onPressed: () {
                 context.read<IntroductionBloc>().add(const IntroductionEvent.skip());
               },
@@ -67,6 +39,45 @@ class IntroductionHeaderWidget extends StatelessWidget {
             AppText.link('3 OF 3', fontSize: 14.sp),
         ],
       ),
+    );
+  }
+
+  Widget _buildLogoRow() {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          width: 24.w,
+          height: 24.h,
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(6.r)),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(6.r),
+            child: Image.asset(
+              'assets/images/app_icon.png',
+              fit: BoxFit.contain,
+              errorBuilder: (context, error, stackTrace) {
+                return Container(
+                  color: AppTheme.primaryOrange,
+                  child: const Icon(Icons.restaurant, color: Colors.white),
+                );
+              },
+            ),
+          ),
+        ),
+        SizedBox(width: 10.w),
+        const AppText.headline('Mitho Deals'),
+      ],
+    );
+  }
+
+  Widget _buildBackButton(BuildContext context) {
+    return IconButton(
+      onPressed: () {
+        context.read<IntroductionBloc>().add(const IntroductionEvent.previousPage());
+      },
+      icon: Icon(Icons.arrow_back_ios, color: AppTheme.primaryOrange, size: 18.sp),
+      padding: EdgeInsets.zero,
+      constraints: const BoxConstraints(),
     );
   }
 }

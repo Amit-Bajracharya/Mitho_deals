@@ -52,7 +52,6 @@ class VendorOrderCard extends StatelessWidget {
               AppButton(
                 label: 'Details',
                 variant: AppButtonVariant.text,
-                width: null,
                 onPressed: () {},
               ),
             ],

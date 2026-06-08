@@ -45,8 +45,7 @@ class CartCheckoutBar extends StatelessWidget {
             const Spacer(),
             AppButton(
               label: 'Checkout',
-              size: AppButtonSize.compact,
-              width: null,
+              buttonWidth: AppButtonWidth.inline,
               onPressed: () {
                 AppSnackBar.showInfo(context, 'Checkout feature coming soon!');
               },

@@ -20,8 +20,7 @@ class CartEmptyState extends StatelessWidget {
           SizedBox(height: 24.h),
           AppButton(
             label: 'Browse Deals',
-            size: AppButtonSize.compact,
-            width: null,
+            buttonWidth: AppButtonWidth.inline,
             onPressed: () => context.go('/'),
           ),
         ],

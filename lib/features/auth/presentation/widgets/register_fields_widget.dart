@@ -47,7 +47,6 @@ class RegisterFieldsWidget extends StatelessWidget {
         SizedBox(height: 16.h),
         AppButton(
           label: isLoading ? 'Wait...' : 'Create Account',
-          size: AppButtonSize.compact,
           isLoading: isLoading,
           onPressed: onRegisterPressed,
         ),

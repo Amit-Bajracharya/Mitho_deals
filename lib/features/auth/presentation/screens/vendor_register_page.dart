@@ -101,14 +101,12 @@ class _VendorRegisterPageState extends State<VendorRegisterPage> {
                 SizedBox(height: 20.h),
                 AppButton(
                   label: 'Register Restaurant',
-                  size: AppButtonSize.compact,
                   isLoading: isLoading,
                   onPressed: () => _onRegister(context),
                 ),
                 AppButton(
                   label: 'Back to Login',
                   variant: AppButtonVariant.text,
-                  width: null,
                   onPressed: () => context.go('/login'),
                 ),
                 SizedBox(height: 20.h),

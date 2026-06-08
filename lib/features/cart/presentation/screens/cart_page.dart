@@ -48,8 +48,7 @@ class _CartPageState extends State<CartPage> {
                   SizedBox(height: 12.h),
                   AppButton(
                     label: 'Retry',
-                    size: AppButtonSize.compact,
-                    width: null,
+                    buttonWidth: AppButtonWidth.inline,
                     onPressed: () {
                       context.read<CartBloc>().add(const CartEvent.loadCart());
                     },

@@ -56,14 +56,12 @@ class FormFieldsWidget extends StatelessWidget {
             child: AppButton(
               label: 'Forgot?',
               variant: AppButtonVariant.text,
-              size: AppButtonSize.compact,
               onPressed: isLoading ? null : onForgotPassword,
             ),
           ),
         SizedBox(height: 8.h),
         AppButton(
           label: 'Login',
-          size: AppButtonSize.compact,
           isLoading: isLoading,
           onPressed: onLoginPressed,
         ),

@@ -202,7 +202,6 @@ class _AddDealScreenState extends State<AddDealScreen> {
                 SizedBox(height: 32.h),
                 AppButton(
                   label: 'Post Deal',
-                  size: AppButtonSize.large,
                   onPressed: _submit,
                 ),
               ],

@@ -34,7 +34,6 @@ class CartAppBar extends StatelessWidget implements PreferredSizeWidget {
                   ? AppButton(
                       label: 'Clear',
                       variant: AppButtonVariant.text,
-                      width: null,
                       onPressed: () {
                         context.read<CartBloc>().add(const CartEvent.clearCart());
                       },

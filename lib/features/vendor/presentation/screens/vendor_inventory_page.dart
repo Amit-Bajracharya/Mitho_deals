@@ -70,8 +70,7 @@ class _VendorInventoryPageState extends State<VendorInventoryPage> {
                     AppText.error('Error: $message'),
                     AppButton(
                       label: 'Retry',
-                      size: AppButtonSize.compact,
-                      width: null,
+                      buttonWidth: AppButtonWidth.inline,
                       onPressed: () {
                         context.read<DealsBloc>().add(const DealsEvent.loadVendorDeals());
                       },

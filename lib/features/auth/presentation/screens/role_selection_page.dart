@@ -55,7 +55,6 @@ class RoleSelectionPage extends StatelessWidget {
               AppButton(
                 label: 'Already have an account? Login',
                 variant: AppButtonVariant.text,
-                width: null,
                 onPressed: () => context.go('/login'),
               ),
             ],
