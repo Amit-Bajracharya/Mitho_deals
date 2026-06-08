@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:maplibre_gl/maplibre_gl.dart';
-import 'package:mitho_deals/features/deals/domain/entitiy/deal_entity.dart';
 import 'package:go_router/go_router.dart';
+import 'package:maplibre_gl/maplibre_gl.dart';
 import 'package:mitho_deals/core/constants/route_constants.dart';
+import 'package:mitho_deals/features/deals/domain/entitiy/deal_entity.dart';
+import 'package:mitho_deals/shared/theme/app_theme.dart';
+import 'package:mitho_deals/shared/widgets/shared_widgets.dart';
 
 class DealMapWidget extends StatefulWidget {
   final List<DealEntity> deals;
 
-  const DealMapWidget({
-    super.key,
-    required this.deals,
-  });
+  const DealMapWidget({super.key, required this.deals});
 
   @override
   State<DealMapWidget> createState() => _DealMapWidgetState();
@@ -41,9 +39,7 @@ class _DealMapWidgetState extends State<DealMapWidget> {
           ],
         ),
         child: GestureDetector(
-          onTap: () {
-            context.push(RouteConstants.fullScreenDealMap, extra: widget.deals);
-          },
+          onTap: () => context.push(RouteConstants.fullScreenDealMap, extra: widget.deals),
           child: AbsorbPointer(
             child: ClipRRect(
               borderRadius: BorderRadius.circular(16.r),
@@ -51,17 +47,15 @@ class _DealMapWidgetState extends State<DealMapWidget> {
                 children: [
                   MapLibreMap(
                     initialCameraPosition: const CameraPosition(
-                      target: LatLng(27.7172, 85.3240), // Kathmandu center
+                      target: LatLng(27.7172, 85.3240),
                       zoom: 12.0,
                     ),
                     styleString: _styleUrl,
                     onMapCreated: _onMapCreated,
-                   onStyleLoadedCallback: _onStyleLoaded,
-                   myLocationEnabled: true,
-                   myLocationRenderMode: MyLocationRenderMode.normal,
+                    onStyleLoadedCallback: _onStyleLoaded,
+                    myLocationEnabled: true,
+                    myLocationRenderMode: MyLocationRenderMode.normal,
                   ),
-
-                  // Bottom Left Pill
                   Positioned(
                     bottom: 12.h,
                     left: 12.w,
@@ -81,19 +75,12 @@ class _DealMapWidgetState extends State<DealMapWidget> {
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(
-                            Icons.navigation,
-                            size: 14.sp,
-                            color: const Color(0xFFF97316),
-                          ),
+                          Icon(Icons.navigation, size: 14.sp, color: AppTheme.primaryOrange),
                           SizedBox(width: 6.w),
-                          Text(
+                          AppText.body(
                             '${widget.deals.length} Deals Near You',
-                            style: GoogleFonts.poppins(
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.w600,
-                              color: const Color(0xFF1F2937),
-                            ),
+                            fontWeight: FontWeight.w600,
+                            color: const Color(0xFF1F2937),
                           ),
                         ],
                       ),
@@ -115,12 +102,10 @@ class _DealMapWidgetState extends State<DealMapWidget> {
   void _onStyleLoaded() async {
     if (_mapController == null) return;
 
-    // Add markers for each deal
     for (final deal in widget.deals) {
       await _addMarker(deal);
     }
 
-    // Fit camera to show all markers
     if (widget.deals.isNotEmpty) {
       await _fitCameraToDeals();
     }
@@ -129,7 +114,6 @@ class _DealMapWidgetState extends State<DealMapWidget> {
   Future<void> _addMarker(DealEntity deal) async {
     if (_mapController == null) return;
 
-    // Create a symbol for the marker
     await _mapController!.addSymbol(
       SymbolOptions(
         geometry: LatLng(deal.latitude, deal.longitude),
@@ -151,12 +135,9 @@ class _DealMapWidgetState extends State<DealMapWidget> {
     final minLng = longitudes.reduce((a, b) => a < b ? a : b);
     final maxLng = longitudes.reduce((a, b) => a > b ? a : b);
 
-    final southWest = LatLng(minLat, minLng);
-    final northEast = LatLng(maxLat, maxLng);
-
     await _mapController!.animateCamera(
       CameraUpdate.newLatLngBounds(
-       LatLngBounds(southwest: southWest, northeast: northEast),
+        LatLngBounds(southwest: LatLng(minLat, minLng), northeast: LatLng(maxLat, maxLng)),
         left: 50,
         right: 50,
         top: 50,

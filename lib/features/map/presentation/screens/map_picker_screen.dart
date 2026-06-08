@@ -1,19 +1,19 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 import 'package:maplibre_gl/maplibre_gl.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:mitho_deals/shared/theme/app_theme.dart';
+import 'package:mitho_deals/shared/widgets/shared_widgets.dart';
 
 class MapPickerScreen extends StatefulWidget {
   final LatLng? initialLocation;
 
-  const MapPickerScreen({
-    super.key,
-    this.initialLocation,
-  });
+  const MapPickerScreen({super.key, this.initialLocation});
 
   @override
   State<MapPickerScreen> createState() => _MapPickerScreenState();
@@ -22,7 +22,7 @@ class MapPickerScreen extends StatefulWidget {
 class _MapPickerScreenState extends State<MapPickerScreen> {
   MapLibreMapController? _mapController;
   static const String _styleUrl = 'https://map-init.gallimap.com/styles/light/style.json';
-  
+
   bool _isSearching = false;
   Timer? _debounce;
   LatLng? _initialTarget;
@@ -30,7 +30,7 @@ class _MapPickerScreenState extends State<MapPickerScreen> {
   @override
   void initState() {
     super.initState();
-    _initialTarget = widget.initialLocation ?? const LatLng(27.7172, 85.3240); // Default to Kathmandu
+    _initialTarget = widget.initialLocation ?? const LatLng(27.7172, 85.3240);
     if (widget.initialLocation == null) {
       _requestPermissionAndGetLocation();
     }
@@ -44,29 +44,27 @@ class _MapPickerScreenState extends State<MapPickerScreen> {
           desiredAccuracy: LocationAccuracy.high,
         );
         final userLocation = LatLng(position.latitude, position.longitude);
-        _mapController?.animateCamera(
-          CameraUpdate.newLatLngZoom(userLocation, 14.0),
-        );
+        _mapController?.animateCamera(CameraUpdate.newLatLngZoom(userLocation, 14.0));
       } catch (e) {
-        debugPrint("Error getting location: $e");
+        debugPrint('Error getting location: $e');
       }
     }
   }
 
   Future<Iterable<Map<String, dynamic>>> _getSuggestions(String query) async {
     if (query.isEmpty) return const Iterable<Map<String, dynamic>>.empty();
-    
+
     final completer = Completer<Iterable<Map<String, dynamic>>>();
-    
+
     if (_debounce?.isActive ?? false) _debounce!.cancel();
-    
+
     _debounce = Timer(const Duration(milliseconds: 500), () async {
       try {
-        setState(() { _isSearching = true; });
-        final url = Uri.parse('https://nominatim.openstreetmap.org/search?q=$query&format=json&limit=5&addressdetails=1');
-        final response = await http.get(url, headers: {
-          'User-Agent': 'MithoDealsApp/1.0', 
-        });
+        setState(() => _isSearching = true);
+        final url = Uri.parse(
+          'https://nominatim.openstreetmap.org/search?q=$query&format=json&limit=5&addressdetails=1',
+        );
+        final response = await http.get(url, headers: {'User-Agent': 'MithoDealsApp/1.0'});
 
         if (response.statusCode == 200) {
           final data = json.decode(response.body) as List;
@@ -75,13 +73,13 @@ class _MapPickerScreenState extends State<MapPickerScreen> {
           completer.complete(const Iterable<Map<String, dynamic>>.empty());
         }
       } catch (e) {
-        debugPrint("Error fetching suggestions: $e");
+        debugPrint('Error fetching suggestions: $e');
         completer.complete(const Iterable<Map<String, dynamic>>.empty());
       } finally {
-        setState(() { _isSearching = false; });
+        if (mounted) setState(() => _isSearching = false);
       }
     });
-    
+
     return completer.future;
   }
 
@@ -89,7 +87,7 @@ class _MapPickerScreenState extends State<MapPickerScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Pick Location'),
+        title: const AppText.title('Pick Location', fontSize: 18),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         elevation: 1,
@@ -97,37 +95,30 @@ class _MapPickerScreenState extends State<MapPickerScreen> {
       body: Stack(
         children: [
           MapLibreMap(
-            initialCameraPosition: CameraPosition(
-              target: _initialTarget!,
-              zoom: 14.0,
-            ),
+            initialCameraPosition: CameraPosition(target: _initialTarget!, zoom: 14.0),
             styleString: _styleUrl,
             onMapCreated: (controller) => _mapController = controller,
             myLocationEnabled: true,
             myLocationRenderMode: MyLocationRenderMode.normal,
             trackCameraPosition: true,
           ),
-          
-          // Fixed Center Pin
           Center(
             child: Padding(
-              padding: const EdgeInsets.only(bottom: 40.0), // Offset so the pin tip points exactly to the center
+              padding: const EdgeInsets.only(bottom: 40.0),
               child: Icon(
                 Icons.location_on,
                 size: 40.0,
-                color: const Color(0xFFFF6B35),
+                color: AppTheme.primaryOrange,
                 shadows: [
                   Shadow(
                     color: Colors.black.withOpacity(0.3),
                     blurRadius: 10,
                     offset: const Offset(0, 5),
-                  )
+                  ),
                 ],
               ),
             ),
           ),
-          
-          // Search Bar with Autocomplete
           Positioned(
             top: 16,
             left: 16,
@@ -145,39 +136,34 @@ class _MapPickerScreenState extends State<MapPickerScreen> {
                 ],
               ),
               child: Autocomplete<Map<String, dynamic>>(
-                optionsBuilder: (TextEditingValue textEditingValue) async {
-                  return await _getSuggestions(textEditingValue.text);
+                optionsBuilder: (textEditingValue) async {
+                  return _getSuggestions(textEditingValue.text);
                 },
                 displayStringForOption: (option) => option['display_name'],
                 onSelected: (selection) {
                   final lat = double.parse(selection['lat']);
                   final lon = double.parse(selection['lon']);
-                  final newLocation = LatLng(lat, lon);
-                  
                   _mapController?.animateCamera(
-                    CameraUpdate.newLatLngZoom(newLocation, 16.0),
+                    CameraUpdate.newLatLngZoom(LatLng(lat, lon), 16.0),
                   );
                 },
                 fieldViewBuilder: (context, controller, focusNode, onEditingComplete) {
-                  return TextField(
+                  return AppTextField(
                     controller: controller,
                     focusNode: focusNode,
-                    decoration: InputDecoration(
-                      hintText: 'Search for an address...',
-                      border: InputBorder.none,
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-                      suffixIcon: _isSearching
-                          ? const Padding(
-                              padding: EdgeInsets.all(12.0),
-                              child: SizedBox(
-                                width: 20,
-                                height: 20,
-                                child: CircularProgressIndicator(strokeWidth: 2),
-                              ),
-                            )
-                          : const Icon(Icons.search, color: Color(0xFFF97316)),
-                    ),
                     onEditingComplete: onEditingComplete,
+                    hint: 'Search for an address...',
+                    variant: AppTextFieldVariant.plain,
+                    suffixIcon: _isSearching
+                        ? const Padding(
+                            padding: EdgeInsets.all(12.0),
+                            child: SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            ),
+                          )
+                        : Icon(Icons.search, color: AppTheme.primaryOrange),
                   );
                 },
                 optionsViewBuilder: (context, onSelected, options) {
@@ -196,20 +182,18 @@ class _MapPickerScreenState extends State<MapPickerScreen> {
                           padding: EdgeInsets.zero,
                           shrinkWrap: true,
                           itemCount: options.length,
-                          separatorBuilder: (context, index) => const Divider(height: 1),
-                          itemBuilder: (BuildContext context, int index) {
+                          separatorBuilder: (_, __) => const Divider(height: 1),
+                          itemBuilder: (context, index) {
                             final option = options.elementAt(index);
                             return ListTile(
-                              leading: const Icon(Icons.location_on, color: Color(0xFF636E72), size: 20),
-                              title: Text(
+                              leading: Icon(Icons.location_on, color: AppTheme.textSecondary, size: 20),
+                              title: AppText.bodySmall(
                                 option['display_name'],
-                                style: const TextStyle(fontSize: 13, color: Color(0xFF2D3436)),
+                                color: AppTheme.textPrimary,
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                               ),
-                              onTap: () {
-                                onSelected(option);
-                              },
+                              onTap: () => onSelected(option),
                             );
                           },
                         ),
@@ -220,13 +204,12 @@ class _MapPickerScreenState extends State<MapPickerScreen> {
               ),
             ),
           ),
-
-          // Confirm Button
           Positioned(
             bottom: 24,
             left: 24,
             right: 24,
-            child: ElevatedButton(
+            child: AppButton(
+              label: 'Confirm Location',
               onPressed: () {
                 if (_mapController != null && _mapController!.cameraPosition != null) {
                   context.pop(_mapController!.cameraPosition!.target);
@@ -234,21 +217,6 @@ class _MapPickerScreenState extends State<MapPickerScreen> {
                   context.pop(_initialTarget);
                 }
               },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFF97316),
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-              child: const Text(
-                'Confirm Location',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
             ),
           ),
         ],

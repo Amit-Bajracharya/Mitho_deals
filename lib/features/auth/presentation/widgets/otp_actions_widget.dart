@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:mitho_deals/shared/widgets/shared_widgets.dart';
 
 class OtpActionsWidget extends StatelessWidget {
   final bool isLoading;
@@ -20,61 +20,28 @@ class OtpActionsWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // Verify OTP Button
-        SizedBox(
-          width: double.infinity,
-          height: 50.h,
-          child: ElevatedButton(
-            onPressed: isLoading ? null : onVerify,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFFFF6B35),
-              foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12.r),
-              ),
-              elevation: 0,
-            ),
-            child: isLoading
-                ? const CircularProgressIndicator(color: Colors.white)
-                : Text(
-                    'Verify OTP',
-                    style: GoogleFonts.poppins(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-          ),
+        AppButton(
+          label: 'Verify OTP',
+          isLoading: isLoading,
+          onPressed: onVerify,
         ),
-        
         SizedBox(height: 24.h),
-        
-        // Resend OTP
         Center(
-          child: TextButton(
+          child: AppButton(
+            label: 'Resend OTP',
+            variant: AppButtonVariant.text,
+            width: null,
             onPressed: isLoading ? null : onResend,
-            child: Text(
-              'Resend OTP',
-              style: GoogleFonts.poppins(
-                fontSize: 14.sp,
-                color: const Color(0xFFFF6B35),
-              ),
-            ),
           ),
         ),
-        
         SizedBox(height: 16.h),
-        
-        // Change Phone Number
         Center(
-          child: TextButton(
+          child: AppButton(
+            label: 'Change phone number',
+            variant: AppButtonVariant.text,
+            width: null,
+            foregroundColor: const Color(0xFF636E72),
             onPressed: onChangePhone,
-            child: Text(
-              'Change phone number',
-              style: GoogleFonts.poppins(
-                fontSize: 14.sp,
-                color: const Color(0xFF636E72),
-              ),
-            ),
           ),
         ),
       ],

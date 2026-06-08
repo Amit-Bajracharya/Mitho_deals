@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:mitho_deals/shared/widgets/shared_widgets.dart';
 
 class DealsSearchBar extends StatelessWidget {
   const DealsSearchBar({super.key});
@@ -10,10 +10,10 @@ class DealsSearchBar extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(bottom: 12.h),
       child: Container(
-        height: 36.h, // Slimmer search bar
+        height: 36.h,
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(10.r), // Less rounded for a cleaner look
+          borderRadius: BorderRadius.circular(10.r),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.03),
@@ -22,23 +22,10 @@ class DealsSearchBar extends StatelessWidget {
             ),
           ],
         ),
-        child: TextField(
-          style: GoogleFonts.poppins(fontSize: 10.sp),
-          decoration: InputDecoration(
-            hintText: 'Search deals...',
-            hintStyle: GoogleFonts.poppins(
-              color: Colors.grey[400],
-              fontSize: 9.sp, // Normal text at 9sp
-            ),
-            prefixIcon: Icon(
-              Icons.search,
-              color: Colors.grey[400],
-              size: 16.sp, // Smaller icon
-            ),
-            border: InputBorder.none,
-            isDense: true,
-            contentPadding: EdgeInsets.symmetric(vertical: 8.h),
-          ),
+        child: AppTextField(
+          hint: 'Search deals...',
+          prefixIcon: Icons.search,
+          variant: AppTextFieldVariant.search,
         ),
       ),
     );
