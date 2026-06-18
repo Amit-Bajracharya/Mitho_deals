@@ -3,13 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mitho_deals/core/dependency_injection/service_locator.dart';
+import 'package:mitho_deals/features/map/widgets/map_picker_text_field.dart';
 import 'package:mitho_deals/shared/widgets/shared_widgets.dart';
 
 import '../bloc/auth_bloc.dart';
 import '../bloc/auth_event.dart';
 import '../bloc/auth_state.dart';
 import '../widgets/auth_header_widget.dart';
-import '../widgets/vendor_map_picker_widget.dart';
+
 
 class VendorRegisterPage extends StatefulWidget {
   const VendorRegisterPage({super.key});
@@ -91,13 +92,7 @@ class _VendorRegisterPageState extends State<VendorRegisterPage> {
                 SizedBox(height: 10.h),
                 _field(controller: _descriptionController, label: 'Description', hint: 'About you', icon: Icons.description_outlined, isLoading: isLoading, maxLines: 2),
                 SizedBox(height: 10.h),
-                _field(controller: _addressController, label: 'Store Address', hint: 'Location', icon: Icons.location_on_outlined, isLoading: isLoading),
-                SizedBox(height: 12.h),
-                VendorMapPickerWidget(
-                  selectedLocation: _selectedLocation,
-                  isLoading: isLoading,
-                  onPickLocation: () => _openMapPicker(context),
-                ),
+                LocationPickerField(),
                 SizedBox(height: 20.h),
                 AppButton(
                   label: 'Register Restaurant',
