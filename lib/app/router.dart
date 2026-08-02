@@ -26,6 +26,7 @@ import 'package:mitho_deals/features/vendor/presentation/screens/vendor_home_pag
 import 'package:mitho_deals/splash_screen.dart';
 import 'package:mitho_deals/features/deals/presentation/screens/full_screen_deal_map_screen.dart';
 import 'package:mitho_deals/features/map/presentation/screens/map_picker_screen.dart';
+import 'package:mitho_deals/features/settings/presentation/screens/settings_screen.dart';
 import 'package:maplibre_gl/maplibre_gl.dart';
 
 class MyAppRouter {
@@ -127,6 +128,10 @@ class MyAppRouter {
           final initialLocation = state.extra as LatLng?;
           return MaterialPage(child: MapPickerScreen(initialLocation: initialLocation));
         },
+      ),
+      GoRoute(
+        path: RouteConstants.settings,
+        pageBuilder: (context, state) => const MaterialPage(child: SettingsScreen()),
       )
     ],
   );

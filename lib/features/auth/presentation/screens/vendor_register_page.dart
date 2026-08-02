@@ -136,12 +136,6 @@ class _VendorRegisterPageState extends State<VendorRegisterPage> {
     );
   }
 
-  Future<void> _openMapPicker(BuildContext context) async {
-    final result = await context.push('/map-picker');
-    if (result != null) {
-      setState(() => _selectedLocation = result);
-    }
-  }
 
   void _onRegister(BuildContext context) {
     if (_formKey.currentState!.validate()) {

@@ -285,7 +285,7 @@ class AppTheme {
     );
   }
 
-  // Dark Theme (Optional)
+  // Dark Theme
   static ThemeData get darkTheme {
     return ThemeData(
       useMaterial3: true,
@@ -299,14 +299,135 @@ class AppTheme {
       colorScheme: const ColorScheme.dark(
         primary: primaryOrange,
         onPrimary: textLight,
+        primaryContainer: primaryOrangeDark,
+        onPrimaryContainer: textLight,
         secondary: primaryOrangeLight,
         onSecondary: textPrimary,
+        secondaryContainer: Color(0xFF3D3D54),
+        onSecondaryContainer: textLight,
         surface: Color(0xFF2D2D44),
         onSurface: textLight,
+        surfaceVariant: Color(0xFF1A1A2E),
+        onSurfaceVariant: Color(0xFFB0B0C0),
         background: backgroundDark,
         onBackground: textLight,
         error: accentError,
         onError: textLight,
+        outline: Color(0xFF4A4A5A),
+        shadow: Colors.black54,
+      ),
+      appBarTheme: AppBarTheme(
+        elevation: 0,
+        centerTitle: true,
+        backgroundColor: const Color(0xFF2D2D44),
+        foregroundColor: textLight,
+        titleTextStyle: GoogleFonts.poppins(
+          fontSize: 16.sp,
+          fontWeight: FontWeight.w600,
+          color: textLight,
+        ),
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: primaryOrange,
+          foregroundColor: textLight,
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16.r),
+          ),
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
+          textStyle: GoogleFonts.poppins(
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          foregroundColor: primaryOrange,
+          side: const BorderSide(color: primaryOrange, width: 2),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16.r),
+          ),
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
+          textStyle: GoogleFonts.poppins(
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          foregroundColor: primaryOrange,
+          textStyle: GoogleFonts.poppins(
+            fontSize: 12.sp,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: const Color(0xFF2D2D44),
+        contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12.r),
+          borderSide: const BorderSide(color: Color(0xFF4A4A5A)),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12.r),
+          borderSide: const BorderSide(color: Color(0xFF4A4A5A)),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12.r),
+          borderSide: const BorderSide(color: primaryOrange, width: 2),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12.r),
+          borderSide: const BorderSide(color: accentError),
+        ),
+        labelStyle: GoogleFonts.poppins(
+          fontSize: 12.sp,
+          color: const Color(0xFFB0B0C0),
+        ),
+        hintStyle: GoogleFonts.poppins(
+          fontSize: 12.sp,
+          color: const Color(0xFFB0B0C0).withOpacity(0.6),
+        ),
+      ),
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        backgroundColor: const Color(0xFF2D2D44),
+        selectedItemColor: primaryOrange,
+        unselectedItemColor: const Color(0xFFB0B0C0),
+        type: BottomNavigationBarType.fixed,
+        elevation: 0,
+        selectedLabelStyle: GoogleFonts.poppins(
+          fontSize: 10.sp,
+          fontWeight: FontWeight.w500,
+        ),
+        unselectedLabelStyle: GoogleFonts.poppins(
+          fontSize: 10.sp,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+        backgroundColor: primaryOrange,
+        foregroundColor: textLight,
+        elevation: 4,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.r),
+        ),
+      ),
+      dividerTheme: const DividerThemeData(
+        color: Color(0xFF4A4A5A),
+        thickness: 1,
+        space: 1,
+      ),
+      cardTheme: CardThemeData(
+        color: const Color(0xFF2D2D44),
+        elevation: 2,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.r),
+        ),
       ),
     );
   }

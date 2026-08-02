@@ -9,9 +9,15 @@ import 'package:mitho_deals/core/dependency_injection/cart_dependencies.dart';
 import 'package:mitho_deals/core/dependency_injection/deals_dependencies.dart';
 import 'package:mitho_deals/core/dependency_injection/orders_dependencies.dart';
 import 'package:mitho_deals/core/dependency_injection/vendor_dependencies.dart';
+import 'package:mitho_deals/core/dependency_injection/theme_dependencies.dart';
+import 'package:mitho_deals/core/dependency_injection/service_locator.dart';
 
 import 'package:mitho_deals/shared/theme/app_theme.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mitho_deals/core/theme/presentation/bloc/theme_bloc.dart';
+import 'package:mitho_deals/core/theme/presentation/bloc/theme_event.dart';
+import 'package:mitho_deals/core/theme/presentation/bloc/theme_state.dart';
 
 void main()  async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,34 +41,48 @@ void main()  async {
   setupDealsDependencies();
   setupOrdersDependencies();
   setupVendorDependencies();
+  setupThemeDependencies();
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-
-  
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     final router = MyAppRouter().routes;
+    final themeBloc = ServiceLocator.get<ThemeBloc>();
     
-    return ScreenUtilInit(
-      designSize: const Size(375, 812), // iPhone X design size
-      minTextAdapt: true,
-      splitScreenMode: true,
-      builder: (context, child) {
-        return MaterialApp.router(
-          debugShowCheckedModeBanner: false,
-          theme: AppTheme.lightTheme,
-          darkTheme: AppTheme.darkTheme,
-          themeMode: ThemeMode.light,
-          routeInformationParser: router.routeInformationParser,
-          routerDelegate: router.routerDelegate,
-          routeInformationProvider: router.routeInformationProvider,
+    // Load theme on app start
+    themeBloc.add(const ThemeEvent.loadTheme());
     
-        );
-      },
+    return BlocProvider(
+      create: (context) => themeBloc,
+      child: ScreenUtilInit(
+        designSize: const Size(375, 812), // iPhone X design size
+        minTextAdapt: true,
+        splitScreenMode: true,
+        builder: (context, child) {
+          return BlocBuilder<ThemeBloc, ThemeState>(
+            builder: (context, state) {
+              final themeMode = state.maybeWhen(
+                orElse: () => ThemeMode.system,
+                loaded: (mode) => mode,
+              );
+              
+              return MaterialApp.router(
+                debugShowCheckedModeBanner: false,
+                theme: AppTheme.lightTheme,
+                darkTheme: AppTheme.darkTheme,
+                themeMode: themeMode,
+                routeInformationParser: router.routeInformationParser,
+                routerDelegate: router.routerDelegate,
+                routeInformationProvider: router.routeInformationProvider,
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }

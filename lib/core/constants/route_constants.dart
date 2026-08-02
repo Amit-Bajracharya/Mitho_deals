@@ -11,4 +11,5 @@ class RouteConstants {
   static const String cart = '/cart';
   static const String fullScreenDealMap = '/full-screen-deal-map';
   static const String mapPicker = '/map-picker';
+  static const String settings = '/settings';
 }
