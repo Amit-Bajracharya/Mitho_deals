@@ -15,7 +15,7 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool showBackButton;
   final VoidCallback? onBackButtonPressed;
   final Widget? flexibleSpace;
-  final Widget? bottom;
+  final PreferredSizeWidget? bottom;
   final double? toolbarHeight;
   final bool showThemeToggle;
 
@@ -117,7 +117,7 @@ class AppAppBarWithGradient extends StatelessWidget implements PreferredSizeWidg
   final Gradient? gradient;
   final bool showBackButton;
   final VoidCallback? onBackButtonPressed;
-  final Widget? bottom;
+  final PreferredSizeWidget? bottom;
   final double? toolbarHeight;
 
   const AppAppBarWithGradient({
